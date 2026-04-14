@@ -154,7 +154,7 @@ const PROMPTS: Prompt[] = [
     title: '[VIP] Tối ưu hóa gian hàng Shopee Pro', 
     category: 'E-commerce', 
     description: 'Chiến lược đứng top tìm kiếm và tối ưu tỷ lệ click.',
-    content: 'Bạn là chuyên gia vận hành sàn TMĐT. Hãy thực hiện quy trình tối ưu sản phẩm [Tên sản phẩm]:\n1. Viết tiêu đề chuẩn SEO: [Tên gốc] + [Đặc tính] + [Công dụng] + [Từ khóa Hot].\n2. Viết 5 điểm nổi bật (Bullet points) tối ưu cho hiển thị mobile.\n3. Thiết kế kịch bản cho 5 ảnh sản phẩm (Ảnh bìa, Ảnh tính năng, Ảnh feedback, Ảnh quà tặng, Ảnh bảng size).\n4. Bộ 18 hashtag chuẩn SEO Shopee phân loại theo: Hashtag ngành, Hashtag sản phẩm, Hashtag thương hiệu.',
+    content: 'Bạn là chuyên gia vận hành sàn TMĐT. Hãy thực hiện quy trình tối ưu sản phẩm [Tên sản phẩm]:\n1. Viết tiêu đề chuẩn SEO theo công thức: [Tên gốc sản phẩm] + [Thương hiệu/Đặc tính] + [Công dụng/Lợi ích] + [Từ khóa xu hướng].\n2. Viết 5 điểm nổi bật (Bullet points) tối ưu cho hiển thị mobile.\n3. Thiết kế kịch bản cho 5 ảnh sản phẩm (Ảnh bìa, Ảnh tính năng, Ảnh feedback, Ảnh quà tặng, Ảnh bảng size).\n4. Bộ 18 hashtag chuẩn SEO Shopee phân loại theo: Hashtag ngành, Hashtag sản phẩm, Hashtag thương hiệu.',
     isVip: true
   },
 
@@ -1047,7 +1047,14 @@ export default function App() {
                             type="text"
                             value={promptVariables[varName]}
                             onChange={(e) => setPromptVariables(prev => ({ ...prev, [varName]: e.target.value }))}
-                            placeholder={`Nhập ${varName.toLowerCase()}...`}
+                            placeholder={
+                              varName.includes('Tên gốc') ? 'Ví dụ: Áo thun, Tai nghe, Son môi...' :
+                              varName.includes('Đặc tính') ? 'Ví dụ: Màu đen, Cotton, Chính hãng...' :
+                              varName.includes('Công dụng') ? 'Ví dụ: Tập gym, Chống nước, Trị mụn...' :
+                              varName.includes('Từ khóa') ? 'Ví dụ: 2024, Giá rẻ, Freeship...' :
+                              varName.includes('Đối tượng') ? 'Ví dụ: Freelancer, Mẹ bỉm sữa, Sinh viên...' :
+                              `Nhập ${varName.toLowerCase()}...`
+                            }
                             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
                           />
                         </div>
