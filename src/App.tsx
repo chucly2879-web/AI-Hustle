@@ -19,7 +19,12 @@ import {
   MessageCircle,
   MessageSquare,
   Facebook,
-  X
+  X,
+  ChevronLeft,
+  Share2,
+  Twitter,
+  Linkedin,
+  List
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
@@ -216,6 +221,13 @@ export default function App() {
   const [showContact, setShowContact] = useState(false);
   const [selectedPost, setSelectedPost] = useState<any>(null);
 
+  // Auto-scroll to top when post is selected
+  React.useEffect(() => {
+    if (selectedPost) {
+      window.scrollTo(0, 0);
+    }
+  }, [selectedPost]);
+
   const categories = ['Tất cả', ...new Set(PROMPTS.map(p => p.category))];
   const filteredPrompts = activeCategory === 'Tất cả' 
     ? PROMPTS 
@@ -236,6 +248,162 @@ export default function App() {
     setAiResult(result);
     setIsLoading(false);
   };
+
+  if (selectedPost) {
+    return (
+      <div className="min-h-screen bg-white font-sans text-gray-900">
+        {/* Blog Header */}
+        <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <button 
+              onClick={() => setSelectedPost(null)}
+              className="flex items-center gap-2 text-gray-500 hover:text-orange-500 transition-colors font-medium"
+            >
+              <ChevronLeft className="w-5 h-5" />
+              Quay lại trang chủ
+            </button>
+            <div className="flex items-center gap-4">
+              <button className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400">
+                <Share2 className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <main className="max-w-7xl mx-auto px-4 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            {/* Main Content */}
+            <article className="lg:col-span-8">
+              <div className="mb-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-bold uppercase tracking-wider">
+                    {selectedPost.tag}
+                  </span>
+                  <span className="text-gray-400 text-sm">{selectedPost.date} • 5 phút đọc</span>
+                </div>
+                <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
+                  {selectedPost.title}
+                </h1>
+                
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold">
+                    CL
+                  </div>
+                  <div>
+                    <div className="font-bold text-sm">Chuc Ly</div>
+                    <div className="text-xs text-gray-400">AI Content Specialist</div>
+                  </div>
+                  <div className="ml-auto flex gap-2">
+                    <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-blue-500 hover:text-blue-500 transition-all">
+                      <Facebook className="w-4 h-4" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-blue-400 hover:text-blue-400 transition-all">
+                      <Twitter className="w-4 h-4" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-blue-700 hover:text-blue-700 transition-all">
+                      <Linkedin className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <img 
+                src={`https://picsum.photos/seed/${selectedPost.title}/1200/600`} 
+                alt={selectedPost.title}
+                className="w-full aspect-video object-cover rounded-3xl mb-12 shadow-2xl shadow-orange-500/10"
+                referrerPolicy="no-referrer"
+              />
+
+              {/* Table of Contents */}
+              <div className="bg-gray-50 rounded-2xl p-6 mb-12 border border-gray-100">
+                <div className="flex items-center gap-2 mb-4 text-gray-900 font-bold">
+                  <List className="w-5 h-5 text-orange-500" />
+                  Mục lục nội dung
+                </div>
+                <nav className="space-y-2 text-sm">
+                  <a href="#section-1" className="block text-gray-600 hover:text-orange-500 transition-colors pl-4 border-l-2 border-transparent hover:border-orange-500">1. Thay đổi tư duy: AI là "Trợ lý"</a>
+                  <a href="#section-2" className="block text-gray-600 hover:text-orange-500 transition-colors pl-4 border-l-2 border-transparent hover:border-orange-500">2. Quy trình 5 bước viết bài thần tốc</a>
+                  <a href="#section-3" className="block text-gray-600 hover:text-orange-500 transition-colors pl-4 border-l-2 border-transparent hover:border-orange-500">3. Các công cụ hỗ trợ đắc lực</a>
+                  <a href="#section-4" className="block text-gray-600 hover:text-orange-500 transition-colors pl-4 border-l-2 border-transparent hover:border-orange-500">4. Kết luận</a>
+                </nav>
+              </div>
+
+              <div className="prose prose-lg prose-orange max-w-none">
+                <ReactMarkdown>{selectedPost.content}</ReactMarkdown>
+              </div>
+
+              <div className="mt-16 pt-8 border-t border-gray-100">
+                <h3 className="font-bold text-xl mb-6">Bình luận</h3>
+                <div className="bg-gray-50 rounded-2xl p-8 text-center text-gray-400 italic">
+                  Tính năng bình luận đang được phát triển...
+                </div>
+              </div>
+            </article>
+
+            {/* Sidebar */}
+            <aside className="lg:col-span-4 space-y-12">
+              <div className="sticky top-28">
+                <div className="bg-black text-white rounded-3xl p-8 mb-8 relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl group-hover:bg-orange-500/40 transition-colors" />
+                  <h3 className="text-xl font-bold mb-4 relative z-10">Đừng bỏ lỡ!</h3>
+                  <p className="text-gray-400 text-sm mb-6 relative z-10">
+                    Nhận ngay bộ 100+ Prompt độc quyền giúp bạn x10 năng suất làm việc.
+                  </p>
+                  <button className="w-full py-3 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-colors relative z-10">
+                    Tải xuống miễn phí
+                  </button>
+                </div>
+
+                <div>
+                  <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-orange-500" />
+                    Bài viết liên quan
+                  </h3>
+                  <div className="space-y-6">
+                    {BLOG_POSTS.filter(p => p.title !== selectedPost.title).map((post, idx) => (
+                      <div 
+                        key={idx} 
+                        onClick={() => setSelectedPost(post)}
+                        className="group cursor-pointer flex gap-4"
+                      >
+                        <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100">
+                          <img 
+                            src={`https://picsum.photos/seed/${post.title}/200/200`} 
+                            alt={post.title}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                            referrerPolicy="no-referrer"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-sm leading-snug group-hover:text-orange-500 transition-colors line-clamp-2">
+                            {post.title}
+                          </h4>
+                          <span className="text-[10px] text-gray-400 uppercase font-bold mt-1 block">{post.date}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-gray-50 py-12 border-t border-gray-100 mt-24">
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <span className="font-bold text-lg">AI Hustle Explorer</span>
+            </div>
+            <p className="text-gray-400 text-sm">© 2024 AI Hustle. All rights reserved.</p>
+          </div>
+        </footer>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-[#1A1A1A] font-sans selection:bg-orange-100">
@@ -549,56 +717,7 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Blog Post Modal */}
-      <AnimatePresence>
-        {selectedPost && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedPost(null)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-3xl max-h-[80vh] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col"
-            >
-              <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
-                <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-bold">
-                    {selectedPost.tag}
-                  </span>
-                  <span className="text-sm text-gray-400">{selectedPost.date}</span>
-                </div>
-                <button 
-                  onClick={() => setSelectedPost(null)}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-              
-              <div className="flex-1 overflow-y-auto p-8 sm:p-12">
-                <div className="prose prose-orange max-w-none">
-                  <ReactMarkdown>{selectedPost.content}</ReactMarkdown>
-                </div>
-              </div>
-
-              <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-center">
-                <button 
-                  onClick={() => setSelectedPost(null)}
-                  className="px-8 py-3 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-colors"
-                >
-                  Đóng bài viết
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      {/* Blog Post Modal (Removed in favor of full page view) */}
 
       {/* Floating Contact Buttons */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
