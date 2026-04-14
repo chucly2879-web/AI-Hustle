@@ -30,7 +30,11 @@ import {
   Eye,
   Users,
   Calendar,
-  Mail
+  Mail,
+  LogIn,
+  LogOut,
+  User as UserIcon,
+  ShieldCheck
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
@@ -38,7 +42,7 @@ import { cn } from './lib/utils';
 import { generateSideHustleIdea, runCustomPrompt } from './services/gemini';
 import { db, auth } from './firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, getDocFromServer, doc } from 'firebase/firestore';
-import { signInWithPopup, GoogleAuthProvider, onAuthStateChanged, User } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, onAuthStateChanged, User, signOut } from 'firebase/auth';
 
 interface SideHustle {
   id: string;
@@ -500,6 +504,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [subscribers, setSubscribers] = useState<any[]>([]);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [isSubmittingEbook, setIsSubmittingEbook] = useState(false);
   const [ebookFormData, setEbookFormData] = useState({ fullName: '', email: '' });
 
@@ -507,6 +512,10 @@ export default function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      // Automatically set Pro role for the admin email
+      if (user?.email === 'chucly2879@gmail.com') {
+        setUserRole('pro');
+      }
     });
     return () => unsubscribe();
   }, []);
@@ -543,8 +552,29 @@ export default function App() {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
+      setShowLoginModal(false);
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Google Login failed:", error);
+    }
+  };
+
+  const handleFacebookLogin = async () => {
+    try {
+      const provider = new FacebookAuthProvider();
+      await signInWithPopup(auth, provider);
+      setShowLoginModal(false);
+    } catch (error) {
+      console.error("Facebook Login failed:", error);
+      alert("Đăng nhập Facebook thất bại. Vui lòng đảm bảo bạn đã cấu hình Facebook Login trong Firebase Console.");
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setUserRole('free');
+    } catch (error) {
+      console.error("Logout failed:", error);
     }
   };
 
@@ -874,13 +904,41 @@ export default function App() {
             <a href="#prompts" className="hover:text-orange-500 transition-colors">Thư viện Prompt</a>
             <a href="#blog" className="hover:text-orange-500 transition-colors">Blog</a>
             {userRole === 'pro' && <a href="#masterclass" className="text-orange-600 font-bold">Masterclass</a>}
-            <a href="#generator" className="px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-all">Thử AI ngay</a>
-            <button 
-              onClick={() => setUserRole(userRole === 'free' ? 'pro' : 'free')}
-              className="text-[10px] px-2 py-1 border border-gray-200 rounded hover:bg-gray-100"
-            >
-              {userRole === 'free' ? 'Mô phỏng Pro' : 'Thoát Pro'}
-            </button>
+            
+            <div className="h-6 w-px bg-gray-100" />
+
+            {currentUser ? (
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  {currentUser.photoURL ? (
+                    <img src={currentUser.photoURL} alt="Avatar" className="w-8 h-8 rounded-full border border-gray-200" referrerPolicy="no-referrer" />
+                  ) : (
+                    <div className="w-8 h-8 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center">
+                      <UserIcon className="w-4 h-4" />
+                    </div>
+                  )}
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold text-gray-900 leading-none">{currentUser.displayName || 'Người dùng'}</span>
+                    <span className="text-[10px] text-gray-400 capitalize">{userRole} Plan</span>
+                  </div>
+                </div>
+                <button 
+                  onClick={handleLogout}
+                  className="p-2 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-full transition-all"
+                  title="Đăng xuất"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <button 
+                onClick={() => setShowLoginModal(true)}
+                className="flex items-center gap-2 px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-all font-bold"
+              >
+                <LogIn className="w-4 h-4" />
+                Đăng nhập
+              </button>
+            )}
           </div>
         </div>
       </nav>
@@ -1675,6 +1733,58 @@ export default function App() {
       )}
 
       {/* Admin Panel Modal */}
+      {/* Login Modal */}
+      <AnimatePresence>
+        {showLoginModal && (
+          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="bg-white w-full max-w-md rounded-[40px] p-10 relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl -z-10" />
+              
+              <button 
+                onClick={() => setShowLoginModal(false)}
+                className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="text-center mb-10">
+                <div className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl shadow-orange-500/20">
+                  <Sparkles className="w-8 h-8" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">Chào mừng bạn trở lại</h3>
+                <p className="text-gray-500 text-sm">Đăng nhập để lưu trữ Prompt và truy cập Masterclass.</p>
+              </div>
+
+              <div className="space-y-4">
+                <button 
+                  onClick={handleGoogleLogin}
+                  className="w-full py-4 border border-gray-200 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-gray-50 transition-all group"
+                >
+                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" alt="Google" className="w-5 h-5" />
+                  Tiếp tục với Google
+                </button>
+                <button 
+                  onClick={handleFacebookLogin}
+                  className="w-full py-4 bg-[#1877F2] text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-[#166fe5] transition-all shadow-lg shadow-blue-500/20"
+                >
+                  <Facebook className="w-5 h-5 fill-current" />
+                  Tiếp tục với Facebook
+                </button>
+              </div>
+
+              <p className="mt-8 text-center text-[10px] text-gray-400 leading-relaxed">
+                Bằng cách đăng nhập, bạn đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của AI Hustle.
+              </p>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       <AnimatePresence>
         {showAdminPanel && (
           <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
@@ -2196,9 +2306,30 @@ export default function App() {
             </div>
             <span className="font-bold text-lg">AI Hustle Explorer</span>
           </button>
-          <p className="text-gray-400 text-sm">
-            © 2024 AI Hustle. Được tạo ra để truyền cảm hứng cho cộng đồng Freelancer Việt Nam.
-          </p>
+          
+          <div className="text-center">
+            <p className="text-gray-400 text-sm mb-4">
+              © 2024 AI Hustle. Được tạo ra để truyền cảm hứng cho cộng đồng Freelancer Việt Nam.
+            </p>
+            <div className="flex items-center justify-center gap-6 text-xs text-gray-400">
+              <button 
+                onClick={() => {
+                  if (currentUser?.email === 'chucly2879@gmail.com') {
+                    setShowAdminPanel(true);
+                  } else {
+                    setShowLoginModal(true);
+                  }
+                }}
+                className="hover:text-orange-500 flex items-center gap-1 transition-colors"
+              >
+                <ShieldCheck className="w-3 h-3" />
+                Đăng nhập Admin
+              </button>
+              <a href="#" className="hover:text-gray-600">Điều khoản</a>
+              <a href="#" className="hover:text-gray-600">Bảo mật</a>
+            </div>
+          </div>
+
           <div className="flex items-center gap-6 text-gray-400">
             <a href="#" className="hover:text-black transition-colors">Facebook</a>
             <a href="#" className="hover:text-black transition-colors">YouTube</a>
