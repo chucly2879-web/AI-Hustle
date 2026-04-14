@@ -263,6 +263,7 @@ export default function App() {
   const [emailSubscribed, setEmailSubscribed] = useState(false);
   const [userRole, setUserRole] = useState<'free' | 'pro'>('free');
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
   // Auto-scroll to top when post is selected
   React.useEffect(() => {
@@ -1371,6 +1372,108 @@ export default function App() {
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl -z-10" />
               <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl -z-10" />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section (Social Proof) */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Học viên nói gì về chúng tôi?</h2>
+            <p className="text-gray-500">Hơn 1,200+ người đã thay đổi cách làm việc nhờ AI.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Nguyễn Văn A",
+                role: "Freelance Content Writer",
+                content: "Từ khi dùng bộ Prompt VIP, mình viết bài nhanh gấp 5 lần mà chất lượng vẫn cực tốt. Khách hàng khen suốt!",
+                avatar: "https://picsum.photos/seed/user1/100/100"
+              },
+              {
+                name: "Trần Thị B",
+                role: "Chủ shop Shopee",
+                content: "Gói Pro thực sự đáng tiền. Mình đã tối ưu lại toàn bộ gian hàng và doanh thu tăng 30% chỉ sau 2 tuần.",
+                avatar: "https://picsum.photos/seed/user2/100/100"
+              },
+              {
+                name: "Lê Văn C",
+                role: "Digital Marketer",
+                content: "Các bài học trong Masterclass rất thực chiến, không lý thuyết suông. Rất đáng để đầu tư lâu dài.",
+                avatar: "https://picsum.photos/seed/user3/100/100"
+              }
+            ].map((t, i) => (
+              <div key={i} className="bg-white p-8 rounded-[32px] shadow-sm border border-gray-100 hover:shadow-xl transition-all group">
+                <div className="flex items-center gap-1 text-orange-500 mb-6">
+                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+                </div>
+                <p className="text-gray-600 mb-8 italic leading-relaxed">"{t.content}"</p>
+                <div className="flex items-center gap-4">
+                  <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover" referrerPolicy="no-referrer" />
+                  <div>
+                    <h4 className="font-bold text-sm">{t.name}</h4>
+                    <p className="text-xs text-gray-400">{t.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section (Handling Objections) */}
+      <section className="py-24 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-4">Câu hỏi thường gặp</h2>
+            <p className="text-gray-500">Giải đáp những thắc mắc của bạn về dịch vụ của chúng tôi.</p>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              {
+                q: "Tôi không biết lập trình có dùng được AI không?",
+                a: "Hoàn toàn được! Website của chúng tôi thiết kế dành riêng cho những người không chuyên. Các Prompt đã được tối ưu sẵn, bạn chỉ cần copy và điền thông tin là xong."
+              },
+              {
+                q: "Gói Pro có được cập nhật Prompt mới không?",
+                a: "Có, chúng tôi cập nhật các Prompt mới hàng tuần dựa trên những xu hướng AI mới nhất trên thế giới để đảm bảo bạn luôn dẫn đầu."
+              },
+              {
+                q: "Tôi có thể hủy gói Pro bất cứ lúc nào không?",
+                a: "Tất nhiên! Bạn có thể hủy gia hạn bất cứ lúc nào trong phần cài đặt tài khoản mà không gặp bất kỳ trở ngại nào."
+              },
+              {
+                q: "Hỗ trợ 1-1 qua Zalo hoạt động như thế nào?",
+                a: "Sau khi nâng cấp Pro, bạn sẽ nhận được mã QR để tham gia nhóm kín và kết nối trực tiếp với đội ngũ chuyên gia của chúng tôi để giải đáp mọi thắc mắc."
+              }
+            ].map((faq, i) => (
+              <div key={i} className="border border-gray-100 rounded-2xl overflow-hidden">
+                <button 
+                  onClick={() => setOpenFaqIndex(openFaqIndex === i ? null : i)}
+                  className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
+                >
+                  <span className="font-bold text-gray-700">{faq.q}</span>
+                  <ChevronLeft className={cn("w-5 h-5 text-gray-400 transition-transform", openFaqIndex === i ? "rotate-90" : "-rotate-90")} />
+                </button>
+                <AnimatePresence>
+                  {openFaqIndex === i && (
+                    <motion.div 
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="p-6 pt-0 text-gray-500 text-sm leading-relaxed border-t border-gray-50">
+                        {faq.a}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
           </div>
         </div>
       </section>
