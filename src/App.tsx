@@ -403,6 +403,8 @@ export default function App() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [activeLesson, setActiveLesson] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 8;
 
   // Auto-scroll to top when post is selected
   React.useEffect(() => {
@@ -415,6 +417,17 @@ export default function App() {
   const filteredPrompts = activeCategory === 'Tất cả' 
     ? PROMPTS 
     : PROMPTS.filter(p => p.category === activeCategory);
+
+  const totalPages = Math.ceil(filteredPrompts.length / ITEMS_PER_PAGE);
+  const paginatedPrompts = filteredPrompts.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  // Reset page when category changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory]);
 
   const handleCopy = (text: string, index: number) => {
     if (navigator.clipboard && window.isSecureContext) {
@@ -959,8 +972,8 @@ export default function App() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {filteredPrompts.map((prompt, idx) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            {paginatedPrompts.map((prompt, idx) => (
               <motion.div 
                 layout
                 key={prompt.title} 
@@ -1006,6 +1019,44 @@ export default function App() {
               </motion.div>
             ))}
           </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2">
+              <button 
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+                className="p-2 rounded-xl border border-gray-100 hover:bg-gray-50 disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              
+              <div className="flex items-center gap-1">
+                {[...Array(totalPages)].map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrentPage(i + 1)}
+                    className={cn(
+                      "w-10 h-10 rounded-xl font-bold text-sm transition-all",
+                      currentPage === i + 1 
+                        ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20" 
+                        : "hover:bg-gray-100 text-gray-500"
+                    )}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
+
+              <button 
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                disabled={currentPage === totalPages}
+                className="p-2 rounded-xl border border-gray-100 hover:bg-gray-50 disabled:opacity-30 disabled:hover:bg-transparent transition-all rotate-180"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
