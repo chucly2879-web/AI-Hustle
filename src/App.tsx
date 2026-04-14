@@ -279,6 +279,34 @@ const PROMPTS: Prompt[] = [
     description: 'Tự động hóa 90% khâu tư vấn và chăm sóc sau bán.',
     content: 'Bạn là chuyên gia tối ưu trải nghiệm khách hàng. Hãy thiết kế hệ thống CSKH cho shop [Tên shop]. Quy trình:\n1. Xây dựng bộ câu hỏi thường gặp (FAQ) thông minh.\n2. Kịch bản Chatbot tư vấn: Từ lúc khách chào đến lúc chốt đơn.\n3. Quy trình xử lý khiếu nại: 4 bước làm hài lòng khách hàng khó tính nhất.\n4. Hệ thống chăm sóc sau bán: Email/Tin nhắn cảm ơn và xin đánh giá 5 sao.\n5. Chiến lược quay vòng khách hàng: Cách tặng quà để khách mua lại lần 2, lần 3.'
   },
+  { 
+    title: '[MEGA] Đế chế Affiliate Marketing tự động', 
+    category: 'Marketing', 
+    description: 'Quy trình từ A-Z để xây dựng nguồn thu nhập thụ động bền vững.',
+    content: 'Bạn là triệu phú Affiliate Marketing. Hãy xây dựng lộ trình thành công cho tôi trong ngách [Ngách sản phẩm]. Quy trình 6 giai đoạn:\n1. Giai đoạn Nghiên cứu (Niche Research): Tìm 5 sản phẩm có hoa hồng cao (>30%) và tỷ lệ chuyển đổi tốt trên Shopee/Lazada/Amazon.\n2. Giai đoạn Xây dựng nền tảng (Platform Setup): Hướng dẫn lập kênh TikTok/Reels/Shorts tối ưu cho Affiliate.\n3. Giai đoạn Sản xuất nội dung hàng loạt (Content Machine): Quy trình dùng AI để tạo 3 video/ngày mà không cần lộ mặt.\n4. Giai đoạn Tối ưu hóa chuyển đổi (Conversion Hack): Cách viết Bio, gắn link và dùng "Call to action" để khách bấm mua ngay.\n5. Giai đoạn Thu hút traffic miễn phí (Traffic Secrets): Bí quyết dùng Hashtag và khung giờ đăng bài để video dễ lên xu hướng.\n6. Giai đoạn Tự động hóa & Mở rộng (Scaling): Cách thuê nhân sự hoặc dùng công cụ để vận hành 10 kênh cùng lúc.',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Quy trình xây dựng kênh TikTok 100k Follower', 
+    category: 'Video', 
+    description: 'Chiến lược nội dung để phủ sóng thương hiệu thần tốc.',
+    content: 'Bạn là chuyên gia tăng trưởng TikTok. Hãy lập kế hoạch 30 ngày để đạt 100k Follower cho kênh [Tên kênh]. Quy trình:\n- Tuần 1: Định vị thương hiệu và tạo 7 video "Hook" cực mạnh.\n- Tuần 2: Tương tác với cộng đồng và bắt trend thông minh.\n- Tuần 3: Chuỗi video Storytelling để gắn kết cảm xúc với người xem.\n- Tuần 4: Tối ưu hóa thuật toán và livestream bán hàng/tăng tương tác.\nYêu cầu: Mỗi tuần đề xuất 3 ý tưởng video cụ thể.',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Hệ thống bán hàng tự động qua Chatbot AI', 
+    category: 'Sales', 
+    description: 'Tự động hóa khâu tư vấn và chốt đơn 24/7.',
+    content: 'Thiết kế kịch bản Chatbot AI cho Fanpage [Tên Fanpage]. Quy trình:\n1. Lời chào cá nhân hóa theo tên khách hàng.\n2. Bộ câu hỏi trắc nghiệm để phân loại nhu cầu khách hàng.\n3. Kịch bản tư vấn sản phẩm dựa trên câu trả lời của khách.\n4. Quy trình xử lý khiếu nại/thắc mắc thường gặp tự động.\n5. Kỹ thuật "Upsell" tự động ngay trong hội thoại.\n6. Chuyển đổi sang nhân viên tư vấn thực nếu khách có yêu cầu đặc biệt.',
+    isVip: true
+  },
+  { 
+    title: '[MEGA] Xây dựng Agency Content AI chuyên nghiệp', 
+    category: 'Content', 
+    description: 'Quy trình vận hành Agency nội dung quy mô lớn với nhân sự tối thiểu.',
+    content: 'Bạn là chủ một Agency Content hàng đầu. Hãy thiết kế quy trình vận hành cho Agency của tôi. Quy trình 5 bước chuyên sâu:\n1. Giai đoạn Tìm kiếm khách hàng (Lead Gen): Cách dùng LinkedIn và Cold Email để tìm 10 khách hàng đầu tiên cần dịch vụ nội dung.\n2. Giai đoạn Thiết kế gói dịch vụ (Service Design): Xây dựng các gói bài viết SEO, kịch bản Video, nội dung Fanpage với mức giá cạnh tranh nhờ tối ưu AI.\n3. Giai đoạn Quy trình sản xuất (Production Workflow): Cách dùng ChatGPT, Midjourney và Canva để sản xuất 100 bài viết/tháng chỉ với 1 nhân sự quản lý.\n4. Giai đoạn Kiểm soát chất lượng (QC Process): Checklist 10 điểm để đảm bảo nội dung AI viết ra không bị phát hiện và đạt chất lượng cao nhất.\n5. Giai đoạn Báo cáo & Giữ chân khách hàng (Reporting & Retention): Mẫu báo cáo hiệu quả (KPIs) hàng tháng để khách hàng tiếp tục gia hạn hợp đồng.',
+    isVip: true
+  },
 ];
 
 const BLOG_POSTS = [
