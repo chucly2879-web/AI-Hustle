@@ -448,7 +448,8 @@ export default function App() {
               </span>
             </h1>
             <p className="max-w-2xl mx-auto text-lg text-gray-600 mb-10 leading-relaxed">
-              Tận dụng sức mạnh AI để tự động hóa việc viết bài, đăng sản phẩm và xây dựng nguồn thu nhập thụ động bền vững.
+              Tận dụng sức mạnh AI để tự động hóa việc viết bài, đăng sản phẩm và xây dựng nguồn thu nhập thụ động bền vững. <br className="hidden md:block" />
+              <span className="font-semibold text-orange-600">Tham gia cùng 1,200+ Freelancer đang dẫn đầu xu hướng.</span>
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a href="#generator" className="w-full sm:w-auto px-8 py-4 bg-black text-white rounded-xl font-semibold hover:scale-105 transition-transform flex items-center justify-center gap-2 group">
@@ -493,6 +494,43 @@ export default function App() {
                 <p className="text-sm text-gray-500">Xây dựng hệ thống tự động mang lại tiền ngay cả khi bạn ngủ.</p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Quy trình 3 bước đơn giản</h2>
+            <p className="text-gray-500">Bắt đầu hành trình chinh phục AI của bạn ngay hôm nay.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              {
+                step: "01",
+                title: "Khám phá ý tưởng",
+                desc: "Sử dụng trình tạo ý tưởng AI để tìm ra ngách kinh doanh phù hợp nhất với kỹ năng của bạn."
+              },
+              {
+                step: "02",
+                title: "Sử dụng Prompt",
+                desc: "Sao chép các câu lệnh (Prompt) đã được tối ưu sẵn để bắt đầu tạo nội dung hoặc sản phẩm."
+              },
+              {
+                step: "03",
+                title: "Tối ưu & Kiếm tiền",
+                desc: "Áp dụng các hướng dẫn từ Blog để tối ưu quy trình và bắt đầu nhận những khoản thu nhập đầu tiên."
+              }
+            ].map((s, i) => (
+              <div key={i} className="relative group">
+                <div className="text-6xl font-black text-gray-50 mb-4 group-hover:text-orange-50 transition-colors">{s.step}</div>
+                <div className="relative z-10">
+                  <h3 className="text-xl font-bold mb-3">{s.title}</h3>
+                  <p className="text-gray-500 leading-relaxed">{s.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -550,6 +588,52 @@ export default function App() {
               </div>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Học viên nói gì về chúng tôi?</h2>
+            <p className="text-gray-500">Những câu chuyện thành công thực tế từ cộng đồng.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Nguyễn Văn A",
+                role: "Freelancer Content",
+                text: "Nhờ bộ Prompt của AI Hustle, tôi đã tăng năng suất viết bài lên gấp 5 lần. Thu nhập hiện tại đã ổn định ở mức 20tr/tháng.",
+                avatar: "https://i.pravatar.cc/150?u=a"
+              },
+              {
+                name: "Trần Thị B",
+                role: "Chủ shop Shopee",
+                text: "Công cụ tạo mô tả sản phẩm AI giúp gian hàng của tôi chuyên nghiệp hơn hẳn. Tỷ lệ chuyển đổi tăng 30% sau 1 tháng áp dụng.",
+                avatar: "https://i.pravatar.cc/150?u=b"
+              },
+              {
+                name: "Lê Văn C",
+                role: "Digital Marketer",
+                text: "Lộ trình cá nhân hóa từ AI rất sát thực tế. Tôi đã tìm thấy ngách kinh doanh phù hợp chỉ sau 15 phút tìm hiểu.",
+                avatar: "https://i.pravatar.cc/150?u=c"
+              }
+            ].map((t, i) => (
+              <div key={i} className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                <div className="flex gap-1 text-orange-400 mb-4">
+                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+                </div>
+                <p className="text-gray-600 italic mb-6">"{t.text}"</p>
+                <div className="flex items-center gap-4">
+                  <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full" referrerPolicy="no-referrer" />
+                  <div>
+                    <div className="font-bold text-sm">{t.name}</div>
+                    <div className="text-xs text-gray-400">{t.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -694,6 +778,32 @@ export default function App() {
               <h4 className="font-bold group-hover:text-orange-500 transition-colors">{post.title}</h4>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="py-24 bg-orange-500 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full opacity-10">
+          <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-white rounded-full blur-[120px]" />
+          <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-white rounded-full blur-[120px]" />
+        </div>
+        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Nhận bộ tài liệu "AI Masterclass" Miễn Phí</h2>
+          <p className="text-orange-100 text-lg mb-10">
+            Hơn 5,000 người đã đăng ký nhận bản tin hàng tuần về các công cụ AI mới nhất và cách áp dụng chúng để kiếm tiền.
+          </p>
+          <form className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto" onSubmit={(e) => { e.preventDefault(); alert('Cảm ơn bạn đã đăng ký!'); }}>
+            <input 
+              type="email" 
+              placeholder="Email của bạn..." 
+              required
+              className="flex-1 px-6 py-4 rounded-2xl bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
+            />
+            <button className="px-8 py-4 bg-black text-white rounded-2xl font-bold hover:bg-gray-900 transition-all shadow-xl">
+              Đăng ký ngay
+            </button>
+          </form>
+          <p className="mt-6 text-orange-200 text-xs">Chúng tôi cam kết không spam. Bạn có thể hủy đăng ký bất cứ lúc nào.</p>
         </div>
       </section>
 
