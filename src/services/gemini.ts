@@ -18,7 +18,20 @@ export async function generateSideHustleIdea(interests: string) {
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-3-flash-preview",
+      contents: prompt,
+    });
+    return response.text || "Không có kết quả trả về.";
+  } catch (error) {
+    console.error("Gemini Error:", error);
+    return "Rất tiếc, đã có lỗi xảy ra khi kết nối với AI. Vui lòng thử lại sau.";
+  }
+}
+
+export async function runCustomPrompt(prompt: string) {
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
       contents: prompt,
     });
     return response.text || "Không có kết quả trả về.";

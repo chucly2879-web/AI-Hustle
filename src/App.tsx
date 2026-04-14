@@ -29,7 +29,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import { cn } from './lib/utils';
-import { generateSideHustleIdea } from './services/gemini';
+import { generateSideHustleIdea, runCustomPrompt } from './services/gemini';
 
 interface SideHustle {
   id: string;
@@ -482,7 +482,7 @@ export default function App() {
     if (!editingPrompt) return;
     setIsPromptRunning(true);
     try {
-      const result = await generateSideHustleIdea(getFinalPrompt());
+      const result = await runCustomPrompt(getFinalPrompt());
       setPromptResult(result);
     } catch (error) {
       console.error(error);
