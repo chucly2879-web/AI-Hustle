@@ -15,9 +15,14 @@ import {
   BookOpen,
   Terminal,
   ShoppingBag,
-  Star
+  Star,
+  MessageCircle,
+  MessageSquare,
+  Facebook,
+  X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import ReactMarkdown from 'react-markdown';
 import { cn } from './lib/utils';
 import { generateSideHustleIdea } from './services/gemini';
 
@@ -76,26 +81,151 @@ const SIDE_HUSTLES: SideHustle[] = [
     difficulty: 'Trung bình',
     potential: 'Cao',
     tools: ['Make.com', 'Zapier', 'OpenAI API']
+  },
+  {
+    id: 'ecommerce-seo',
+    title: 'Tối ưu SEO TMĐT',
+    description: 'Sử dụng AI để viết tiêu đề, mô tả và tối ưu từ khóa giúp sản phẩm đứng top Shopee/Lazada.',
+    icon: <ShoppingBag className="w-6 h-6" />,
+    difficulty: 'Dễ',
+    potential: 'Cao',
+    tools: ['ChatGPT', 'Shopee Analytics', 'KeywordTool.io']
+  },
+  {
+    id: 'niche-site',
+    title: 'Xây dựng Niche Site',
+    description: 'Tạo các website chuyên biệt về một ngách sản phẩm và kiếm tiền từ tiếp thị liên kết (Affiliate).',
+    icon: <Star className="w-6 h-6" />,
+    difficulty: 'Trung bình',
+    potential: 'Rất Cao',
+    tools: ['WordPress', 'Gemini AI', 'Google Search Console']
   }
 ];
 
 const PROMPTS = [
-  { title: 'Viết bài SEO', category: 'Content', description: 'Tạo bài viết 1000 chữ chuẩn SEO về bất kỳ chủ đề nào.' },
-  { title: 'Mô tả sản phẩm', category: 'E-commerce', description: 'Viết mô tả sản phẩm thu hút, tăng tỷ lệ chốt đơn Shopee.' },
-  { title: 'Kịch bản TikTok', category: 'Video', description: 'Lên kịch bản video ngắn viral trong vòng 30 giây.' },
-  { title: 'Email Marketing', category: 'Marketing', description: 'Viết chuỗi email bán hàng tự động cực kỳ thuyết phục.' },
+  { 
+    title: 'Viết bài SEO', 
+    category: 'Content', 
+    description: 'Tạo bài viết 1000 chữ chuẩn SEO về bất kỳ chủ đề nào.',
+    content: 'Bạn là một chuyên gia SEO kỳ cựu. Hãy lập một dàn ý chi tiết cho bài viết blog với tiêu đề: [Nhập tiêu đề]. Yêu cầu bài viết chuẩn SEO, có các thẻ H2, H3 và FAQ.'
+  },
+  { 
+    title: 'Mô tả sản phẩm', 
+    category: 'E-commerce', 
+    description: 'Viết mô tả sản phẩm thu hút, tăng tỷ lệ chốt đơn Shopee.',
+    content: 'Bạn là một bậc thầy về Copywriting bán hàng. Hãy viết mô tả sản phẩm cho: [Tên sản phẩm]. Sử dụng công thức AIDA để thôi miên khách hàng.'
+  },
+  { 
+    title: 'Kịch bản TikTok', 
+    category: 'Video', 
+    description: 'Lên kịch bản video ngắn viral trong vòng 30 giây.',
+    content: 'Hãy viết một kịch bản video TikTok dài 45 giây về [Chủ đề]. Bao gồm 3 giây đầu gây sốc, 30 giây giá trị và 10 giây kêu gọi hành động.'
+  },
+  { 
+    title: 'Email Marketing', 
+    category: 'Marketing', 
+    description: 'Viết chuỗi email bán hàng tự động cực kỳ thuyết phục.',
+    content: 'Viết một email bán hàng cho sản phẩm [Tên sản phẩm] gửi đến đối tượng [Đối tượng]. Tập trung vào nỗi đau và giải pháp.'
+  },
+  { 
+    title: 'Nghiên cứu từ khóa', 
+    category: 'SEO', 
+    description: 'Tìm kiếm các từ khóa ngách có độ cạnh tranh thấp.',
+    content: 'Tìm cho tôi 20 từ khóa ngách (long-tail keywords) về chủ đề [Chủ đề] có độ cạnh tranh thấp nhưng tỷ lệ chuyển đổi cao.'
+  },
 ];
 
 const BLOG_POSTS = [
-  { title: 'Cách tôi viết 10 bài blog/ngày với AI', date: '13/04/2024', tag: 'Kinh nghiệm' },
-  { title: 'Top 5 công cụ AI cho người bán hàng Shopee', date: '12/04/2024', tag: 'Công cụ' },
-  { title: 'Hướng dẫn kiếm tiền từ Affiliate bằng AI', date: '10/04/2024', tag: 'Hướng dẫn' },
+  { 
+    title: 'Cách tôi viết 10 bài blog/ngày với AI', 
+    date: '13/04/2024', 
+    tag: 'Kinh nghiệm',
+    content: `
+# Cách tôi viết 10 bài blog/ngày với AI
+
+Bạn đang tốn cả ngày trời chỉ để hoàn thành một bài viết? Với sự hỗ trợ của AI, một Freelancer có thể sản xuất 10 bài blog chất lượng cao mỗi ngày mà vẫn đảm bảo chuẩn SEO và giá trị cho người đọc.
+
+## 1. Thay đổi tư duy: AI là "Trợ lý", bạn là "Tổng biên tập"
+Sai lầm lớn nhất của nhiều người là copy-paste hoàn toàn nội dung từ AI. Để bài viết có thứ hạng cao trên Google, bạn cần đóng vai trò là người định hướng, kiểm soát chất lượng và thêm vào "chất riêng" mà AI không có.
+
+## 2. Quy trình 5 bước viết bài thần tốc
+
+### Bước 1: Nghiên cứu từ khóa và lập kế hoạch (5 phút)
+Thay vì ngồi nghĩ, hãy yêu cầu AI tìm các chủ đề ngách đang có xu hướng nhưng ít cạnh tranh.
+
+### Bước 2: Xây dựng cấu trúc bài viết (Outline) chuyên sâu (5 phút)
+Một cấu trúc tốt là 50% sự thành công. Đừng chỉ yêu cầu AI "viết bài", hãy yêu cầu nó "lập dàn ý".
+
+### Bước 3: Viết từng phần với các Prompt chuyên biệt (15 phút)
+Đừng bắt AI viết cả bài một lúc vì nội dung sẽ bị nông. Hãy bắt nó viết từng mục trong dàn ý.
+
+### Bước 4: "Nhân bản hóa" và Kiểm tra sự thật (10 phút)
+Thêm các câu chuyện cá nhân hoặc trải nghiệm thực tế của bạn. Kiểm tra lại các số liệu, dẫn chứng mà AI đưa ra.
+
+### Bước 5: Tối ưu SEO On-page và Hình ảnh (5 phút)
+Dùng AI để viết Meta Description và tiêu đề thu hút.
+
+## 3. Kết luận
+Việc viết 10 bài/ngày không khó nếu bạn làm chủ được quy trình. Hãy thử áp dụng ngay hôm nay!
+    `
+  },
+  { 
+    title: 'Top 5 công cụ AI cho người bán hàng Shopee', 
+    date: '12/04/2024', 
+    tag: 'Công cụ',
+    content: `
+# Top 5 công cụ AI cho người bán hàng Shopee
+
+Kinh doanh trên Shopee ngày càng cạnh tranh. Dưới đây là 5 công cụ AI giúp bạn tối ưu gian hàng và tăng doanh số hiệu quả.
+
+1. **ChatGPT/Gemini:** Viết mô tả sản phẩm chuẩn SEO và trả lời tin nhắn khách hàng.
+2. **Canva Magic Studio:** Thiết kế ảnh bìa sản phẩm chuyên nghiệp chỉ trong vài giây.
+3. **Midjourney:** Tạo ảnh mẫu (model) mặc quần áo hoặc sử dụng sản phẩm mà không cần thuê studio.
+4. **CapCut AI:** Tự động tạo video giới thiệu sản phẩm từ hình ảnh có sẵn.
+5. **Shopee Analytics Tools:** Phân tích từ khóa và đối thủ cạnh tranh bằng AI.
+
+Sử dụng bộ công cụ này sẽ giúp bạn tiết kiệm 80% thời gian vận hành gian hàng.
+    `
+  },
+  { 
+    title: 'Hướng dẫn kiếm tiền từ Affiliate bằng AI', 
+    date: '10/04/2024', 
+    tag: 'Hướng dẫn',
+    content: `
+# Hướng dẫn kiếm tiền từ Affiliate bằng AI
+
+Tiếp thị liên kết (Affiliate Marketing) là cách tuyệt vời để tạo thu nhập thụ động. AI giúp bạn làm điều này dễ dàng hơn bao giờ hết.
+
+## Các bước thực hiện:
+1. **Chọn ngách sản phẩm:** Sử dụng AI để nghiên cứu các ngách tiềm năng.
+2. **Tạo nội dung review:** Dùng AI viết bài đánh giá hoặc kịch bản video review sản phẩm.
+3. **Xây dựng kênh phân phối:** Sử dụng AI để quản lý Fanpage hoặc kênh TikTok tự động.
+4. **Tối ưu hóa chuyển đổi:** Thử nghiệm các tiêu đề và lời kêu gọi hành động (CTA) khác nhau bằng AI.
+
+Bắt đầu ngay hôm nay với một ngách nhỏ và kiên trì tối ưu hóa nội dung của bạn!
+    `
+  },
 ];
 
 export default function App() {
   const [interests, setInterests] = useState('');
   const [aiResult, setAiResult] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState('Tất cả');
+  const [showContact, setShowContact] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<any>(null);
+
+  const categories = ['Tất cả', ...new Set(PROMPTS.map(p => p.category))];
+  const filteredPrompts = activeCategory === 'Tất cả' 
+    ? PROMPTS 
+    : PROMPTS.filter(p => p.category === activeCategory);
+
+  const handleCopy = (text: string, index: number) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -258,14 +388,35 @@ export default function App() {
       {/* Prompt Library Section */}
       <section id="prompts" className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Thư viện Prompt mẫu</h2>
             <p className="text-gray-500">Sao chép và sử dụng ngay để tối ưu công việc hàng ngày của bạn.</p>
           </div>
 
+          <div className="flex flex-wrap justify-center gap-2 mb-10">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={cn(
+                  "px-4 py-2 rounded-full text-sm font-medium transition-all",
+                  activeCategory === cat 
+                    ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20" 
+                    : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-100"
+                )}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {PROMPTS.map((prompt, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-2xl border border-gray-100 flex items-start gap-4 hover:shadow-md transition-shadow">
+            {filteredPrompts.map((prompt, idx) => (
+              <motion.div 
+                layout
+                key={prompt.title} 
+                className="bg-white p-6 rounded-2xl border border-gray-100 flex items-start gap-4 hover:shadow-md transition-shadow"
+              >
                 <div className="p-3 bg-orange-50 rounded-xl text-orange-500">
                   <Terminal className="w-5 h-5" />
                 </div>
@@ -275,9 +426,20 @@ export default function App() {
                     <span className="text-[10px] font-bold uppercase px-2 py-1 bg-gray-100 rounded text-gray-500">{prompt.category}</span>
                   </div>
                   <p className="text-sm text-gray-500 mb-4">{prompt.description}</p>
-                  <button className="text-xs font-bold text-orange-500 hover:underline">Sao chép câu lệnh</button>
+                  <button 
+                    onClick={() => handleCopy(prompt.content, idx)}
+                    className="text-xs font-bold text-orange-500 hover:underline flex items-center gap-1"
+                  >
+                    {copiedIndex === idx ? (
+                      <>
+                        <CheckCircle2 className="w-3 h-3" /> Đã sao chép!
+                      </>
+                    ) : (
+                      'Sao chép câu lệnh'
+                    )}
+                  </button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -344,12 +506,21 @@ export default function App() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {BLOG_POSTS.map((post, idx) => (
-            <div key={idx} className="group cursor-pointer">
+            <div 
+              key={idx} 
+              onClick={() => setSelectedPost(post)}
+              className="group cursor-pointer"
+            >
               <div className="aspect-video bg-gray-100 rounded-2xl mb-4 overflow-hidden relative">
-                <div className="absolute top-4 left-4 px-2 py-1 bg-white/90 backdrop-blur text-[10px] font-bold uppercase rounded shadow-sm">
+                <div className="absolute top-4 left-4 px-2 py-1 bg-white/90 backdrop-blur text-[10px] font-bold uppercase rounded shadow-sm z-10">
                   {post.tag}
                 </div>
-                <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-100 group-hover:scale-105 transition-transform duration-500" />
+                <img 
+                  src={`https://picsum.photos/seed/${idx + 50}/800/450`} 
+                  alt={post.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <span className="text-xs text-gray-400 mb-2 block">{post.date}</span>
               <h4 className="font-bold group-hover:text-orange-500 transition-colors">{post.title}</h4>
@@ -377,6 +548,95 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Blog Post Modal */}
+      <AnimatePresence>
+        {selectedPost && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedPost(null)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-3xl max-h-[80vh] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+            >
+              <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
+                <div className="flex items-center gap-2">
+                  <span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-bold">
+                    {selectedPost.tag}
+                  </span>
+                  <span className="text-sm text-gray-400">{selectedPost.date}</span>
+                </div>
+                <button 
+                  onClick={() => setSelectedPost(null)}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              
+              <div className="flex-1 overflow-y-auto p-8 sm:p-12">
+                <div className="prose prose-orange max-w-none">
+                  <ReactMarkdown>{selectedPost.content}</ReactMarkdown>
+                </div>
+              </div>
+
+              <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-center">
+                <button 
+                  onClick={() => setSelectedPost(null)}
+                  className="px-8 py-3 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-colors"
+                >
+                  Đóng bài viết
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Floating Contact Buttons */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+        <AnimatePresence>
+          {showContact && (
+            <>
+              <motion.a
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                href="https://zalo.me/your-number"
+                target="_blank"
+                className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+                title="Chat Zalo"
+              >
+                <MessageCircle className="w-6 h-6" />
+              </motion.a>
+              <motion.a
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                href="https://m.me/your-profile"
+                target="_blank"
+                className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+                title="Chat Facebook"
+              >
+                <Facebook className="w-6 h-6" />
+              </motion.a>
+            </>
+          )}
+        </AnimatePresence>
+        <button
+          onClick={() => setShowContact(!showContact)}
+          className="w-14 h-14 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-xl hover:bg-orange-600 transition-colors"
+        >
+          {showContact ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
+        </button>
+      </div>
     </div>
   );
 }
