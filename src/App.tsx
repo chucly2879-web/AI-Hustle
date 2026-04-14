@@ -490,12 +490,18 @@ export default function App() {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <button 
+            onClick={() => {
+              setSelectedPost(null);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          >
             <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white">
               <Sparkles className="w-5 h-5" />
             </div>
             <span className="font-bold text-xl tracking-tight">AI Hustle</span>
-          </div>
+          </button>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">
             <a href="#ideas" className="hover:text-orange-500 transition-colors">Ý tưởng</a>
             <a href="#prompts" className="hover:text-orange-500 transition-colors">Thư viện Prompt</a>
@@ -1017,12 +1023,18 @@ export default function App() {
       {/* Footer */}
       <footer className="py-12 border-t border-gray-100 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="flex items-center gap-2">
+          <button 
+            onClick={() => {
+              setSelectedPost(null);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          >
             <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white">
               <Sparkles className="w-5 h-5" />
             </div>
             <span className="font-bold text-lg">AI Hustle Explorer</span>
-          </div>
+          </button>
           <p className="text-gray-400 text-sm">
             © 2024 AI Hustle. Được tạo ra để truyền cảm hứng cho cộng đồng Freelancer Việt Nam.
           </p>
