@@ -24,7 +24,9 @@ import {
   Share2,
   Twitter,
   Linkedin,
-  List
+  List,
+  FileText,
+  Download
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
@@ -1227,68 +1229,86 @@ export default function App() {
             className="py-24 bg-orange-950 text-white overflow-hidden"
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-12">
+              <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-8">
                 <div>
                   <span className="text-orange-500 font-bold text-sm uppercase tracking-widest mb-2 block">Khu vực dành riêng cho Pro</span>
-                  <h2 className="text-4xl font-bold">AI Masterclass Dashboard</h2>
+                  <h2 className="text-4xl font-bold mb-4">AI Masterclass Dashboard</h2>
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1 h-2 w-48 bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-full w-[65%] bg-orange-500" />
+                    </div>
+                    <span className="text-xs font-bold text-orange-200">Tiến độ: 65%</span>
+                  </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <a 
                     href="https://zalo.me/g/yourgroup" 
                     target="_blank" 
                     rel="noreferrer"
-                    className="px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all flex items-center gap-2"
+                    className="px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all flex items-center gap-2 shadow-lg shadow-blue-600/20"
                   >
                     <MessageCircle className="w-5 h-5" /> Tham gia Zalo VIP
                   </a>
-                  <p className="text-orange-200/60 max-w-md text-sm hidden md:block text-right">Chào mừng bạn trở lại! Hãy tiếp tục hành trình làm chủ AI với các bài học thực chiến mới nhất.</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Lesson List */}
-                <div className="lg:col-span-1 space-y-4">
+                <div className="lg:col-span-1 space-y-3">
                   {[
                     { 
                       id: 1,
                       title: "Bài 1: Tư duy triệu đô với Prompt Engineering", 
                       desc: "Học cách giao tiếp với AI như một lập trình viên ngôn ngữ tự nhiên.",
                       duration: "45:20", 
-                      status: "Đã hoàn thành" 
+                      status: "Đã hoàn thành",
+                      videoUrl: "https://www.youtube.com/embed/jC4v5AS4RIM"
                     },
                     { 
                       id: 2,
                       title: "Bài 2: Xây dựng hệ thống Content tự động 100%", 
                       desc: "Quy trình sử dụng Make.com và ChatGPT để tự động hóa bài viết.",
                       duration: "1:12:05", 
-                      status: "Đang học" 
+                      status: "Đang học",
+                      videoUrl: "https://www.youtube.com/embed/L_Guz73e6ew"
                     },
                     { 
                       id: 3,
                       title: "Bài 3: Kỹ thuật chốt đơn khách hàng quốc tế", 
                       desc: "Cách tìm kiếm và đàm phán với khách hàng trên Upwork/Fiverr.",
                       duration: "58:10", 
-                      status: "Chưa xem" 
+                      status: "Chưa xem",
+                      videoUrl: "https://www.youtube.com/embed/m6_7v7v7v7v"
+                    },
+                    { 
+                      id: 4,
+                      title: "Bài 4: Tự động hóa CSKH với AI Agent", 
+                      desc: "Xây dựng trợ lý ảo trả lời khách hàng 24/7 trên đa kênh.",
+                      duration: "42:15", 
+                      status: "Chưa xem",
+                      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
                     }
                   ].map((lesson) => (
                     <button 
                       key={lesson.id}
                       onClick={() => setActiveLesson(lesson.id)}
                       className={cn(
-                        "w-full text-left p-6 rounded-3xl border transition-all group",
+                        "w-full text-left p-5 rounded-2xl border transition-all group relative overflow-hidden",
                         activeLesson === lesson.id 
                           ? "bg-orange-500 border-orange-400 shadow-xl shadow-orange-500/20" 
                           : "bg-white/5 border-white/10 hover:bg-white/10"
                       )}
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <span className={cn("text-[10px] font-bold uppercase", activeLesson === lesson.id ? "text-orange-100" : "text-orange-500")}>
+                        <span className={cn("text-[10px] font-bold uppercase px-2 py-0.5 rounded-full", 
+                          activeLesson === lesson.id ? "bg-white/20 text-white" : 
+                          lesson.status === "Đã hoàn thành" ? "bg-green-500/20 text-green-400" : "bg-orange-500/20 text-orange-500")}>
                           {lesson.status}
                         </span>
                         <span className="text-[10px] opacity-60">{lesson.duration}</span>
                       </div>
-                      <h4 className="font-bold mb-1">{lesson.title}</h4>
-                      <p className={cn("text-xs line-clamp-2", activeLesson === lesson.id ? "text-orange-100/80" : "text-gray-400")}>
+                      <h4 className="font-bold mb-1 text-sm">{lesson.title}</h4>
+                      <p className={cn("text-[10px] line-clamp-1", activeLesson === lesson.id ? "text-orange-100/80" : "text-gray-400")}>
                         {lesson.desc}
                       </p>
                     </button>
@@ -1297,38 +1317,23 @@ export default function App() {
 
                 {/* Video Player Area */}
                 <div className="lg:col-span-2">
-                  <div className="aspect-video bg-black rounded-[40px] border border-white/10 flex items-center justify-center relative overflow-hidden group">
+                  <div className="aspect-video bg-black rounded-[32px] border border-white/10 flex items-center justify-center relative overflow-hidden shadow-2xl">
                     {activeLesson ? (
-                      <>
-                        <img 
-                          src={`https://picsum.photos/seed/lesson${activeLesson}/1280/720`} 
-                          alt="Video Thumbnail" 
-                          className="absolute inset-0 w-full h-full object-cover opacity-40"
-                          referrerPolicy="no-referrer"
-                        />
-                        <div className="relative z-10 text-center">
-                          <button className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-2xl shadow-orange-500/40">
-                            <Zap className="w-10 h-10 fill-current text-white" />
-                          </button>
-                          <p className="mt-6 font-bold text-xl">Đang phát: Bài {activeLesson}</p>
-                        </div>
-                        {/* Video Controls Overlay */}
-                        <div className="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                          <div className="h-1 w-full bg-white/20 rounded-full mb-4">
-                            <div className="h-full w-1/3 bg-orange-500 rounded-full" />
-                          </div>
-                          <div className="flex items-center justify-between text-xs">
-                            <div className="flex items-center gap-4">
-                              <span>00:00 / 45:20</span>
-                              <span>1080p HD</span>
-                            </div>
-                            <div className="flex items-center gap-4">
-                              <span>Tốc độ: 1.0x</span>
-                              <span>Toàn màn hình</span>
-                            </div>
-                          </div>
-                        </div>
-                      </>
+                      <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src={[
+                          "https://www.youtube.com/embed/jC4v5AS4RIM",
+                          "https://www.youtube.com/embed/L_Guz73e6ew",
+                          "https://www.youtube.com/embed/dQw4w9WgXcQ",
+                          "https://www.youtube.com/embed/dQw4w9WgXcQ"
+                        ][activeLesson - 1]} 
+                        title="YouTube video player" 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowFullScreen
+                        className="absolute inset-0 w-full h-full"
+                      ></iframe>
                     ) : (
                       <div className="text-center p-12">
                         <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -1344,28 +1349,37 @@ export default function App() {
                     <motion.div 
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="mt-8 p-8 bg-white/5 border border-white/10 rounded-[32px]"
+                      className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6"
                     >
-                      <h3 className="text-2xl font-bold mb-4">Tài liệu đính kèm</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <button className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all border border-white/5">
-                          <div className="w-10 h-10 bg-orange-500/20 text-orange-500 rounded-xl flex items-center justify-center">
-                            <Sparkles className="w-5 h-5" />
-                          </div>
-                          <div className="text-left">
-                            <p className="text-sm font-bold">File Prompt thực chiến .pdf</p>
-                            <p className="text-[10px] text-gray-500">2.4 MB • Tải xuống</p>
-                          </div>
-                        </button>
-                        <button className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all border border-white/5">
-                          <div className="w-10 h-10 bg-blue-500/20 text-blue-500 rounded-xl flex items-center justify-center">
-                            <CheckCircle2 className="w-5 h-5" />
-                          </div>
-                          <div className="text-left">
-                            <p className="text-sm font-bold">Checklist quy trình 7 bước</p>
-                            <p className="text-[10px] text-gray-500">1.1 MB • Tải xuống</p>
-                          </div>
-                        </button>
+                      <div className="p-6 bg-white/5 border border-white/10 rounded-[24px]">
+                        <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                          <FileText className="w-5 h-5 text-orange-500" /> Tài liệu đính kèm
+                        </h3>
+                        <div className="space-y-3">
+                          <button className="w-full flex items-center justify-between p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors text-sm">
+                            <span className="flex items-center gap-2">
+                              <Download className="w-4 h-4 text-gray-400" /> Slide bài giảng.pdf
+                            </span>
+                            <span className="text-[10px] text-gray-500">2.4 MB</span>
+                          </button>
+                          <button className="w-full flex items-center justify-between p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors text-sm">
+                            <span className="flex items-center gap-2">
+                              <Download className="w-4 h-4 text-gray-400" /> Checklist thực chiến.xlsx
+                            </span>
+                            <span className="text-[10px] text-gray-500">1.1 MB</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="p-6 bg-white/5 border border-white/10 rounded-[24px]">
+                        <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                          <Sparkles className="w-5 h-5 text-orange-500" /> Ghi chú bài học
+                        </h3>
+                        <div className="text-sm text-gray-400 space-y-2">
+                          <p>• Tập trung vào phần tối ưu hóa Hook trong 3 giây đầu.</p>
+                          <p>• Sử dụng công thức AIDA để viết kịch bản.</p>
+                          <p>• Đừng quên tham gia cộng đồng Zalo để hỏi đáp.</p>
+                        </div>
                       </div>
                     </motion.div>
                   )}
