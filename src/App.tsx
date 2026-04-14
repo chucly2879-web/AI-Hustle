@@ -264,6 +264,8 @@ export default function App() {
   const [userRole, setUserRole] = useState<'free' | 'pro'>('free');
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
 
   // Auto-scroll to top when post is selected
   React.useEffect(() => {
@@ -524,6 +526,23 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-[#1A1A1A] font-sans selection:bg-orange-100">
+      {/* Success Toast */}
+      <AnimatePresence>
+        {showSuccessToast && (
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] bg-black text-white px-6 py-3 rounded-full font-bold shadow-2xl flex items-center gap-3"
+          >
+            <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+              <CheckCircle2 className="w-4 h-4" />
+            </div>
+            Chúc mừng! Bạn đã nâng cấp thành công.
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -1160,7 +1179,23 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Lựa chọn lộ trình của bạn</h2>
-            <p className="text-gray-500">Từ người mới bắt đầu đến chuyên gia kiếm tiền bằng AI.</p>
+            <p className="text-gray-500 mb-8">Từ người mới bắt đầu đến chuyên gia kiếm tiền bằng AI.</p>
+            
+            {/* Billing Toggle */}
+            <div className="flex items-center justify-center gap-4">
+              <span className={cn("text-sm font-medium", billingCycle === 'monthly' ? "text-black" : "text-gray-400")}>Hàng tháng</span>
+              <button 
+                onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
+                className="w-14 h-7 bg-gray-200 rounded-full relative p-1 transition-colors"
+              >
+                <motion.div 
+                  animate={{ x: billingCycle === 'monthly' ? 0 : 28 }}
+                  className="w-5 h-5 bg-white rounded-full shadow-sm"
+                />
+              </button>
+              <span className={cn("text-sm font-medium", billingCycle === 'yearly' ? "text-black" : "text-gray-400")}>Hàng năm</span>
+              <span className="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full uppercase">Tiết kiệm 20%</span>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -1189,7 +1224,13 @@ export default function App() {
                   <span>Không có Prompt VIP</span>
                 </li>
               </ul>
-              <button className="w-full py-4 border border-black rounded-xl font-bold hover:bg-black hover:text-white transition-all">
+              <button 
+                onClick={() => {
+                  setShowSuccessToast(true);
+                  setTimeout(() => setShowSuccessToast(false), 3000);
+                }}
+                className="w-full py-4 border border-black rounded-xl font-bold hover:bg-black hover:text-white transition-all"
+              >
                 Bắt đầu ngay
               </button>
             </div>
@@ -1199,7 +1240,10 @@ export default function App() {
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-orange-500 text-white text-[10px] font-bold uppercase rounded-full">Khuyên dùng</div>
               <div className="mb-8">
                 <h3 className="font-bold text-lg mb-2">Chuyên nghiệp (Pro)</h3>
-                <div className="text-3xl font-black mb-2">199k<span className="text-sm font-normal text-gray-400">/tháng</span></div>
+                <div className="text-3xl font-black mb-2">
+                  {billingCycle === 'monthly' ? '199k' : '159k'}
+                  <span className="text-sm font-normal text-gray-400">/tháng</span>
+                </div>
                 <p className="text-sm text-gray-500">Dành cho Freelancer muốn đột phá thu nhập.</p>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
@@ -1224,7 +1268,14 @@ export default function App() {
                   <span>Cập nhật Prompt mới mỗi ngày</span>
                 </li>
               </ul>
-              <button className="w-full py-4 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20">
+              <button 
+                onClick={() => {
+                  setUserRole('pro');
+                  setShowSuccessToast(true);
+                  setTimeout(() => setShowSuccessToast(false), 3000);
+                }}
+                className="w-full py-4 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20"
+              >
                 Nâng cấp Pro ngay
               </button>
             </div>
@@ -1254,7 +1305,12 @@ export default function App() {
                   <span>Hỗ trợ kỹ thuật <strong>24/7</strong> ưu tiên</span>
                 </li>
               </ul>
-              <button className="w-full py-4 border border-black rounded-xl font-bold hover:bg-black hover:text-white transition-all">
+              <button 
+                onClick={() => {
+                  alert('Yêu cầu của bạn đã được gửi! Đội ngũ chuyên gia sẽ liên hệ với bạn trong vòng 24h.');
+                }}
+                className="w-full py-4 border border-black rounded-xl font-bold hover:bg-black hover:text-white transition-all"
+              >
                 Liên hệ tư vấn
               </button>
             </div>
