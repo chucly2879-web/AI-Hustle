@@ -163,6 +163,34 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    title: '[VIP] Kịch bản Video Triệu View', 
+    category: 'Video', 
+    description: 'Cấu trúc kịch bản giữ chân người xem đến giây cuối cùng.',
+    content: 'Viết kịch bản video ngắn 60s cho [Chủ đề]. Cấu trúc: 0-3s (Hook gây sốc), 3-15s (Vấn đề), 15-45s (Giải pháp độc đáo), 45-60s (CTA chuyển đổi). Sử dụng ngôn ngữ bình dân, dễ hiểu.',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Chiến lược Email Cold Outreach', 
+    category: 'Sales', 
+    description: 'Cách tiếp cận khách hàng lạ mà không bị đánh dấu spam.',
+    content: 'Viết 3 mẫu email tiếp cận khách hàng [Đối tượng] để giới thiệu dịch vụ [Dịch vụ]. Yêu cầu: Tiêu đề gây tò mò, nội dung cá nhân hóa cao, tập trung vào lợi ích của khách hàng, không bán hàng trực tiếp ở email đầu.',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Xây dựng nhân hiệu trên LinkedIn', 
+    category: 'Content', 
+    description: 'Quy trình 30 ngày phủ sóng thương hiệu cá nhân.',
+    content: 'Lập kế hoạch nội dung 7 ngày trên LinkedIn cho chuyên gia trong lĩnh vực [Lĩnh vực]. Mỗi ngày bao gồm: Chủ đề, Góc nhìn độc đáo, và định dạng bài viết (Text, Image, Document).',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Phân tích đối thủ cạnh tranh AI', 
+    category: 'Marketing', 
+    description: 'Tìm ra điểm yếu của đối thủ để chiếm lĩnh thị trường.',
+    content: 'Hãy phân tích đối thủ [Tên đối thủ] trong mảng [Ngành hàng]. Liệt kê: Điểm mạnh, Điểm yếu, Chiến lược giá, và Gợi ý cách để [Thương hiệu của bạn] có thể làm tốt hơn họ.',
+    isVip: true
+  },
+  { 
     title: 'Email Marketing Bán Hàng', 
     category: 'Marketing', 
     description: 'Viết chuỗi email bán hàng tự động thuyết phục.',
@@ -266,6 +294,7 @@ export default function App() {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
   const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [activeLesson, setActiveLesson] = useState<number | null>(null);
 
   // Auto-scroll to top when post is selected
   React.useEffect(() => {
@@ -1091,45 +1120,144 @@ export default function App() {
                   <span className="text-orange-500 font-bold text-sm uppercase tracking-widest mb-2 block">Khu vực dành riêng cho Pro</span>
                   <h2 className="text-4xl font-bold">AI Masterclass Dashboard</h2>
                 </div>
-                <p className="text-orange-200/60 max-w-md text-sm">Chào mừng bạn trở lại! Hãy tiếp tục hành trình làm chủ AI với các bài học thực chiến mới nhất.</p>
+                <div className="flex items-center gap-4">
+                  <a 
+                    href="https://zalo.me/g/yourgroup" 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all flex items-center gap-2"
+                  >
+                    <MessageCircle className="w-5 h-5" /> Tham gia Zalo VIP
+                  </a>
+                  <p className="text-orange-200/60 max-w-md text-sm hidden md:block text-right">Chào mừng bạn trở lại! Hãy tiếp tục hành trình làm chủ AI với các bài học thực chiến mới nhất.</p>
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {[
-                  { 
-                    title: "Bài 1: Tư duy triệu đô với Prompt Engineering", 
-                    desc: "Học cách giao tiếp với AI như một lập trình viên ngôn ngữ tự nhiên.",
-                    duration: "45:20", 
-                    status: "Đã hoàn thành" 
-                  },
-                  { 
-                    title: "Bài 2: Xây dựng hệ thống Content tự động 100%", 
-                    desc: "Quy trình sử dụng Make.com và ChatGPT để tự động hóa bài viết.",
-                    duration: "1:12:05", 
-                    status: "Đang học" 
-                  },
-                  { 
-                    title: "Bài 3: Kỹ thuật chốt đơn khách hàng quốc tế", 
-                    desc: "Cách tìm kiếm và đàm phán với khách hàng trên Upwork/Fiverr.",
-                    duration: "58:10", 
-                    status: "Chưa xem" 
-                  }
-                ].map((lesson, i) => (
-                  <div key={i} className="bg-white/5 border border-white/10 p-6 rounded-3xl hover:bg-white/10 transition-colors cursor-pointer group">
-                    <div className="aspect-video bg-gray-800 rounded-2xl mb-4 flex items-center justify-center relative overflow-hidden">
-                      <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Zap className="w-6 h-6 fill-current" />
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                {/* Lesson List */}
+                <div className="lg:col-span-1 space-y-4">
+                  {[
+                    { 
+                      id: 1,
+                      title: "Bài 1: Tư duy triệu đô với Prompt Engineering", 
+                      desc: "Học cách giao tiếp với AI như một lập trình viên ngôn ngữ tự nhiên.",
+                      duration: "45:20", 
+                      status: "Đã hoàn thành" 
+                    },
+                    { 
+                      id: 2,
+                      title: "Bài 2: Xây dựng hệ thống Content tự động 100%", 
+                      desc: "Quy trình sử dụng Make.com và ChatGPT để tự động hóa bài viết.",
+                      duration: "1:12:05", 
+                      status: "Đang học" 
+                    },
+                    { 
+                      id: 3,
+                      title: "Bài 3: Kỹ thuật chốt đơn khách hàng quốc tế", 
+                      desc: "Cách tìm kiếm và đàm phán với khách hàng trên Upwork/Fiverr.",
+                      duration: "58:10", 
+                      status: "Chưa xem" 
+                    }
+                  ].map((lesson) => (
+                    <button 
+                      key={lesson.id}
+                      onClick={() => setActiveLesson(lesson.id)}
+                      className={cn(
+                        "w-full text-left p-6 rounded-3xl border transition-all group",
+                        activeLesson === lesson.id 
+                          ? "bg-orange-500 border-orange-400 shadow-xl shadow-orange-500/20" 
+                          : "bg-white/5 border-white/10 hover:bg-white/10"
+                      )}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className={cn("text-[10px] font-bold uppercase", activeLesson === lesson.id ? "text-orange-100" : "text-orange-500")}>
+                          {lesson.status}
+                        </span>
+                        <span className="text-[10px] opacity-60">{lesson.duration}</span>
                       </div>
-                      <div className="absolute bottom-3 right-3 px-2 py-1 bg-black/60 text-[10px] rounded">{lesson.duration}</div>
-                    </div>
-                    <h4 className="font-bold mb-1">{lesson.title}</h4>
-                    <p className="text-xs text-gray-400 mb-4 line-clamp-2">{lesson.desc}</p>
-                    <div className="flex items-center justify-between text-xs text-gray-500">
-                      <span>{lesson.status}</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </div>
+                      <h4 className="font-bold mb-1">{lesson.title}</h4>
+                      <p className={cn("text-xs line-clamp-2", activeLesson === lesson.id ? "text-orange-100/80" : "text-gray-400")}>
+                        {lesson.desc}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Video Player Area */}
+                <div className="lg:col-span-2">
+                  <div className="aspect-video bg-black rounded-[40px] border border-white/10 flex items-center justify-center relative overflow-hidden group">
+                    {activeLesson ? (
+                      <>
+                        <img 
+                          src={`https://picsum.photos/seed/lesson${activeLesson}/1280/720`} 
+                          alt="Video Thumbnail" 
+                          className="absolute inset-0 w-full h-full object-cover opacity-40"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div className="relative z-10 text-center">
+                          <button className="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-2xl shadow-orange-500/40">
+                            <Zap className="w-10 h-10 fill-current text-white" />
+                          </button>
+                          <p className="mt-6 font-bold text-xl">Đang phát: Bài {activeLesson}</p>
+                        </div>
+                        {/* Video Controls Overlay */}
+                        <div className="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="h-1 w-full bg-white/20 rounded-full mb-4">
+                            <div className="h-full w-1/3 bg-orange-500 rounded-full" />
+                          </div>
+                          <div className="flex items-center justify-between text-xs">
+                            <div className="flex items-center gap-4">
+                              <span>00:00 / 45:20</span>
+                              <span>1080p HD</span>
+                            </div>
+                            <div className="flex items-center gap-4">
+                              <span>Tốc độ: 1.0x</span>
+                              <span>Toàn màn hình</span>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-center p-12">
+                        <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                          <Zap className="w-10 h-10 text-orange-500 opacity-20" />
+                        </div>
+                        <h3 className="text-2xl font-bold mb-2">Chọn một bài học</h3>
+                        <p className="text-gray-400">Hãy chọn bài học từ danh sách bên trái để bắt đầu học ngay.</p>
+                      </div>
+                    )}
                   </div>
-                ))}
+                  
+                  {activeLesson && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mt-8 p-8 bg-white/5 border border-white/10 rounded-[32px]"
+                    >
+                      <h3 className="text-2xl font-bold mb-4">Tài liệu đính kèm</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <button className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all border border-white/5">
+                          <div className="w-10 h-10 bg-orange-500/20 text-orange-500 rounded-xl flex items-center justify-center">
+                            <Sparkles className="w-5 h-5" />
+                          </div>
+                          <div className="text-left">
+                            <p className="text-sm font-bold">File Prompt thực chiến .pdf</p>
+                            <p className="text-[10px] text-gray-500">2.4 MB • Tải xuống</p>
+                          </div>
+                        </button>
+                        <button className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all border border-white/5">
+                          <div className="w-10 h-10 bg-blue-500/20 text-blue-500 rounded-xl flex items-center justify-center">
+                            <CheckCircle2 className="w-5 h-5" />
+                          </div>
+                          <div className="text-left">
+                            <p className="text-sm font-bold">Checklist quy trình 7 bước</p>
+                            <p className="text-[10px] text-gray-500">1.1 MB • Tải xuống</p>
+                          </div>
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
               </div>
             </div>
           </motion.section>
