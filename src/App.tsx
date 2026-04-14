@@ -112,6 +112,7 @@ interface Prompt {
   category: string;
   description: string;
   content: string;
+  isVip?: boolean;
 }
 
 const PROMPTS: Prompt[] = [
@@ -132,6 +133,20 @@ const PROMPTS: Prompt[] = [
     category: 'Video', 
     description: 'Lên kịch bản video ngắn thu hút trong 3 giây đầu.',
     content: 'Hãy viết một kịch bản video TikTok dài 45 giây về [Chủ đề video]. Yêu cầu: 3 giây đầu phải có Hook cực mạnh về [Nỗi đau khách hàng], 30 giây tiếp theo chia sẻ 3 mẹo về [Giải pháp], và 10 giây cuối kêu gọi hành động [Lời kêu gọi].'
+  },
+  { 
+    title: '[VIP] Chiến dịch FB Ads triệu đô', 
+    category: 'Marketing', 
+    description: 'Cấu trúc bài viết quảng cáo Facebook tỷ lệ chuyển đổi cực cao.',
+    content: 'Bạn là chuyên gia chạy quảng cáo Facebook Ads. Hãy viết 3 mẫu nội dung quảng cáo cho sản phẩm [Tên sản phẩm] nhắm tới đối tượng [Đối tượng]. Mẫu 1: Đánh vào nỗi đau. Mẫu 2: Đánh vào lợi ích. Mẫu 3: Kể chuyện (Storytelling). Kèm theo gợi ý hình ảnh/video cho từng mẫu.',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Kịch bản chốt đơn Telesale', 
+    category: 'Sales', 
+    description: 'Quy trình xử lý từ chối và chốt đơn qua điện thoại.',
+    content: 'Xây dựng kịch bản Telesale cho sản phẩm [Tên sản phẩm]. Bao gồm: Chào hỏi gây ấn tượng, Khai thác nhu cầu, Xử lý 3 lời từ chối phổ biến nhất: [Lời từ chối 1], [Lời từ chối 2], [Lời từ chối 3] và Kỹ thuật chốt đơn giả định.',
+    isVip: true
   },
   { 
     title: 'Email Marketing Bán Hàng', 
@@ -231,6 +246,9 @@ export default function App() {
   const [promptVariables, setPromptVariables] = useState<Record<string, string>>({});
   const [isPromptRunning, setIsPromptRunning] = useState(false);
   const [promptResult, setPromptResult] = useState('');
+  const [emailSubscribed, setEmailSubscribed] = useState(false);
+  const [userRole, setUserRole] = useState<'free' | 'pro'>('free');
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
   // Auto-scroll to top when post is selected
   React.useEffect(() => {
@@ -285,6 +303,10 @@ export default function App() {
   };
 
   const openPromptEditor = (prompt: Prompt) => {
+    if (prompt.isVip && userRole !== 'pro') {
+      setShowUpgradeModal(true);
+      return;
+    }
     const vars: Record<string, string> = {};
     const matches = prompt.content.match(/\[(.*?)\]/g) || [];
     matches.forEach(m => {
@@ -506,7 +528,14 @@ export default function App() {
             <a href="#ideas" className="hover:text-orange-500 transition-colors">Ý tưởng</a>
             <a href="#prompts" className="hover:text-orange-500 transition-colors">Thư viện Prompt</a>
             <a href="#blog" className="hover:text-orange-500 transition-colors">Blog</a>
+            {userRole === 'pro' && <a href="#masterclass" className="text-orange-600 font-bold">Masterclass</a>}
             <a href="#generator" className="px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-all">Thử AI ngay</a>
+            <button 
+              onClick={() => setUserRole(userRole === 'free' ? 'pro' : 'free')}
+              className="text-[10px] px-2 py-1 border border-gray-200 rounded hover:bg-gray-100"
+            >
+              {userRole === 'free' ? 'Mô phỏng Pro' : 'Thoát Pro'}
+            </button>
           </div>
         </div>
       </nav>
@@ -538,12 +567,23 @@ export default function App() {
               <span className="font-semibold text-orange-600">Tham gia cùng 1,200+ Freelancer đang dẫn đầu xu hướng.</span>
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#generator" className="w-full sm:w-auto px-8 py-4 bg-black text-white rounded-xl font-semibold hover:scale-105 transition-transform flex items-center justify-center gap-2 group">
+              <a href="#generator" className="w-full sm:w-auto px-8 py-4 bg-black text-white rounded-xl font-semibold hover:scale-105 transition-transform flex items-center justify-center gap-2 group shadow-xl shadow-black/10">
                 Khám phá ý tưởng AI <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
               <a href="#prompts" className="w-full sm:w-auto px-8 py-4 bg-white border border-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors">
                 Xem thư viện Prompt
               </a>
+            </div>
+
+            {/* Trust Bar */}
+            <div className="mt-20 pt-10 border-t border-gray-100">
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] mb-8">Được tin dùng bởi các chuyên gia từ</p>
+              <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-40 grayscale">
+                <div className="font-black text-xl italic">TECHHUB</div>
+                <div className="font-black text-xl">AI_INSIDER</div>
+                <div className="font-black text-xl tracking-tighter">FUTURE_BIZ</div>
+                <div className="font-black text-xl">DIGITAL_NOMAD</div>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -760,7 +800,14 @@ export default function App() {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-bold">{prompt.title}</h4>
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-bold">{prompt.title}</h4>
+                      {prompt.isVip && (
+                        <span className="flex items-center gap-1 px-1.5 py-0.5 bg-orange-500 text-white text-[8px] font-black uppercase rounded">
+                          <Star className="w-2 h-2 fill-current" /> VIP
+                        </span>
+                      )}
+                    </div>
                     <span className="text-[10px] font-bold uppercase px-2 py-1 bg-gray-100 rounded text-gray-500">{prompt.category}</span>
                   </div>
                   <p className="text-sm text-gray-500 mb-4">{prompt.description}</p>
@@ -991,6 +1038,240 @@ export default function App() {
               <h4 className="font-bold group-hover:text-orange-500 transition-colors">{post.title}</h4>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* AI Masterclass Section (Pro Only) */}
+      <AnimatePresence>
+        {userRole === 'pro' && (
+          <motion.section 
+            id="masterclass"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="py-24 bg-orange-950 text-white overflow-hidden"
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-12">
+                <div>
+                  <span className="text-orange-500 font-bold text-sm uppercase tracking-widest mb-2 block">Khu vực dành riêng cho Pro</span>
+                  <h2 className="text-4xl font-bold">AI Masterclass Dashboard</h2>
+                </div>
+                <p className="text-orange-200/60 max-w-md text-sm">Chào mừng bạn trở lại! Hãy tiếp tục hành trình làm chủ AI với các bài học thực chiến mới nhất.</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[
+                  { title: "Bài 1: Tư duy triệu đô với Prompt Engineering", duration: "45:20", status: "Đã hoàn thành" },
+                  { title: "Bài 2: Xây dựng hệ thống Content tự động 100%", duration: "1:12:05", status: "Đang học" },
+                  { title: "Bài 3: Kỹ thuật chốt đơn khách hàng quốc tế", duration: "58:10", status: "Chưa xem" }
+                ].map((lesson, i) => (
+                  <div key={i} className="bg-white/5 border border-white/10 p-6 rounded-3xl hover:bg-white/10 transition-colors cursor-pointer group">
+                    <div className="aspect-video bg-gray-800 rounded-2xl mb-4 flex items-center justify-center relative overflow-hidden">
+                      <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Zap className="w-6 h-6 fill-current" />
+                      </div>
+                      <div className="absolute bottom-3 right-3 px-2 py-1 bg-black/60 text-[10px] rounded">{lesson.duration}</div>
+                    </div>
+                    <h4 className="font-bold mb-2">{lesson.title}</h4>
+                    <div className="flex items-center justify-between text-xs text-gray-500">
+                      <span>{lesson.status}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.section>
+        )}
+      </AnimatePresence>
+
+      {/* Upgrade Modal */}
+      <AnimatePresence>
+        {showUpgradeModal && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="bg-white max-w-md w-full rounded-[40px] p-10 text-center relative overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-orange-500 to-red-600" />
+              <div className="w-20 h-20 bg-orange-100 text-orange-600 rounded-3xl flex items-center justify-center mx-auto mb-8">
+                <Star className="w-10 h-10 fill-current" />
+              </div>
+              <h3 className="text-3xl font-bold mb-4">Nội dung này bị khóa!</h3>
+              <p className="text-gray-500 mb-8 leading-relaxed">
+                Bạn đang cố gắng truy cập vào **Prompt VIP** dành riêng cho thành viên gói Pro. Hãy nâng cấp ngay để mở khóa toàn bộ kho tài nguyên.
+              </p>
+              <div className="space-y-3 mb-10">
+                <button 
+                  onClick={() => { setUserRole('pro'); setShowUpgradeModal(false); }}
+                  className="w-full py-4 bg-orange-500 text-white rounded-2xl font-bold hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20"
+                >
+                  Nâng cấp Pro ngay (199k)
+                </button>
+                <button 
+                  onClick={() => setShowUpgradeModal(false)}
+                  className="w-full py-4 bg-gray-100 text-gray-500 rounded-2xl font-bold hover:bg-gray-200 transition-all"
+                >
+                  Để sau
+                </button>
+              </div>
+              <p className="text-[10px] text-gray-400">Hoàn tiền 100% trong 7 ngày nếu không hài lòng.</p>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Lựa chọn lộ trình của bạn</h2>
+            <p className="text-gray-500">Từ người mới bắt đầu đến chuyên gia kiếm tiền bằng AI.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Basic Plan */}
+            <div className="p-8 rounded-3xl border border-gray-100 hover:border-orange-200 transition-all flex flex-col">
+              <div className="mb-8">
+                <h3 className="font-bold text-lg mb-2">Người mới (Starter)</h3>
+                <div className="text-3xl font-black mb-2">Miễn phí</div>
+                <p className="text-sm text-gray-500">Dành cho ai muốn khám phá tiềm năng của AI.</p>
+              </div>
+              <ul className="space-y-4 mb-8 flex-1">
+                <li className="flex items-center gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-green-500" /> Thư viện Prompt cơ bản
+                </li>
+                <li className="flex items-center gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-green-500" /> 5 lượt chạy AI mỗi ngày
+                </li>
+                <li className="flex items-center gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-green-500" /> Bản tin hàng tuần
+                </li>
+              </ul>
+              <button className="w-full py-4 border border-black rounded-xl font-bold hover:bg-black hover:text-white transition-all">
+                Bắt đầu ngay
+              </button>
+            </div>
+
+            {/* Pro Plan */}
+            <div className="p-8 rounded-3xl border-2 border-orange-500 bg-orange-50/30 relative flex flex-col scale-105 shadow-xl shadow-orange-500/10">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-orange-500 text-white text-[10px] font-bold uppercase rounded-full">Phổ biến nhất</div>
+              <div className="mb-8">
+                <h3 className="font-bold text-lg mb-2">Chuyên nghiệp (Pro)</h3>
+                <div className="text-3xl font-black mb-2">199k<span className="text-sm font-normal text-gray-400">/tháng</span></div>
+                <p className="text-sm text-gray-500">Dành cho Freelancer muốn tối ưu thu nhập.</p>
+              </div>
+              <ul className="space-y-4 mb-8 flex-1">
+                <li className="flex items-center gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-orange-500" /> 500+ Prompt độc quyền
+                </li>
+                <li className="flex items-center gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-orange-500" /> Không giới hạn lượt chạy AI
+                </li>
+                <li className="flex items-center gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-orange-500" /> Khóa học "AI Masterclass"
+                </li>
+                <li className="flex items-center gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-orange-500" /> Hỗ trợ 1-1 qua Zalo
+                </li>
+              </ul>
+              <button className="w-full py-4 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20">
+                Nâng cấp Pro
+              </button>
+            </div>
+
+            {/* Enterprise Plan */}
+            <div className="p-8 rounded-3xl border border-gray-100 hover:border-orange-200 transition-all flex flex-col">
+              <div className="mb-8">
+                <h3 className="font-bold text-lg mb-2">Doanh nghiệp (Elite)</h3>
+                <div className="text-3xl font-black mb-2">Liên hệ</div>
+                <p className="text-sm text-gray-500">Giải pháp AI tùy chỉnh cho đội ngũ.</p>
+              </div>
+              <ul className="space-y-4 mb-8 flex-1">
+                <li className="flex items-center gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-blue-500" /> Đào tạo AI cho doanh nghiệp
+                </li>
+                <li className="flex items-center gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-blue-500" /> Tích hợp API riêng
+                </li>
+                <li className="flex items-center gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-blue-500" /> Chiến lược tăng trưởng AI
+                </li>
+              </ul>
+              <button className="w-full py-4 border border-black rounded-xl font-bold hover:bg-black hover:text-white transition-all">
+                Liên hệ tư vấn
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Lead Magnet Section */}
+      <section className="py-24 bg-gray-900 text-white overflow-hidden relative">
+        <div className="absolute top-0 left-0 w-full h-full opacity-20">
+          <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-orange-500 rounded-full blur-[120px]" />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <span className="inline-block px-4 py-1 bg-orange-500/20 text-orange-400 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 border border-orange-500/30">
+                Quà tặng miễn phí
+              </span>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                Tải ngay Ebook <br />
+                <span className="text-orange-500">"10 Cách Kiếm 1000$ Đầu Tiên Với AI"</span>
+              </h2>
+              <p className="text-gray-400 text-lg mb-10 leading-relaxed">
+                Chúng tôi đã tổng hợp những phương pháp thực chiến nhất, không lý thuyết suông. Hơn 10,000 người đã tải và bắt đầu hành trình của mình.
+              </p>
+              <div className="space-y-4 mb-10">
+                {[
+                  "Lộ trình chi tiết từng bước",
+                  "Danh sách 50+ công cụ AI miễn phí",
+                  "Mẫu kịch bản chốt đơn khách hàng quốc tế"
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center text-white">
+                      <CheckCircle2 className="w-3 h-3" />
+                    </div>
+                    <span className="text-gray-300">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative">
+              <div className="bg-white/5 backdrop-blur-xl p-8 md:p-12 rounded-[40px] border border-white/10 shadow-2xl">
+                <h3 className="text-2xl font-bold mb-2 text-center">Nhận Ebook Ngay</h3>
+                <p className="text-gray-400 text-center mb-8 text-sm">Link tải sẽ được gửi trực tiếp vào email của bạn.</p>
+                <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setEmailSubscribed(true); }}>
+                  <input 
+                    type="text" 
+                    placeholder="Họ và tên của bạn" 
+                    required
+                    className="w-full px-6 py-4 bg-white/10 border border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                  />
+                  <input 
+                    type="email" 
+                    placeholder="Địa chỉ Email" 
+                    required
+                    className="w-full px-6 py-4 bg-white/10 border border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                  />
+                  <button className="w-full py-5 bg-orange-500 text-white rounded-2xl font-bold hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2">
+                    {emailSubscribed ? "Đã gửi! Kiểm tra email nhé" : "Tải Ebook Miễn Phí"}
+                  </button>
+                </form>
+                <p className="mt-6 text-[10px] text-gray-500 text-center">
+                  Bằng cách đăng ký, bạn đồng ý với chính sách bảo mật của chúng tôi.
+                </p>
+              </div>
+              {/* Decorative elements */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl -z-10" />
+              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl -z-10" />
+            </div>
+          </div>
         </div>
       </section>
 
