@@ -245,9 +245,43 @@ export default function App() {
     : PROMPTS.filter(p => p.category === activeCategory);
 
   const handleCopy = (text: string, index: number) => {
-    navigator.clipboard.writeText(text);
-    setCopiedIndex(index);
-    setTimeout(() => setCopiedIndex(null), 2000);
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        setCopiedIndex(index);
+        setTimeout(() => setCopiedIndex(null), 2000);
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+        fallbackCopyTextToClipboard(text, index);
+      });
+    } else {
+      fallbackCopyTextToClipboard(text, index);
+    }
+  };
+
+  const fallbackCopyTextToClipboard = (text: string, index: number) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    
+    // Ensure the textarea is not visible
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        setCopiedIndex(index);
+        setTimeout(() => setCopiedIndex(null), 2000);
+      }
+    } catch (err) {
+      console.error('Fallback: Oops, unable to copy', err);
+    }
+
+    document.body.removeChild(textArea);
   };
 
   const openPromptEditor = (prompt: Prompt) => {
@@ -833,9 +867,20 @@ export default function App() {
                       </button>
                       <button 
                         onClick={() => handleCopy(getFinalPrompt(), -1)}
-                        className="px-6 py-4 bg-gray-100 text-gray-700 rounded-2xl font-bold hover:bg-gray-200 transition-all"
+                        className={cn(
+                          "px-6 py-4 rounded-2xl font-bold transition-all flex items-center gap-2",
+                          copiedIndex === -1 
+                            ? "bg-green-500 text-white" 
+                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        )}
                       >
-                        Sao chép
+                        {copiedIndex === -1 ? (
+                          <>
+                            <CheckCircle2 className="w-5 h-5" /> Đã sao chép!
+                          </>
+                        ) : (
+                          'Sao chép'
+                        )}
                       </button>
                     </div>
 
