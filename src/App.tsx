@@ -149,6 +149,20 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    title: '[VIP] Phễu bán hàng tự động (Funnel)', 
+    category: 'Marketing', 
+    description: 'Thiết kế hành trình khách hàng từ nhận biết đến mua hàng.',
+    content: 'Hãy thiết kế một phễu bán hàng 4 giai đoạn cho [Sản phẩm/Dịch vụ]. Giai đoạn 1: Thu hút (Lead Magnet). Giai đoạn 2: Nuôi dưỡng (Email sequence). Giai đoạn 3: Chuyển đổi (Sales page). Giai đoạn 4: Chăm sóc sau bán. Viết tiêu đề và nội dung chính cho từng giai đoạn.',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Tối ưu hóa gian hàng Shopee Pro', 
+    category: 'E-commerce', 
+    description: 'Chiến lược đứng top tìm kiếm và tối ưu tỷ lệ click.',
+    content: 'Bạn là chuyên gia vận hành sàn TMĐT. Hãy tối ưu sản phẩm [Tên sản phẩm]. Viết tiêu đề chứa từ khóa hot, 5 điểm nổi bật (Bullet points) đánh vào tâm lý khách hàng, và bộ 18 hashtag chuẩn SEO Shopee.',
+    isVip: true
+  },
+  { 
     title: 'Email Marketing Bán Hàng', 
     category: 'Marketing', 
     description: 'Viết chuỗi email bán hàng tự động thuyết phục.',
@@ -1062,9 +1076,24 @@ export default function App() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {[
-                  { title: "Bài 1: Tư duy triệu đô với Prompt Engineering", duration: "45:20", status: "Đã hoàn thành" },
-                  { title: "Bài 2: Xây dựng hệ thống Content tự động 100%", duration: "1:12:05", status: "Đang học" },
-                  { title: "Bài 3: Kỹ thuật chốt đơn khách hàng quốc tế", duration: "58:10", status: "Chưa xem" }
+                  { 
+                    title: "Bài 1: Tư duy triệu đô với Prompt Engineering", 
+                    desc: "Học cách giao tiếp với AI như một lập trình viên ngôn ngữ tự nhiên.",
+                    duration: "45:20", 
+                    status: "Đã hoàn thành" 
+                  },
+                  { 
+                    title: "Bài 2: Xây dựng hệ thống Content tự động 100%", 
+                    desc: "Quy trình sử dụng Make.com và ChatGPT để tự động hóa bài viết.",
+                    duration: "1:12:05", 
+                    status: "Đang học" 
+                  },
+                  { 
+                    title: "Bài 3: Kỹ thuật chốt đơn khách hàng quốc tế", 
+                    desc: "Cách tìm kiếm và đàm phán với khách hàng trên Upwork/Fiverr.",
+                    duration: "58:10", 
+                    status: "Chưa xem" 
+                  }
                 ].map((lesson, i) => (
                   <div key={i} className="bg-white/5 border border-white/10 p-6 rounded-3xl hover:bg-white/10 transition-colors cursor-pointer group">
                     <div className="aspect-video bg-gray-800 rounded-2xl mb-4 flex items-center justify-center relative overflow-hidden">
@@ -1073,7 +1102,8 @@ export default function App() {
                       </div>
                       <div className="absolute bottom-3 right-3 px-2 py-1 bg-black/60 text-[10px] rounded">{lesson.duration}</div>
                     </div>
-                    <h4 className="font-bold mb-2">{lesson.title}</h4>
+                    <h4 className="font-bold mb-1">{lesson.title}</h4>
+                    <p className="text-xs text-gray-400 mb-4 line-clamp-2">{lesson.desc}</p>
                     <div className="flex items-center justify-between text-xs text-gray-500">
                       <span>{lesson.status}</span>
                       <ArrowRight className="w-4 h-4" />
@@ -1134,21 +1164,28 @@ export default function App() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Basic Plan */}
-            <div className="p-8 rounded-3xl border border-gray-100 hover:border-orange-200 transition-all flex flex-col">
+            <div className="p-8 rounded-3xl border border-gray-100 hover:border-orange-200 transition-all flex flex-col bg-white">
               <div className="mb-8">
                 <h3 className="font-bold text-lg mb-2">Người mới (Starter)</h3>
                 <div className="text-3xl font-black mb-2">Miễn phí</div>
-                <p className="text-sm text-gray-500">Dành cho ai muốn khám phá tiềm năng của AI.</p>
+                <p className="text-sm text-gray-500">Khám phá sức mạnh AI cơ bản.</p>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
-                <li className="flex items-center gap-3 text-sm text-gray-600">
-                  <CheckCircle2 className="w-4 h-4 text-green-500" /> Thư viện Prompt cơ bản
+                <li className="flex items-start gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> 
+                  <span>Truy cập <strong>50+ Prompt</strong> cộng đồng</span>
                 </li>
-                <li className="flex items-center gap-3 text-sm text-gray-600">
-                  <CheckCircle2 className="w-4 h-4 text-green-500" /> 5 lượt chạy AI mỗi ngày
+                <li className="flex items-start gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> 
+                  <span>Giới hạn <strong>5 lượt chạy AI</strong>/ngày</span>
                 </li>
-                <li className="flex items-center gap-3 text-sm text-gray-600">
-                  <CheckCircle2 className="w-4 h-4 text-green-500" /> Bản tin hàng tuần
+                <li className="flex items-start gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> 
+                  <span>Bản tin xu hướng hàng tuần</span>
+                </li>
+                <li className="flex items-start gap-3 text-sm text-gray-400 italic">
+                  <X className="w-4 h-4 mt-0.5 shrink-0" /> 
+                  <span>Không có Prompt VIP</span>
                 </li>
               </ul>
               <button className="w-full py-4 border border-black rounded-xl font-bold hover:bg-black hover:text-white transition-all">
@@ -1157,53 +1194,116 @@ export default function App() {
             </div>
 
             {/* Pro Plan */}
-            <div className="p-8 rounded-3xl border-2 border-orange-500 bg-orange-50/30 relative flex flex-col scale-105 shadow-xl shadow-orange-500/10">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-orange-500 text-white text-[10px] font-bold uppercase rounded-full">Phổ biến nhất</div>
+            <div className="p-8 rounded-3xl border-2 border-orange-500 bg-orange-50/30 relative flex flex-col md:scale-105 shadow-xl shadow-orange-500/10 z-10">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-orange-500 text-white text-[10px] font-bold uppercase rounded-full">Khuyên dùng</div>
               <div className="mb-8">
                 <h3 className="font-bold text-lg mb-2">Chuyên nghiệp (Pro)</h3>
                 <div className="text-3xl font-black mb-2">199k<span className="text-sm font-normal text-gray-400">/tháng</span></div>
-                <p className="text-sm text-gray-500">Dành cho Freelancer muốn tối ưu thu nhập.</p>
+                <p className="text-sm text-gray-500">Dành cho Freelancer muốn đột phá thu nhập.</p>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
-                <li className="flex items-center gap-3 text-sm text-gray-600">
-                  <CheckCircle2 className="w-4 h-4 text-orange-500" /> 500+ Prompt độc quyền
+                <li className="flex items-start gap-3 text-sm text-gray-700">
+                  <CheckCircle2 className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" /> 
+                  <span>Mở khóa <strong>500+ Prompt VIP</strong> thực chiến</span>
                 </li>
-                <li className="flex items-center gap-3 text-sm text-gray-600">
-                  <CheckCircle2 className="w-4 h-4 text-orange-500" /> Không giới hạn lượt chạy AI
+                <li className="flex items-start gap-3 text-sm text-gray-700">
+                  <CheckCircle2 className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" /> 
+                  <span><strong>Không giới hạn</strong> lượt chạy AI</span>
                 </li>
-                <li className="flex items-center gap-3 text-sm text-gray-600">
-                  <CheckCircle2 className="w-4 h-4 text-orange-500" /> Khóa học "AI Masterclass"
+                <li className="flex items-start gap-3 text-sm text-gray-700">
+                  <CheckCircle2 className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" /> 
+                  <span>Truy cập <strong>AI Masterclass</strong> (Video)</span>
                 </li>
-                <li className="flex items-center gap-3 text-sm text-gray-600">
-                  <CheckCircle2 className="w-4 h-4 text-orange-500" /> Hỗ trợ 1-1 qua Zalo
+                <li className="flex items-start gap-3 text-sm text-gray-700">
+                  <CheckCircle2 className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" /> 
+                  <span>Tham gia <strong>Cộng đồng kín</strong> trên Zalo</span>
+                </li>
+                <li className="flex items-start gap-3 text-sm text-gray-700">
+                  <CheckCircle2 className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" /> 
+                  <span>Cập nhật Prompt mới mỗi ngày</span>
                 </li>
               </ul>
               <button className="w-full py-4 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20">
-                Nâng cấp Pro
+                Nâng cấp Pro ngay
               </button>
             </div>
 
             {/* Enterprise Plan */}
-            <div className="p-8 rounded-3xl border border-gray-100 hover:border-orange-200 transition-all flex flex-col">
+            <div className="p-8 rounded-3xl border border-gray-100 hover:border-orange-200 transition-all flex flex-col bg-white">
               <div className="mb-8">
                 <h3 className="font-bold text-lg mb-2">Doanh nghiệp (Elite)</h3>
                 <div className="text-3xl font-black mb-2">Liên hệ</div>
                 <p className="text-sm text-gray-500">Giải pháp AI tùy chỉnh cho đội ngũ.</p>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
-                <li className="flex items-center gap-3 text-sm text-gray-600">
-                  <CheckCircle2 className="w-4 h-4 text-blue-500" /> Đào tạo AI cho doanh nghiệp
+                <li className="flex items-start gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> 
+                  <span><strong>Xây dựng AI Agent</strong> riêng cho shop</span>
                 </li>
-                <li className="flex items-center gap-3 text-sm text-gray-600">
-                  <CheckCircle2 className="w-4 h-4 text-blue-500" /> Tích hợp API riêng
+                <li className="flex items-start gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> 
+                  <span>Đào tạo <strong>In-house</strong> cho nhân viên</span>
                 </li>
-                <li className="flex items-center gap-3 text-sm text-gray-600">
-                  <CheckCircle2 className="w-4 h-4 text-blue-500" /> Chiến lược tăng trưởng AI
+                <li className="flex items-start gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> 
+                  <span>Tài khoản <strong>Quản trị viên</strong> (Multi-user)</span>
+                </li>
+                <li className="flex items-start gap-3 text-sm text-gray-600">
+                  <CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> 
+                  <span>Hỗ trợ kỹ thuật <strong>24/7</strong> ưu tiên</span>
                 </li>
               </ul>
               <button className="w-full py-4 border border-black rounded-xl font-bold hover:bg-black hover:text-white transition-all">
                 Liên hệ tư vấn
               </button>
+            </div>
+          </div>
+
+          {/* Comparison Table */}
+          <div className="mt-24 overflow-x-auto">
+            <div className="inline-block min-w-full align-middle">
+              <table className="w-full text-left border-collapse min-w-[700px]">
+                <thead>
+                  <tr className="border-b border-gray-100">
+                    <th className="py-6 px-4 text-sm font-bold uppercase tracking-wider text-gray-400">Tính năng</th>
+                    <th className="py-6 px-4 text-center font-bold">Starter</th>
+                    <th className="py-6 px-4 text-center font-bold text-orange-500">Pro</th>
+                    <th className="py-6 px-4 text-center font-bold text-blue-600">Elite</th>
+                  </tr>
+                </thead>
+                <tbody className="text-sm">
+                  <tr className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                    <td className="py-5 px-4 font-medium">Thư viện Prompt</td>
+                    <td className="py-5 px-4 text-center text-gray-500">50+ Cơ bản</td>
+                    <td className="py-5 px-4 text-center font-bold">500+ VIP</td>
+                    <td className="py-5 px-4 text-center">Tùy chỉnh riêng</td>
+                  </tr>
+                  <tr className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                    <td className="py-5 px-4 font-medium">Lượt chạy AI</td>
+                    <td className="py-5 px-4 text-center text-gray-500">5 lượt/ngày</td>
+                    <td className="py-5 px-4 text-center font-bold text-green-600">Không giới hạn</td>
+                    <td className="py-5 px-4 text-center">Ưu tiên băng thông</td>
+                  </tr>
+                  <tr className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                    <td className="py-5 px-4 font-medium">Đào tạo Video</td>
+                    <td className="py-5 px-4 text-center text-gray-500"><X className="w-4 h-4 mx-auto text-gray-300" /></td>
+                    <td className="py-5 px-4 text-center font-bold">Full Masterclass</td>
+                    <td className="py-5 px-4 text-center">Workshop trực tiếp</td>
+                  </tr>
+                  <tr className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                    <td className="py-5 px-4 font-medium">Hỗ trợ kỹ thuật</td>
+                    <td className="py-5 px-4 text-center text-gray-500">Cộng đồng</td>
+                    <td className="py-5 px-4 text-center font-bold">Zalo 1-1</td>
+                    <td className="py-5 px-4 text-center">Quản lý tài khoản riêng</td>
+                  </tr>
+                  <tr className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                    <td className="py-5 px-4 font-medium">Công cụ tự động hóa</td>
+                    <td className="py-5 px-4 text-center text-gray-500"><X className="w-4 h-4 mx-auto text-gray-300" /></td>
+                    <td className="py-5 px-4 text-center font-bold">Mẫu Make/Zapier</td>
+                    <td className="py-5 px-4 text-center">Thiết kế hệ thống riêng</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
