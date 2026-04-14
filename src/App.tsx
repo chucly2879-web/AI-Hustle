@@ -310,6 +310,90 @@ const PROMPTS: Prompt[] = [
     content: 'Bạn là chủ một Agency Content hàng đầu. Hãy thiết kế quy trình vận hành cho Agency của tôi. Quy trình 5 bước chuyên sâu:\n1. Giai đoạn Tìm kiếm khách hàng (Lead Gen): Cách dùng LinkedIn và Cold Email để tìm 10 khách hàng đầu tiên cần dịch vụ nội dung.\n2. Giai đoạn Thiết kế gói dịch vụ (Service Design): Xây dựng các gói bài viết SEO, kịch bản Video, nội dung Fanpage với mức giá cạnh tranh nhờ tối ưu AI.\n3. Giai đoạn Quy trình sản xuất (Production Workflow): Cách dùng ChatGPT, Midjourney và Canva để sản xuất 100 bài viết/tháng chỉ với 1 nhân sự quản lý.\n4. Giai đoạn Kiểm soát chất lượng (QC Process): Checklist 10 điểm để đảm bảo nội dung AI viết ra không bị phát hiện và đạt chất lượng cao nhất.\n5. Giai đoạn Báo cáo & Giữ chân khách hàng (Reporting & Retention): Mẫu báo cáo hiệu quả (KPIs) hàng tháng để khách hàng tiếp tục gia hạn hợp đồng.',
     isVip: true
   },
+  { 
+    title: '[MEGA] Xây dựng kênh YouTube Automation', 
+    category: 'Video', 
+    description: 'Quy trình tạo kênh YouTube kiếm tiền thụ động mà không cần lộ mặt.',
+    content: 'Bạn là chuyên gia YouTube Automation. Hãy lập kế hoạch xây dựng kênh cho ngách [Ngách nội dung]. Quy trình:\n1. Nghiên cứu chủ đề: Tìm 10 chủ đề có CPM cao và lượng tìm kiếm lớn.\n2. Quy trình sản xuất: Cách dùng AI để viết kịch bản, tạo giọng đọc (Text-to-speech) và tìm stock video/hình ảnh.\n3. Tối ưu hóa SEO: Cách viết tiêu đề, mô tả và tag để video ăn đề xuất.\n4. Chiến lược tăng trưởng: Cách dùng Shorts để kéo sub cho kênh chính.\n5. Các phương thức kiếm tiền: Ngoài AdSense, hãy đề xuất 3 cách kiếm tiền khác từ kênh này.',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Kịch bản chốt đơn trên Messenger', 
+    category: 'Sales', 
+    description: 'Quy trình tư vấn khách hàng qua tin nhắn với tỷ lệ chốt đơn >30%.',
+    content: 'Bạn là sát thủ chốt đơn qua tin nhắn. Hãy viết kịch bản tư vấn cho sản phẩm [Sản phẩm]. Quy trình:\n1. Phá băng: Câu hỏi mở đầu để khách hàng tương tác ngay.\n2. Khám phá: 3 câu hỏi để xác định nhu cầu và khả năng chi trả.\n3. Trình bày: Cách giới thiệu sản phẩm tập trung vào giải quyết nỗi đau của khách.\n4. Xử lý từ chối: Kịch bản khi khách nói "Để chị suy nghĩ thêm" hoặc "Hỏi ý kiến chồng".\n5. Chốt hạ: Kỹ thuật tạo sự khan hiếm để khách chuyển khoản ngay.',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Viết bài PR báo chí chuyên nghiệp', 
+    category: 'Content', 
+    description: 'Tạo bài viết PR thu hút, khách quan và dễ được duyệt đăng báo.',
+    content: 'Bạn là chuyên gia PR & Branding. Hãy viết một bài PR cho sự kiện/sản phẩm [Tên]. Quy trình:\n1. Tiêu đề: Theo phong cách báo chí, khách quan nhưng vẫn gây tò mò.\n2. Sa-pô: Tóm tắt nội dung hấp dẫn nhất trong 2-3 câu.\n3. Thân bài: Cấu trúc hình tháp ngược, đưa thông tin quan trọng nhất lên đầu.\n4. Trích dẫn: Viết 2 đoạn trích dẫn từ chuyên gia hoặc khách hàng để tăng độ tin cậy.\n5. Boilerplate: Giới thiệu ngắn gọn về doanh nghiệp ở cuối bài.',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Tối ưu hóa hồ sơ Upwork/Fiverr', 
+    category: 'Sales', 
+    description: 'Cách viết Profile thu hút khách hàng quốc tế và nhận dự án đầu tiên.',
+    content: 'Bạn là Freelancer thành công trên sàn quốc tế. Hãy tối ưu hồ sơ cho tôi trong mảng [Kỹ năng]. Quy trình:\n1. Tiêu đề hồ sơ: Chứa từ khóa ngách và giá trị cốt lõi.\n2. Phần giới thiệu (Overview): Viết theo phong cách giải quyết vấn đề cho khách hàng, không phải kể lể về bản thân.\n3. Danh mục dịch vụ: Đề xuất 3 gói dịch vụ từ cơ bản đến cao cấp.\n4. Mẫu thư chào hàng (Cover Letter): Viết một mẫu thư ngắn gọn, tập trung vào kết quả cho dự án cụ thể.',
+    isVip: true
+  },
+  { 
+    title: '[MEGA] Affiliate Marketing trên Pinterest', 
+    category: 'Marketing', 
+    description: 'Quy trình kéo traffic miễn phí từ Pinterest về link Affiliate.',
+    content: 'Bạn là chuyên gia Pinterest Marketing. Hãy lập kế hoạch cho ngách [Ngách]. Quy trình:\n1. Thiết lập tài khoản Business: Cách tối ưu tên, bio và các bảng (Boards) chuẩn SEO.\n2. Chiến lược hình ảnh: Cách dùng Canva/AI để tạo 10 mẫu Pin thu hút click mỗi ngày.\n3. Tối ưu hóa từ khóa: Cách tìm từ khóa xu hướng trên Pinterest để gắn vào mô tả Pin.\n4. Quy trình đăng bài: Tần suất đăng và cách dùng công cụ tự động hóa.\n5. Chuyển đổi: Cách dẫn dắt khách hàng từ Pin về Landing Page hoặc link mua hàng trực tiếp.',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Sáng tạo 100 ý tưởng nội dung trong 10 phút', 
+    category: 'Content', 
+    description: 'Kỹ thuật Brainstorming thần tốc để không bao giờ bí ý tưởng.',
+    content: 'Bạn là chuyên gia sáng tạo nội dung. Hãy tạo 100 ý tưởng nội dung cho [Chủ đề]. Quy trình:\n1. Phân loại theo 5 nhóm: Giáo dục, Giải trí, Truyền cảm hứng, Bán hàng, Tương tác.\n2. Sử dụng ma trận nội dung: Kết hợp [Chủ đề] với các góc nhìn khác nhau (Người mới, Chuyên gia, Sai lầm thường gặp, Xu hướng tương lai...).\n3. Đề xuất tiêu đề cho 20 ý tưởng tốt nhất.\n4. Gợi ý định dạng phù hợp cho từng nhóm (Video ngắn, Bài viết dài, Infographic).',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Viết kịch bản Livestream bán hàng', 
+    category: 'Sales', 
+    description: 'Cấu trúc kịch bản giữ chân người xem và chốt đơn liên tục trên Live.',
+    content: 'Bạn là bậc thầy Livestream. Hãy viết kịch bản Live cho buổi bán [Sản phẩm]. Quy trình:\n1. Mở đầu (10 phút đầu): Cách kéo người xem vào và tạo không khí sôi động.\n2. Giới thiệu sản phẩm: Cách trình bày tính năng và lợi ích một cách trực quan.\n3. Tạo game/quà tặng: Cách lồng ghép mini-game để tăng tương tác và giữ chân người xem.\n4. Kịch bản chốt đơn: Cách hô hào và tạo sự khan hiếm (Flash sale) để khách comment mua ngay.\n5. Xử lý thắc mắc: Chuẩn bị câu trả lời cho 5 câu hỏi phổ biến nhất trên Live.',
+    isVip: true
+  },
+  { 
+    title: '[MEGA] Xây dựng hệ thống Email Newsletter', 
+    category: 'Marketing', 
+    description: 'Quy trình xây dựng danh sách email và kiếm tiền từ bản tin định kỳ.',
+    content: 'Bạn là chuyên gia Email Marketing. Hãy lập kế hoạch xây dựng Newsletter cho chủ đề [Chủ đề]. Quy trình:\n1. Chọn ngách & Định vị: Tại sao người ta nên đăng ký nhận email của bạn?\n2. Thu thập Lead: Thiết kế Landing Page và quà tặng (Lead Magnet) để thu hút sub.\n3. Cấu trúc nội dung: Dàn ý cho một bản tin hàng tuần (Tin tức, Kiến thức, Tài nguyên, Quảng cáo).\n4. Chiến lược kiếm tiền: Đề xuất 3 cách (Sponsorship, Affiliate, Bán sản phẩm riêng).\n5. Công cụ vận hành: Gợi ý các nền tảng gửi email hiệu quả và chi phí thấp.',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Tối ưu hóa Google Maps (GMB)', 
+    category: 'SEO', 
+    description: 'Cách đưa địa điểm kinh doanh của bạn lên top tìm kiếm địa phương.',
+    content: 'Bạn là chuyên gia Local SEO. Hãy tối ưu Google Business Profile cho [Tên doanh nghiệp]. Quy trình:\n1. Tối ưu thông tin cơ bản: Tên, Danh mục, Mô tả chứa từ khóa địa phương.\n2. Chiến lược hình ảnh: Các loại ảnh cần đăng để tăng uy tín và thu hút khách.\n3. Quản lý đánh giá: Cách xin review 5 sao và phản hồi để tăng thứ hạng.\n4. Đăng bài (Posts): Lịch trình đăng tin tức/ưu đãi trên Maps để giữ tương tác.\n5. Trích dẫn (Citations): Danh sách các trang vàng/thư mục cần đăng ký để đồng bộ thông tin.',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Viết kịch bản Podcast chuyên sâu', 
+    category: 'Video', 
+    description: 'Cấu trúc nội dung Podcast thu hút và có chiều sâu.',
+    content: 'Bạn là nhà sản xuất Podcast chuyên nghiệp. Hãy viết kịch bản cho tập Podcast về [Chủ đề]. Quy trình:\n1. Giới thiệu: Cách mở đầu gây tò mò và giới thiệu khách mời (nếu có).\n2. Dẫn dắt câu chuyện: Chia nội dung thành 3-4 phần chính với các câu hỏi gợi mở.\n3. Điểm nhấn: Thêm các đoạn "Key takeaways" sau mỗi phần.\n4. Kết luận: Tóm tắt thông điệp chính và kêu gọi hành động (Subscribe/Review).\n5. Ghi chú (Show notes): Viết đoạn mô tả chuẩn SEO cho tập Podcast này.',
+    isVip: true
+  },
+  { 
+    title: '[MEGA] Quy trình bán hàng trên Etsy với AI', 
+    category: 'E-commerce', 
+    description: 'Cách tạo và bán sản phẩm kỹ thuật số (Digital Products) trên Etsy.',
+    content: 'Bạn là chuyên gia bán hàng trên Etsy. Hãy lập kế hoạch cho cửa hàng bán [Loại sản phẩm kỹ thuật số]. Quy trình:\n1. Nghiên cứu ngách: Tìm các sản phẩm đang bán chạy nhưng ít cạnh tranh.\n2. Sản xuất sản phẩm: Cách dùng AI (Midjourney, ChatGPT, Canva) để tạo file chất lượng cao.\n3. Tối ưu hóa SEO Etsy: Cách viết tiêu đề và 13 thẻ (Tags) để khách hàng dễ tìm thấy.\n4. Chiến lược hình ảnh: Cách tạo Mockup chuyên nghiệp cho sản phẩm kỹ thuật số.\n5. Chăm sóc khách hàng: Các mẫu tin nhắn tự động để tăng tỷ lệ đánh giá 5 sao.',
+    isVip: true
+  },
+  { 
+    title: '[VIP] Phân tích tâm lý khách hàng qua đánh giá', 
+    category: 'Marketing', 
+    description: 'Dùng AI để đọc vị khách hàng và cải thiện sản phẩm/dịch vụ.',
+    content: 'Bạn là chuyên gia phân tích dữ liệu khách hàng. Hãy phân tích 50 đánh giá sau của đối thủ/sản phẩm [Tên]. Quy trình:\n1. Phân loại cảm xúc: Tỷ lệ hài lòng vs không hài lòng.\n2. Xác định nỗi đau: 3 vấn đề lớn nhất mà khách hàng phàn nàn.\n3. Xác định kỳ vọng: Những tính năng/dịch vụ mà khách hàng mong muốn thêm.\n4. Đề xuất cải tiến: Dựa trên phân tích, hãy đưa ra 5 hành động cụ thể để sản phẩm của tôi vượt trội hơn.',
+    isVip: true
+  },
 ];
 
 const BLOG_POSTS = [
