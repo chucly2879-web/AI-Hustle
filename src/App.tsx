@@ -107,36 +107,43 @@ const SIDE_HUSTLES: SideHustle[] = [
   }
 ];
 
-const PROMPTS = [
+interface Prompt {
+  title: string;
+  category: string;
+  description: string;
+  content: string;
+}
+
+const PROMPTS: Prompt[] = [
   { 
-    title: 'Viết bài SEO', 
+    title: 'Viết bài SEO chuyên sâu', 
     category: 'Content', 
-    description: 'Tạo bài viết 1000 chữ chuẩn SEO về bất kỳ chủ đề nào.',
-    content: 'Bạn là một chuyên gia SEO kỳ cựu. Hãy lập một dàn ý chi tiết cho bài viết blog với tiêu đề: [Nhập tiêu đề]. Yêu cầu bài viết chuẩn SEO, có các thẻ H2, H3 và FAQ.'
+    description: 'Tạo bài viết 1000 chữ chuẩn SEO với dàn ý chi tiết.',
+    content: 'Bạn là một chuyên gia SEO kỳ cựu. Hãy lập một dàn ý chi tiết cho bài viết blog với tiêu đề: [Tiêu đề bài viết]. Yêu cầu bài viết chuẩn SEO, tập trung vào từ khóa [Từ khóa chính], có các thẻ H2, H3 và phần FAQ ở cuối.'
   },
   { 
-    title: 'Mô tả sản phẩm', 
+    title: 'Mô tả sản phẩm thôi miên', 
     category: 'E-commerce', 
-    description: 'Viết mô tả sản phẩm thu hút, tăng tỷ lệ chốt đơn Shopee.',
-    content: 'Bạn là một bậc thầy về Copywriting bán hàng. Hãy viết mô tả sản phẩm cho: [Tên sản phẩm]. Sử dụng công thức AIDA để thôi miên khách hàng.'
+    description: 'Viết mô tả sản phẩm thu hút theo công thức AIDA.',
+    content: 'Bạn là một bậc thầy về Copywriting bán hàng. Hãy viết mô tả sản phẩm cho: [Tên sản phẩm]. Đặc điểm nổi bật gồm: [Các tính năng chính]. Sử dụng công thức AIDA (Attention, Interest, Desire, Action) để thôi miên khách hàng chốt đơn ngay lập tức.'
   },
   { 
-    title: 'Kịch bản TikTok', 
+    title: 'Kịch bản TikTok Viral', 
     category: 'Video', 
-    description: 'Lên kịch bản video ngắn viral trong vòng 30 giây.',
-    content: 'Hãy viết một kịch bản video TikTok dài 45 giây về [Chủ đề]. Bao gồm 3 giây đầu gây sốc, 30 giây giá trị và 10 giây kêu gọi hành động.'
+    description: 'Lên kịch bản video ngắn thu hút trong 3 giây đầu.',
+    content: 'Hãy viết một kịch bản video TikTok dài 45 giây về [Chủ đề video]. Yêu cầu: 3 giây đầu phải có Hook cực mạnh về [Nỗi đau khách hàng], 30 giây tiếp theo chia sẻ 3 mẹo về [Giải pháp], và 10 giây cuối kêu gọi hành động [Lời kêu gọi].'
   },
   { 
-    title: 'Email Marketing', 
+    title: 'Email Marketing Bán Hàng', 
     category: 'Marketing', 
-    description: 'Viết chuỗi email bán hàng tự động cực kỳ thuyết phục.',
-    content: 'Viết một email bán hàng cho sản phẩm [Tên sản phẩm] gửi đến đối tượng [Đối tượng]. Tập trung vào nỗi đau và giải pháp.'
+    description: 'Viết chuỗi email bán hàng tự động thuyết phục.',
+    content: 'Viết một email bán hàng cho sản phẩm [Tên sản phẩm] gửi đến đối tượng [Đối tượng khách hàng]. Tập trung vào việc giải quyết vấn đề [Vấn đề của họ] và đưa ra ưu đãi [Ưu đãi đặc biệt]. Giọng văn thân thiện nhưng chuyên nghiệp.'
   },
   { 
-    title: 'Nghiên cứu từ khóa', 
+    title: 'Nghiên cứu từ khóa ngách', 
     category: 'SEO', 
-    description: 'Tìm kiếm các từ khóa ngách có độ cạnh tranh thấp.',
-    content: 'Tìm cho tôi 20 từ khóa ngách (long-tail keywords) về chủ đề [Chủ đề] có độ cạnh tranh thấp nhưng tỷ lệ chuyển đổi cao.'
+    description: 'Tìm kiếm các từ khóa có độ cạnh tranh thấp.',
+    content: 'Tìm cho tôi 20 từ khóa ngách (long-tail keywords) về chủ đề [Chủ đề chính] có độ cạnh tranh thấp nhưng tỷ lệ chuyển đổi cao. Sắp xếp theo bảng gồm: Từ khóa, Ý định tìm kiếm, và Độ khó ước tính.'
   },
 ];
 
@@ -220,6 +227,10 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState('Tất cả');
   const [showContact, setShowContact] = useState(false);
   const [selectedPost, setSelectedPost] = useState<any>(null);
+  const [editingPrompt, setEditingPrompt] = useState<Prompt | null>(null);
+  const [promptVariables, setPromptVariables] = useState<Record<string, string>>({});
+  const [isPromptRunning, setIsPromptRunning] = useState(false);
+  const [promptResult, setPromptResult] = useState('');
 
   // Auto-scroll to top when post is selected
   React.useEffect(() => {
@@ -237,6 +248,41 @@ export default function App() {
     navigator.clipboard.writeText(text);
     setCopiedIndex(index);
     setTimeout(() => setCopiedIndex(null), 2000);
+  };
+
+  const openPromptEditor = (prompt: Prompt) => {
+    const vars: Record<string, string> = {};
+    const matches = prompt.content.match(/\[(.*?)\]/g) || [];
+    matches.forEach(m => {
+      const varName = m.slice(1, -1);
+      vars[varName] = '';
+    });
+    setEditingPrompt(prompt);
+    setPromptVariables(vars);
+    setPromptResult('');
+  };
+
+  const getFinalPrompt = () => {
+    if (!editingPrompt) return '';
+    let final = editingPrompt.content;
+    Object.entries(promptVariables).forEach(([key, value]) => {
+      final = final.replace(`[${key}]`, value || `[${key}]`);
+    });
+    return final;
+  };
+
+  const runPromptWithAI = async () => {
+    if (!editingPrompt) return;
+    setIsPromptRunning(true);
+    try {
+      const result = await generateSideHustleIdea(getFinalPrompt());
+      setPromptResult(result);
+    } catch (error) {
+      console.error(error);
+      setPromptResult('Có lỗi xảy ra khi chạy AI. Vui lòng thử lại.');
+    } finally {
+      setIsPromptRunning(false);
+    }
   };
 
   const handleGenerate = async (e: React.FormEvent) => {
@@ -667,9 +713,9 @@ export default function App() {
               <motion.div 
                 layout
                 key={prompt.title} 
-                className="bg-white p-6 rounded-2xl border border-gray-100 flex items-start gap-4 hover:shadow-md transition-shadow"
+                className="bg-white p-6 rounded-2xl border border-gray-100 flex items-start gap-4 hover:shadow-md transition-shadow group"
               >
-                <div className="p-3 bg-orange-50 rounded-xl text-orange-500">
+                <div className="p-3 bg-orange-50 rounded-xl text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-colors">
                   <Terminal className="w-5 h-5" />
                 </div>
                 <div className="flex-1">
@@ -678,24 +724,140 @@ export default function App() {
                     <span className="text-[10px] font-bold uppercase px-2 py-1 bg-gray-100 rounded text-gray-500">{prompt.category}</span>
                   </div>
                   <p className="text-sm text-gray-500 mb-4">{prompt.description}</p>
-                  <button 
-                    onClick={() => handleCopy(prompt.content, idx)}
-                    className="text-xs font-bold text-orange-500 hover:underline flex items-center gap-1"
-                  >
-                    {copiedIndex === idx ? (
-                      <>
-                        <CheckCircle2 className="w-3 h-3" /> Đã sao chép!
-                      </>
-                    ) : (
-                      'Sao chép câu lệnh'
-                    )}
-                  </button>
+                  <div className="flex items-center gap-3">
+                    <button 
+                      onClick={() => openPromptEditor(prompt)}
+                      className="text-xs font-bold bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors flex items-center gap-2"
+                    >
+                      <PenTool className="w-3 h-3" /> Tùy chỉnh & Chạy
+                    </button>
+                    <button 
+                      onClick={() => handleCopy(prompt.content, idx)}
+                      className="text-xs font-bold text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"
+                    >
+                      {copiedIndex === idx ? (
+                        <>
+                          <CheckCircle2 className="w-3 h-3" /> Đã sao chép!
+                        </>
+                      ) : (
+                        'Sao chép nhanh'
+                      )}
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Prompt Editor Modal */}
+      <AnimatePresence>
+        {editingPrompt && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white w-full max-w-4xl max-h-[90vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+            >
+              <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white">
+                    <Sparkles className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg">{editingPrompt.title}</h3>
+                    <p className="text-xs text-gray-400">Tùy chỉnh biến để tạo câu lệnh hoàn hảo</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setEditingPrompt(null)}
+                  className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-6 md:p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Left: Inputs */}
+                  <div className="space-y-6">
+                    <div className="space-y-4">
+                      <h4 className="font-bold text-sm uppercase tracking-wider text-gray-400">Nhập thông tin</h4>
+                      {Object.keys(promptVariables).map(varName => (
+                        <div key={varName} className="space-y-1.5">
+                          <label className="text-sm font-medium text-gray-700">{varName}</label>
+                          <input 
+                            type="text"
+                            value={promptVariables[varName]}
+                            onChange={(e) => setPromptVariables(prev => ({ ...prev, [varName]: e.target.value }))}
+                            placeholder={`Nhập ${varName.toLowerCase()}...`}
+                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="p-5 bg-orange-50 rounded-2xl border border-orange-100">
+                      <h4 className="font-bold text-orange-800 text-sm mb-2">Mẹo nhỏ:</h4>
+                      <p className="text-xs text-orange-700 leading-relaxed">
+                        Càng cung cấp thông tin chi tiết, AI sẽ trả về kết quả càng chất lượng. Hãy thử mô tả kỹ hơn về đối tượng khách hàng hoặc phong cách viết bạn muốn.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Right: Preview & Result */}
+                  <div className="space-y-6">
+                    <div className="space-y-4">
+                      <h4 className="font-bold text-sm uppercase tracking-wider text-gray-400">Xem trước câu lệnh</h4>
+                      <div className="p-5 bg-gray-900 rounded-2xl text-gray-300 text-sm font-mono leading-relaxed relative group">
+                        <div className="whitespace-pre-wrap">{getFinalPrompt()}</div>
+                        <button 
+                          onClick={() => handleCopy(getFinalPrompt(), -1)}
+                          className="absolute top-3 right-3 p-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                        >
+                          <Share2 className="w-4 h-4 text-white" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3">
+                      <button 
+                        onClick={runPromptWithAI}
+                        disabled={isPromptRunning}
+                        className="flex-1 py-4 bg-orange-500 text-white rounded-2xl font-bold hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 disabled:opacity-50"
+                      >
+                        {isPromptRunning ? <Loader2 className="w-5 h-5 animate-spin" /> : <Zap className="w-5 h-5" />}
+                        Chạy thử với AI
+                      </button>
+                      <button 
+                        onClick={() => handleCopy(getFinalPrompt(), -1)}
+                        className="px-6 py-4 bg-gray-100 text-gray-700 rounded-2xl font-bold hover:bg-gray-200 transition-all"
+                      >
+                        Sao chép
+                      </button>
+                    </div>
+
+                    {promptResult && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="space-y-4"
+                      >
+                        <h4 className="font-bold text-sm uppercase tracking-wider text-gray-400">Kết quả mẫu từ AI</h4>
+                        <div className="p-6 bg-white border border-gray-100 rounded-2xl shadow-inner max-h-60 overflow-y-auto prose prose-sm prose-orange">
+                          <ReactMarkdown>{promptResult}</ReactMarkdown>
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* AI Idea Generator Section */}
       <section id="generator" className="py-24 bg-black text-white overflow-hidden relative">
