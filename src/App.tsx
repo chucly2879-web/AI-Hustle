@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Sparkles, 
   PenTool, 
@@ -27,12 +27,18 @@ import {
   List,
   FileText,
   Download,
-  Eye
+  Eye,
+  Users,
+  Calendar,
+  Mail
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import { cn } from './lib/utils';
 import { generateSideHustleIdea, runCustomPrompt } from './services/gemini';
+import { db, auth } from './firebase';
+import { collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, getDocFromServer, doc } from 'firebase/firestore';
+import { signInWithPopup, GoogleAuthProvider, onAuthStateChanged, User } from 'firebase/auth';
 
 interface SideHustle {
   id: string;
@@ -489,6 +495,77 @@ export default function App() {
   const [activeLesson, setActiveLesson] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 8;
+  
+  // Firebase State
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [subscribers, setSubscribers] = useState<any[]>([]);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [isSubmittingEbook, setIsSubmittingEbook] = useState(false);
+  const [ebookFormData, setEbookFormData] = useState({ fullName: '', email: '' });
+
+  // Auth Listener
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Test Connection
+  useEffect(() => {
+    async function testConnection() {
+      try {
+        await getDocFromServer(doc(db, 'test', 'connection'));
+      } catch (error) {
+        if(error instanceof Error && error.message.includes('the client is offline')) {
+          console.error("Please check your Firebase configuration.");
+        }
+      }
+    }
+    testConnection();
+  }, []);
+
+  // Fetch Subscribers (Admin only)
+  useEffect(() => {
+    if (currentUser?.email === 'chucly2879@gmail.com') {
+      const q = query(collection(db, 'subscribers'), orderBy('createdAt', 'desc'));
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setSubscribers(data);
+      }, (error) => {
+        console.error("Error fetching subscribers:", error);
+      });
+      return () => unsubscribe();
+    }
+  }, [currentUser]);
+
+  const handleGoogleLogin = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
+  };
+
+  const handleEbookSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmittingEbook(true);
+    try {
+      await addDoc(collection(db, 'subscribers'), {
+        fullName: ebookFormData.fullName,
+        email: ebookFormData.email,
+        createdAt: serverTimestamp()
+      });
+      setEmailSubscribed(true);
+      setEbookFormData({ fullName: '', email: '' });
+    } catch (error) {
+      console.error("Error subscribing:", error);
+      alert("Có lỗi xảy ra, vui lòng thử lại sau.");
+    } finally {
+      setIsSubmittingEbook(false);
+    }
+  };
 
   // Auto-scroll to top when post is selected
   React.useEffect(() => {
@@ -1584,7 +1661,95 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Upgrade Modal */}
+      {/* Admin Toggle (Visible only to owner) */}
+      {currentUser?.email === 'chucly2879@gmail.com' && (
+        <div className="fixed bottom-8 left-8 z-[100]">
+          <button 
+            onClick={() => setShowAdminPanel(!showAdminPanel)}
+            className="p-4 bg-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center gap-2"
+          >
+            <Users className="w-6 h-6" />
+            <span className="text-xs font-bold">Quản lý Lead ({subscribers.length})</span>
+          </button>
+        </div>
+      )}
+
+      {/* Admin Panel Modal */}
+      <AnimatePresence>
+        {showAdminPanel && (
+          <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="bg-white w-full max-w-4xl max-h-[80vh] rounded-[40px] overflow-hidden flex flex-col"
+            >
+              <div className="p-8 border-b border-gray-100 flex items-center justify-between">
+                <div>
+                  <h3 className="text-2xl font-bold">Danh sách đăng ký Ebook</h3>
+                  <p className="text-sm text-gray-500">Tổng cộng: {subscribers.length} người</p>
+                </div>
+                <button onClick={() => setShowAdminPanel(false)} className="p-2 hover:bg-gray-100 rounded-full">
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-8">
+                <table className="w-full text-left">
+                  <thead>
+                    <tr className="text-xs font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100">
+                      <th className="pb-4 px-4">Ngày đăng ký</th>
+                      <th className="pb-4 px-4">Họ và tên</th>
+                      <th className="pb-4 px-4">Email</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-sm">
+                    {subscribers.map((sub) => (
+                      <tr key={sub.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                        <td className="py-4 px-4 flex items-center gap-2 text-gray-500">
+                          <Calendar className="w-4 h-4" />
+                          {sub.createdAt?.toDate().toLocaleDateString('vi-VN')}
+                        </td>
+                        <td className="py-4 px-4 font-bold">{sub.fullName}</td>
+                        <td className="py-4 px-4 text-orange-500 flex items-center gap-2">
+                          <Mail className="w-4 h-4" />
+                          {sub.email}
+                        </td>
+                      </tr>
+                    ))}
+                    {subscribers.length === 0 && (
+                      <tr>
+                        <td colSpan={3} className="py-20 text-center text-gray-400">Chưa có ai đăng ký.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <div className="p-6 bg-gray-50 border-t border-gray-100 flex justify-end">
+                <button 
+                  onClick={() => {
+                    const csv = [
+                      ['Ngày', 'Họ tên', 'Email'],
+                      ...subscribers.map(s => [s.createdAt?.toDate().toLocaleDateString(), s.fullName, s.email])
+                    ].map(e => e.join(",")).join("\n");
+                    const blob = new Blob([csv], { type: 'text/csv' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.setAttribute('hidden', '');
+                    a.setAttribute('href', url);
+                    a.setAttribute('download', 'subscribers.csv');
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                  }}
+                  className="px-6 py-3 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-all flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4" /> Xuất file CSV
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
       <AnimatePresence>
         {showUpgradeModal && (
           <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
@@ -1851,20 +2016,28 @@ export default function App() {
               <div className="bg-white/5 backdrop-blur-xl p-8 md:p-12 rounded-[40px] border border-white/10 shadow-2xl">
                 <h3 className="text-2xl font-bold mb-2 text-center">Nhận Ebook Ngay</h3>
                 <p className="text-gray-400 text-center mb-8 text-sm">Link tải sẽ được gửi trực tiếp vào email của bạn.</p>
-                <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setEmailSubscribed(true); }}>
+                <form className="space-y-4" onSubmit={handleEbookSubmit}>
                   <input 
                     type="text" 
                     placeholder="Họ và tên của bạn" 
                     required
+                    value={ebookFormData.fullName}
+                    onChange={(e) => setEbookFormData(prev => ({ ...prev, fullName: e.target.value }))}
                     className="w-full px-6 py-4 bg-white/10 border border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
                   />
                   <input 
                     type="email" 
                     placeholder="Địa chỉ Email" 
                     required
+                    value={ebookFormData.email}
+                    onChange={(e) => setEbookFormData(prev => ({ ...prev, email: e.target.value }))}
                     className="w-full px-6 py-4 bg-white/10 border border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
                   />
-                  <button className="w-full py-5 bg-orange-500 text-white rounded-2xl font-bold hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2">
+                  <button 
+                    disabled={isSubmittingEbook || emailSubscribed}
+                    className="w-full py-5 bg-orange-500 text-white rounded-2xl font-bold hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    {isSubmittingEbook ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
                     {emailSubscribed ? "Đã gửi! Kiểm tra email nhé" : "Tải Ebook Miễn Phí"}
                   </button>
                 </form>

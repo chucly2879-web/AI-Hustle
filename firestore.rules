@@ -1,0 +1,47 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: subscribers
+    // Document ID: auto-generated
+    // Fields:
+    //   - fullName: string (required, 2-100 chars)
+    //   - email: string (required, valid email format)
+    //   - createdAt: timestamp (required)
+    //
+    // ===============================================================
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidSubscriber(data) {
+      return data.keys().hasAll(['fullName', 'email', 'createdAt']) &&
+             data.keys().hasOnly(['fullName', 'email', 'createdAt']) &&
+             data.fullName is string && data.fullName.size() >= 2 && data.fullName.size() <= 100 &&
+             isValidEmail(data.email) &&
+             data.createdAt is timestamp;
+    }
+
+    match /subscribers/{subscriberId} {
+      // Anyone can subscribe (create a document)
+      allow create: if isValidSubscriber(request.resource.data);
+      
+      // Only authenticated admins can read/list subscribers
+      // For this demo, we'll allow the owner email to read
+      allow read, list: if isAuthenticated() && 
+        (request.auth.token.email == "chucly2879@gmail.com" && request.auth.token.email_verified == true);
+      
+      // No updates or deletes allowed for now to keep data integrity
+      allow update, delete: if false;
+    }
+  }
+}
