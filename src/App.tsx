@@ -26,7 +26,8 @@ import {
   Linkedin,
   List,
   FileText,
-  Download
+  Download,
+  Eye
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
@@ -1262,7 +1263,11 @@ export default function App() {
                       desc: "Học cách giao tiếp với AI như một lập trình viên ngôn ngữ tự nhiên.",
                       duration: "45:20", 
                       status: "Đã hoàn thành",
-                      videoUrl: "https://www.youtube.com/embed/jC4v5AS4RIM"
+                      videoUrl: "https://www.youtube.com/embed/jC4v5AS4RIM",
+                      files: [
+                        { name: "Slide bài giảng.pdf", size: "2.4 MB", url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" },
+                        { name: "Checklist thực chiến.xlsx", size: "1.1 MB", url: "https://go.microsoft.com/fwlink/?LinkID=521962" }
+                      ]
                     },
                     { 
                       id: 2,
@@ -1270,7 +1275,11 @@ export default function App() {
                       desc: "Quy trình sử dụng Make.com và ChatGPT để tự động hóa bài viết.",
                       duration: "1:12:05", 
                       status: "Đang học",
-                      videoUrl: "https://www.youtube.com/embed/L_Guz73e6ew"
+                      videoUrl: "https://www.youtube.com/embed/L_Guz73e6ew",
+                      files: [
+                        { name: "Quy trình Make.com.pdf", size: "3.1 MB", url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" },
+                        { name: "Mẫu Prompt Content.docx", size: "0.8 MB", url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" }
+                      ]
                     },
                     { 
                       id: 3,
@@ -1278,7 +1287,10 @@ export default function App() {
                       desc: "Cách tìm kiếm và đàm phán với khách hàng trên Upwork/Fiverr.",
                       duration: "58:10", 
                       status: "Chưa xem",
-                      videoUrl: "https://www.youtube.com/embed/m6_7v7v7v7v"
+                      videoUrl: "https://www.youtube.com/embed/m6_7v7v7v7v",
+                      files: [
+                        { name: "Kịch bản đàm phán.pdf", size: "1.5 MB", url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" }
+                      ]
                     },
                     { 
                       id: 4,
@@ -1286,7 +1298,10 @@ export default function App() {
                       desc: "Xây dựng trợ lý ảo trả lời khách hàng 24/7 trên đa kênh.",
                       duration: "42:15", 
                       status: "Chưa xem",
-                      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+                      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+                      files: [
+                        { name: "Sơ đồ hệ thống CSKH.pdf", size: "2.2 MB", url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" }
+                      ]
                     }
                   ].map((lesson) => (
                     <button 
@@ -1356,18 +1371,62 @@ export default function App() {
                           <FileText className="w-5 h-5 text-orange-500" /> Tài liệu đính kèm
                         </h3>
                         <div className="space-y-3">
-                          <button className="w-full flex items-center justify-between p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors text-sm">
-                            <span className="flex items-center gap-2">
-                              <Download className="w-4 h-4 text-gray-400" /> Slide bài giảng.pdf
-                            </span>
-                            <span className="text-[10px] text-gray-500">2.4 MB</span>
-                          </button>
-                          <button className="w-full flex items-center justify-between p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors text-sm">
-                            <span className="flex items-center gap-2">
-                              <Download className="w-4 h-4 text-gray-400" /> Checklist thực chiến.xlsx
-                            </span>
-                            <span className="text-[10px] text-gray-500">1.1 MB</span>
-                          </button>
+                          {[
+                            { 
+                              id: 1,
+                              files: [
+                                { name: "Slide bài giảng.pdf", size: "2.4 MB", url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" },
+                                { name: "Checklist thực chiến.xlsx", size: "1.1 MB", url: "https://go.microsoft.com/fwlink/?LinkID=521962" }
+                              ]
+                            },
+                            { 
+                              id: 2,
+                              files: [
+                                { name: "Quy trình Make.com.pdf", size: "3.1 MB", url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" },
+                                { name: "Mẫu Prompt Content.docx", size: "0.8 MB", url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" }
+                              ]
+                            },
+                            { 
+                              id: 3,
+                              files: [
+                                { name: "Kịch bản đàm phán.pdf", size: "1.5 MB", url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" }
+                              ]
+                            },
+                            { 
+                              id: 4,
+                              files: [
+                                { name: "Sơ đồ hệ thống CSKH.pdf", size: "2.2 MB", url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" }
+                              ]
+                            }
+                          ].find(l => l.id === activeLesson)?.files.map((file, fIdx) => (
+                            <div key={fIdx} className="w-full flex items-center justify-between p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors text-sm group/file">
+                              <span className="flex items-center gap-2">
+                                <FileText className="w-4 h-4 text-gray-400" /> {file.name}
+                              </span>
+                              <div className="flex items-center gap-3">
+                                <span className="text-[10px] text-gray-500">{file.size}</span>
+                                <div className="flex items-center gap-2">
+                                  <a 
+                                    href={file.url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="p-1.5 hover:bg-white/10 rounded-lg text-orange-500 transition-colors"
+                                    title="Xem file"
+                                  >
+                                    <Eye className="w-4 h-4" />
+                                  </a>
+                                  <a 
+                                    href={file.url} 
+                                    download={file.name}
+                                    className="p-1.5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors"
+                                    title="Tải xuống"
+                                  >
+                                    <Download className="w-4 h-4" />
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
 
