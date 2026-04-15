@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   signInWithPopup, 
   GoogleAuthProvider, 
@@ -41,6 +41,22 @@ export default function AuthPage({ isAdmin = false }: AuthPageProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  useEffect(() => {
+    document.title = isAdmin ? "Đăng nhập Quản trị | AI Hustle" : (isLogin ? "Đăng nhập | AI Hustle" : "Đăng ký | AI Hustle");
+  }, [isAdmin, isLogin]);
+
+  const getErrorMessage = (error: any) => {
+    const code = error?.code || '';
+    if (code === 'auth/operation-not-allowed') {
+      return 'Tính năng đăng nhập này chưa được bật trong Firebase Console. Vui lòng bật "Email/Password" trong mục Authentication.';
+    }
+    if (code === 'auth/email-already-in-use') return 'Email này đã được sử dụng.';
+    if (code === 'auth/invalid-email') return 'Email không hợp lệ.';
+    if (code === 'auth/weak-password') return 'Mật khẩu quá yếu.';
+    if (code === 'auth/user-not-found' || code === 'auth/wrong-password') return 'Email hoặc mật khẩu không chính xác.';
+    return error?.message || 'Đã có lỗi xảy ra. Vui lòng thử lại.';
+  };
+
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     setError(null);
@@ -49,7 +65,7 @@ export default function AuthPage({ isAdmin = false }: AuthPageProps) {
       await signInWithPopup(auth, provider);
       navigate('/');
     } catch (err: any) {
-      setError(err.message || 'Lỗi đăng nhập Google');
+      setError(getErrorMessage(err));
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +79,7 @@ export default function AuthPage({ isAdmin = false }: AuthPageProps) {
       await signInWithPopup(auth, provider);
       navigate('/');
     } catch (err: any) {
-      setError(err.message || 'Lỗi đăng nhập Facebook');
+      setError(getErrorMessage(err));
     } finally {
       setIsLoading(false);
     }
@@ -77,13 +93,7 @@ export default function AuthPage({ isAdmin = false }: AuthPageProps) {
     try {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, email, password);
-        if (isAdmin) {
-          // Additional check for admin email could go here
-          // For now, we rely on the email check in App.tsx
-          navigate('/');
-        } else {
-          navigate('/');
-        }
+        navigate('/');
       } else {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(userCredential.user, { displayName: fullName });
@@ -91,7 +101,7 @@ export default function AuthPage({ isAdmin = false }: AuthPageProps) {
         setTimeout(() => navigate('/'), 2000);
       }
     } catch (err: any) {
-      setError(err.message || 'Có lỗi xảy ra');
+      setError(getErrorMessage(err));
     } finally {
       setIsLoading(false);
     }

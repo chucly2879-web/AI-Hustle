@@ -2542,7 +2542,7 @@ export default function App() {
             </p>
             <div className="flex items-center justify-center gap-6 text-xs text-gray-400">
               <button 
-                onClick={() => navigate('/dang-nhap/admin')}
+                onClick={() => navigate('/dang-nhap-admin')}
                 className="hover:text-orange-500 flex items-center gap-1 transition-colors"
               >
                 <ShieldCheck className="w-3 h-3" />
@@ -2618,7 +2618,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/dang-nhap" element={<AuthPage />} />
-      <Route path="/dang-nhap/admin" element={<AuthPage isAdmin={true} />} />
+      <Route path="/dang-nhap-admin" element={<AuthPage isAdmin={true} />} />
       <Route path="/*" element={content} />
     </Routes>
   );
