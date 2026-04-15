@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Lock, AlertCircle, ArrowRight, Mail, Loader2, CheckCircle, ChevronLeft } from 'lucide-react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { Shield, Lock, AlertCircle, ArrowRight, Mail, Loader2, CheckCircle, ChevronLeft, Chrome } from 'lucide-react';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
@@ -17,6 +17,25 @@ const AdminLoginPage: React.FC = () => {
     document.title = "Quản Trị Viên | AI Hustle";
   }, []);
 
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      if (result.user.email === 'admin@ai-hustle-phi.vercel.app' || result.user.email === 'chucly2879@gmail.com') {
+        setSuccess('Đăng nhập Admin thành công!');
+        setTimeout(() => navigate('/admin/dashboard'), 1500);
+      } else {
+        setError('Tài khoản Google này không có quyền quản trị');
+      }
+    } catch (err: any) {
+      setError(err.message || 'Lỗi đăng nhập Google');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -30,18 +49,14 @@ const AdminLoginPage: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // Sign in with Firebase
       await signInWithEmailAndPassword(auth, email, password);
-      
-      // Check if user is admin (this check is also in App.tsx)
-      if (email === 'chucly2879@gmail.com') {
+      if (email === 'admin@ai-hustle-phi.vercel.app' || email === 'chucly2879@gmail.com') {
         setSuccess('Đăng nhập thành công! Đang chuyển hướng...');
         setTimeout(() => navigate('/admin/dashboard'), 1500);
       } else {
         setError('Tài khoản này không có quyền truy cập trang quản trị');
       }
     } catch (err: any) {
-      console.error("Admin Login Error:", err);
       if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
         setError('Email hoặc mật khẩu không chính xác');
       } else if (err.code === 'auth/operation-not-allowed') {
@@ -81,6 +96,25 @@ const AdminLoginPage: React.FC = () => {
 
         {/* Form */}
         <div className="p-10">
+          {/* Google Login Button */}
+          <button 
+            onClick={handleGoogleLogin}
+            disabled={isLoading}
+            className="w-full mb-6 py-4 bg-white text-slate-900 rounded-2xl font-bold hover:bg-slate-50 transition-all shadow-lg flex items-center justify-center gap-3 border border-slate-200 active:scale-[0.98] disabled:opacity-50"
+          >
+            <Chrome className="w-5 h-5 text-red-500" />
+            <span>Tiếp tục với Google</span>
+          </button>
+
+          <div className="relative mb-8">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-slate-700/50"></div>
+            </div>
+            <div className="relative flex justify-center text-[10px] uppercase tracking-widest">
+              <span className="bg-slate-800 px-4 text-slate-500 font-bold">Hoặc dùng Email Admin</span>
+            </div>
+          </div>
+
           {error && (
             <motion.div 
               initial={{ opacity: 0, x: -10 }}
@@ -111,7 +145,10 @@ const AdminLoginPage: React.FC = () => {
                 <input 
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (error) setError(null);
+                  }}
                   className="w-full pl-12 pr-4 py-4 bg-slate-900/50 border border-slate-700 rounded-2xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="admin@example.com"
                   disabled={isLoading}
@@ -135,7 +172,10 @@ const AdminLoginPage: React.FC = () => {
                 <input 
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (error) setError(null);
+                  }}
                   className="w-full pl-12 pr-4 py-4 bg-slate-900/50 border border-slate-700 rounded-2xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="••••••••"
                   disabled={isLoading}
