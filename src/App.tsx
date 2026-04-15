@@ -43,6 +43,8 @@ import { generateSideHustleIdea, runCustomPrompt } from './services/gemini';
 import { db, auth } from './firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, getDocFromServer, doc } from 'firebase/firestore';
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, onAuthStateChanged, User, signOut } from 'firebase/auth';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import AuthPage from './pages/AuthPage';
 
 interface SideHustle {
   id: string;
@@ -535,6 +537,8 @@ export default function App() {
   const [userRole, setUserRole] = useState<'free' | 'pro'>('free');
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [activeLesson, setActiveLesson] = useState<number | null>(null);
@@ -545,7 +549,6 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [subscribers, setSubscribers] = useState<any[]>([]);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const [isSubmittingEbook, setIsSubmittingEbook] = useState(false);
   const [ebookFormData, setEbookFormData] = useState({ fullName: '', email: '' });
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -554,6 +557,7 @@ export default function App() {
   const [quizStep, setQuizStep] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [showQuizResult, setShowQuizResult] = useState(false);
+  const [expandedPromptId, setExpandedPromptId] = useState<string | null>(null);
 
   const toggleFavorite = (id: string) => {
     setFavorites(prev => 
@@ -619,27 +623,6 @@ export default function App() {
     }
   }, [currentUser]);
 
-  const handleGoogleLogin = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      setShowLoginModal(false);
-    } catch (error) {
-      console.error("Google Login failed:", error);
-    }
-  };
-
-  const handleFacebookLogin = async () => {
-    try {
-      const provider = new FacebookAuthProvider();
-      await signInWithPopup(auth, provider);
-      setShowLoginModal(false);
-    } catch (error) {
-      console.error("Facebook Login failed:", error);
-      alert("Đăng nhập Facebook thất bại. Vui lòng đảm bảo bạn đã cấu hình Facebook Login trong Firebase Console.");
-    }
-  };
-
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -688,10 +671,16 @@ export default function App() {
     currentPage * ITEMS_PER_PAGE
   );
 
-  // Reset page when category changes
+  // Reset page and expansion when category changes
   React.useEffect(() => {
     setCurrentPage(1);
+    setExpandedPromptId(null);
   }, [activeCategory]);
+
+  // Reset expansion when page changes
+  React.useEffect(() => {
+    setExpandedPromptId(null);
+  }, [currentPage]);
 
   const handleCopy = (text: string, index: number) => {
     if (navigator.clipboard && window.isSecureContext) {
@@ -782,8 +771,7 @@ export default function App() {
     setIsLoading(false);
   };
 
-  if (selectedPost) {
-    return (
+  const content = selectedPost ? (
       <div className="min-h-screen bg-white font-sans text-gray-900">
         {/* Reading Progress Bar */}
         <div className="fixed top-0 left-0 w-full h-1 z-[100] bg-gray-100">
@@ -961,10 +949,7 @@ export default function App() {
           </div>
         </footer>
       </div>
-    );
-  }
-
-  return (
+    ) : (
     <div className="min-h-screen bg-[#FAFAFA] text-[#1A1A1A] font-sans selection:bg-orange-100">
       {/* Success Toast */}
       <AnimatePresence>
@@ -1031,7 +1016,7 @@ export default function App() {
               </div>
             ) : (
               <button 
-                onClick={() => setShowLoginModal(true)}
+                onClick={() => navigate('/dang-nhap')}
                 className="flex items-center gap-2 px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-all font-bold"
               >
                 <LogIn className="w-4 h-4" />
@@ -1445,55 +1430,90 @@ export default function App() {
             {paginatedPrompts.map((prompt, idx) => (
               <motion.div 
                 layout
-                key={prompt.title} 
-                className="bg-white p-6 rounded-2xl border border-gray-100 flex items-start gap-4 hover:shadow-md transition-shadow group"
+                key={prompt.id} 
+                onClick={() => setExpandedPromptId(expandedPromptId === prompt.id ? null : prompt.id)}
+                className={cn(
+                  "bg-white p-6 rounded-2xl border transition-all group cursor-pointer",
+                  expandedPromptId === prompt.id ? "border-orange-500 shadow-xl ring-1 ring-orange-500/20" : "border-gray-100 hover:shadow-md"
+                )}
               >
-                <div className="p-3 bg-orange-50 rounded-xl text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-colors">
-                  <Terminal className="w-5 h-5" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <h4 className="font-bold">{prompt.title}</h4>
-                      {prompt.isVip && (
-                        <span className="flex items-center gap-1 px-1.5 py-0.5 bg-orange-500 text-white text-[8px] font-black uppercase rounded">
-                          <Star className="w-2 h-2 fill-current" /> VIP
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); toggleFavorite(prompt.id); }}
-                        className={cn(
-                          "p-1.5 rounded-full transition-all",
-                          favorites.includes(prompt.id) ? "bg-orange-500 text-white" : "text-gray-300 hover:text-orange-500"
-                        )}
-                      >
-                        <Star className={cn("w-3 h-3", favorites.includes(prompt.id) && "fill-current")} />
-                      </button>
-                      <span className="text-[10px] font-bold uppercase px-2 py-1 bg-gray-100 rounded text-gray-500">{prompt.category}</span>
-                    </div>
+                <div className="flex items-start gap-4">
+                  <div className={cn(
+                    "p-3 rounded-xl transition-colors",
+                    expandedPromptId === prompt.id ? "bg-orange-500 text-white" : "bg-orange-50 text-orange-500 group-hover:bg-orange-500 group-hover:text-white"
+                  )}>
+                    <Terminal className="w-5 h-5" />
                   </div>
-                  <p className="text-sm text-gray-500 mb-4">{prompt.description}</p>
-                  <div className="flex items-center gap-3">
-                    <button 
-                      onClick={() => openPromptEditor(prompt)}
-                      className="text-xs font-bold bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors flex items-center gap-2"
-                    >
-                      <PenTool className="w-3 h-3" /> Tùy chỉnh & Chạy
-                    </button>
-                    <button 
-                      onClick={() => handleCopy(prompt.content, idx)}
-                      className="text-xs font-bold text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"
-                    >
-                      {copiedIndex === idx ? (
-                        <>
-                          <CheckCircle2 className="w-3 h-3" /> Đã sao chép!
-                        </>
-                      ) : (
-                        'Sao chép nhanh'
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-bold">{prompt.title}</h4>
+                        {prompt.isVip && (
+                          <span className="flex items-center gap-1 px-1.5 py-0.5 bg-orange-500 text-white text-[8px] font-black uppercase rounded">
+                            <Star className="w-2 h-2 fill-current" /> VIP
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); toggleFavorite(prompt.id); }}
+                          className={cn(
+                            "p-1.5 rounded-full transition-all",
+                            favorites.includes(prompt.id) ? "bg-orange-500 text-white" : "text-gray-300 hover:text-orange-500"
+                          )}
+                        >
+                          <Star className={cn("w-3 h-3", favorites.includes(prompt.id) && "fill-current")} />
+                        </button>
+                        <span className="text-[10px] font-bold uppercase px-2 py-1 bg-gray-100 rounded text-gray-500">{prompt.category}</span>
+                      </div>
+                    </div>
+                    <p className={cn(
+                      "text-sm text-gray-500",
+                      expandedPromptId === prompt.id ? "mb-4" : "line-clamp-2 mb-0"
+                    )}>
+                      {prompt.description}
+                    </p>
+
+                    <AnimatePresence>
+                      {expandedPromptId === prompt.id && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="mt-4 pt-4 border-t border-gray-100 space-y-4">
+                            <div className="space-y-2">
+                              <h5 className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Nội dung câu lệnh:</h5>
+                              <div className="p-4 bg-gray-50 rounded-xl text-xs font-mono text-gray-600 leading-relaxed whitespace-pre-wrap border border-gray-100">
+                                {prompt.content}
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center gap-3">
+                              <button 
+                                onClick={(e) => { e.stopPropagation(); openPromptEditor(prompt); }}
+                                className="text-xs font-bold bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors flex items-center gap-2"
+                              >
+                                <PenTool className="w-3 h-3" /> Tùy chỉnh & Chạy
+                              </button>
+                              <button 
+                                onClick={(e) => { e.stopPropagation(); handleCopy(prompt.content, idx); }}
+                                className="text-xs font-bold text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-1"
+                              >
+                                {copiedIndex === idx ? (
+                                  <>
+                                    <CheckCircle2 className="w-3 h-3" /> Đã sao chép!
+                                  </>
+                                ) : (
+                                  'Sao chép nhanh'
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        </motion.div>
                       )}
-                    </button>
+                    </AnimatePresence>
                   </div>
                 </div>
               </motion.div>
@@ -1994,58 +2014,6 @@ export default function App() {
       )}
 
       {/* Admin Panel Modal */}
-      {/* Login Modal */}
-      <AnimatePresence>
-        {showLoginModal && (
-          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className="bg-white w-full max-w-md rounded-[40px] p-10 relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl -z-10" />
-              
-              <button 
-                onClick={() => setShowLoginModal(false)}
-                className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-full transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <div className="text-center mb-10">
-                <div className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl shadow-orange-500/20">
-                  <Sparkles className="w-8 h-8" />
-                </div>
-                <h3 className="text-2xl font-bold mb-2">Chào mừng bạn trở lại</h3>
-                <p className="text-gray-500 text-sm">Đăng nhập để lưu trữ Prompt và truy cập Masterclass.</p>
-              </div>
-
-              <div className="space-y-4">
-                <button 
-                  onClick={handleGoogleLogin}
-                  className="w-full py-4 border border-gray-200 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-gray-50 transition-all group"
-                >
-                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" alt="Google" className="w-5 h-5" />
-                  Tiếp tục với Google
-                </button>
-                <button 
-                  onClick={handleFacebookLogin}
-                  className="w-full py-4 bg-[#1877F2] text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-[#166fe5] transition-all shadow-lg shadow-blue-500/20"
-                >
-                  <Facebook className="w-5 h-5 fill-current" />
-                  Tiếp tục với Facebook
-                </button>
-              </div>
-
-              <p className="mt-8 text-center text-[10px] text-gray-400 leading-relaxed">
-                Bằng cách đăng nhập, bạn đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của AI Hustle.
-              </p>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
       <AnimatePresence>
         {showAdminPanel && (
           <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
@@ -2574,13 +2542,7 @@ export default function App() {
             </p>
             <div className="flex items-center justify-center gap-6 text-xs text-gray-400">
               <button 
-                onClick={() => {
-                  if (currentUser?.email === 'chucly2879@gmail.com') {
-                    setShowAdminPanel(true);
-                  } else {
-                    setShowLoginModal(true);
-                  }
-                }}
+                onClick={() => navigate('/dang-nhap/admin')}
                 className="hover:text-orange-500 flex items-center gap-1 transition-colors"
               >
                 <ShieldCheck className="w-3 h-3" />
@@ -2651,5 +2613,13 @@ export default function App() {
         </button>
       </div>
     </div>
+  );
+
+  return (
+    <Routes>
+      <Route path="/dang-nhap" element={<AuthPage />} />
+      <Route path="/dang-nhap/admin" element={<AuthPage isAdmin={true} />} />
+      <Route path="/*" element={content} />
+    </Routes>
   );
 }
