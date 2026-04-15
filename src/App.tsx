@@ -121,6 +121,7 @@ const SIDE_HUSTLES: SideHustle[] = [
 ];
 
 interface Prompt {
+  id: string;
   title: string;
   category: string;
   description: string;
@@ -131,18 +132,21 @@ interface Prompt {
 const PROMPTS: Prompt[] = [
   // --- CONTENT CATEGORY ---
   { 
+    id: 'seo-article',
     title: 'Viết bài SEO chuyên sâu', 
     category: 'Content', 
     description: 'Tạo bài viết 1000 chữ chuẩn SEO với dàn ý chi tiết.',
     content: 'Bạn là một chuyên gia SEO kỳ cựu. Hãy thực hiện quy trình sau:\n1. Nghiên cứu 10 từ khóa phụ liên quan đến [Từ khóa chính].\n2. Lập dàn ý chi tiết gồm 5 thẻ H2 và các thẻ H3 tương ứng cho tiêu đề: [Tiêu đề bài viết].\n3. Viết đoạn mở đầu thu hút (Hook) đánh vào nỗi đau của [Đối tượng độc giả].\n4. Viết nội dung chi tiết cho mục H2 đầu tiên.\n5. Đề xuất 3 tiêu đề tối ưu tỷ lệ click (CTR).'
   },
   { 
+    id: 'fb-content',
     title: 'Sáng tạo nội dung Facebook Fanpage', 
     category: 'Content', 
     description: 'Lên kế hoạch nội dung 7 ngày thu hút tương tác.',
     content: 'Bạn là Social Media Manager chuyên nghiệp. Hãy xây dựng kế hoạch nội dung 7 ngày cho Fanpage về [Chủ đề/Ngành hàng]. Quy trình:\n- Ngày 1: Bài viết chia sẻ giá trị/kiến thức.\n- Ngày 2: Bài viết giải trí/meme liên quan.\n- Ngày 3: Bài viết đặt câu hỏi/thảo luận.\n- Ngày 4: Bài viết giới thiệu sản phẩm khéo léo.\n- Ngày 5: Bài viết Feedback khách hàng.\n- Ngày 6: Bài viết đằng sau hậu trường.\n- Ngày 7: Bài viết mini-game/quà tặng.\nYêu cầu: Mỗi bài viết bao gồm Tiêu đề, Nội dung chính và 5 Hashtag.'
   },
   { 
+    id: 'linkedin-branding',
     title: '[VIP] Xây dựng nhân hiệu trên LinkedIn', 
     category: 'Content', 
     description: 'Quy trình 30 ngày phủ sóng thương hiệu cá nhân.',
@@ -152,18 +156,21 @@ const PROMPTS: Prompt[] = [
 
   // --- E-COMMERCE CATEGORY ---
   { 
+    id: 'hypnotic-desc',
     title: 'Mô tả sản phẩm thôi miên', 
     category: 'E-commerce', 
     description: 'Viết mô tả sản phẩm thu hút theo công thức AIDA.',
     content: 'Bạn là một bậc thầy về Copywriting bán hàng. Hãy viết mô tả sản phẩm cho: [Tên sản phẩm]. Quy trình:\n- Attention: Tiêu đề gây sốc hoặc câu hỏi đánh đúng tâm lý.\n- Interest: Liệt kê 3 lợi ích cốt lõi (không phải tính năng).\n- Desire: Vẽ ra viễn cảnh khách hàng sau khi dùng sản phẩm.\n- Action: Lời kêu gọi hành động kèm ưu đãi khan hiếm.\nYêu cầu: Ngôn ngữ thôi miên, sử dụng các từ ngữ kích thích cảm xúc.'
   },
   { 
+    id: 'customer-feedback',
     title: 'Phản hồi đánh giá khách hàng Pro', 
     category: 'E-commerce', 
     description: 'Quy trình xử lý đánh giá 1 sao và 5 sao chuyên nghiệp.',
     content: 'Bạn là Quản lý chăm sóc khách hàng. Hãy viết mẫu phản hồi cho 2 trường hợp:\n1. Đánh giá 5 sao: Cảm ơn chân thành, nhắc lại lợi ích sản phẩm và tặng voucher cho lần sau.\n2. Đánh giá 1 sao về lỗi [Lỗi cụ thể]: Xin lỗi chân thành, nhận trách nhiệm, đưa ra giải pháp đền bù (đổi trả/hoàn tiền) và yêu cầu khách hàng inbox để xử lý riêng.\nYêu cầu: Giọng văn lịch sự, cầu thị.'
   },
   { 
+    id: 'shopee-seo',
     title: '[VIP] Tối ưu hóa gian hàng Shopee Pro', 
     category: 'E-commerce', 
     description: 'Chiến lược đứng top tìm kiếm và tối ưu tỷ lệ click.',
@@ -173,18 +180,21 @@ const PROMPTS: Prompt[] = [
 
   // --- VIDEO CATEGORY ---
   { 
+    id: 'tiktok-viral',
     title: 'Kịch bản TikTok Viral', 
     category: 'Video', 
     description: 'Lên kịch bản video ngắn thu hút trong 3 giây đầu.',
     content: 'Hãy viết một kịch bản video TikTok dài 45 giây về [Chủ đề video]. Quy trình:\n- 0-3s (Hook): Sử dụng kỹ thuật "Sự thật gây sốc" hoặc "Câu hỏi ngược đời".\n- 3-15s (Vấn đề): Đào sâu nỗi đau của [Đối tượng].\n- 15-35s (Giải pháp): Chia sẻ 3 bước thực hiện đơn giản.\n- 35-45s (CTA): Kêu gọi follow để xem phần tiếp theo hoặc nhận quà.'
   },
   { 
+    id: 'youtube-ideas',
     title: 'Ý tưởng Video YouTube triệu view', 
     category: 'Video', 
     description: 'Tìm kiếm 10 chủ đề video có khả năng lên xu hướng.',
     content: 'Bạn là chuyên gia sáng tạo nội dung YouTube. Hãy tìm 10 ý tưởng video cho kênh về [Chủ đề kênh]. Quy trình:\n1. Phân tích 3 xu hướng đang hot trong ngách này.\n2. Đề xuất 10 tiêu đề gây tò mò (Clickbait sạch).\n3. Gợi ý mẫu Thumbnail cho 3 ý tưởng tốt nhất.\n4. Viết đoạn mô tả (Description) chuẩn SEO cho video đầu tiên.'
   },
   { 
+    id: 'viral-script-vip',
     title: '[VIP] Kịch bản Video Triệu View', 
     category: 'Video', 
     description: 'Cấu trúc kịch bản giữ chân người xem đến giây cuối cùng.',
@@ -194,18 +204,21 @@ const PROMPTS: Prompt[] = [
 
   // --- MARKETING CATEGORY ---
   { 
+    id: 'email-marketing',
     title: 'Email Marketing Bán Hàng', 
     category: 'Marketing', 
     description: 'Viết chuỗi email bán hàng tự động thuyết phục.',
     content: 'Viết một chuỗi 3 email bán hàng cho sản phẩm [Tên sản phẩm]. Quy trình:\n- Email 1: Làm quen và trao giá trị (Tặng quà/Chia sẻ mẹo).\n- Email 2: Khơi gợi nỗi đau và giới thiệu giải pháp (Sản phẩm của bạn).\n- Email 3: Tạo sự khan hiếm (Giảm giá có hạn) và chốt đơn.\nYêu cầu: Tiêu đề email phải cực kỳ thu hút để tăng tỷ lệ mở.'
   },
   { 
+    id: 'customer-persona',
     title: 'Xây dựng chân dung khách hàng (Persona)', 
     category: 'Marketing', 
     description: 'Phân tích chi tiết đối tượng mục tiêu của bạn.',
     content: 'Bạn là chuyên gia Marketing Research. Hãy xây dựng chân dung khách hàng mục tiêu cho [Sản phẩm]. Quy trình:\n1. Nhân khẩu học (Tuổi, giới tính, địa lý, thu nhập).\n2. Tâm lý học (Sở thích, nỗi sợ, khao khát).\n3. Hành vi (Thói quen online, kênh mua sắm).\n4. Nỗi đau (Pain points) lớn nhất mà sản phẩm có thể giải quyết.'
   },
   { 
+    id: 'fb-ads-vip',
     title: '[VIP] Chiến dịch FB Ads triệu đô', 
     category: 'Marketing', 
     description: 'Cấu trúc bài viết quảng cáo Facebook tỷ lệ chuyển đổi cực cao.',
@@ -213,6 +226,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'sales-funnel-vip',
     title: '[VIP] Phễu bán hàng tự động (Funnel)', 
     category: 'Marketing', 
     description: 'Thiết kế hành trình khách hàng từ nhận biết đến mua hàng.',
@@ -220,6 +234,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'competitor-analysis-vip',
     title: '[VIP] Phân tích đối thủ cạnh tranh AI', 
     category: 'Marketing', 
     description: 'Tìm ra điểm yếu của đối thủ để chiếm lĩnh thị trường.',
@@ -229,18 +244,21 @@ const PROMPTS: Prompt[] = [
 
   // --- SALES CATEGORY ---
   { 
+    id: 'price-objection',
     title: 'Xử lý từ chối về giá', 
     category: 'Sales', 
     description: 'Cách thuyết phục khách hàng khi họ chê đắt.',
     content: 'Bạn là sát thủ bán hàng. Hãy viết 3 kịch bản xử lý khi khách hàng nói "Giá bên em cao quá". Quy trình:\n- Cách 1: Chia nhỏ chi phí theo ngày/tháng.\n- Cách 2: So sánh giá trị nhận được so với chi phí bỏ ra.\n- Cách 3: Kể câu chuyện về một khách hàng khác đã từng chê đắt và kết quả họ nhận được sau khi dùng.'
   },
   { 
+    id: 'follow-up-email',
     title: 'Email Follow-up sau cuộc gọi', 
     category: 'Sales', 
     description: 'Giữ kết nối và thúc đẩy khách hàng ra quyết định.',
     content: 'Viết một email follow-up gửi cho khách hàng [Tên] sau khi vừa kết thúc cuộc gọi tư vấn về [Sản phẩm]. Quy trình:\n1. Cảm ơn và tóm tắt 3 điểm mấu chốt đã trao đổi.\n2. Giải quyết 1 thắc mắc còn tồn đọng của khách hàng.\n3. Đưa ra bước tiếp theo (Lịch hẹn/Gửi báo giá) kèm thời hạn (Deadline).'
   },
   { 
+    id: 'telesale-script-vip',
     title: '[VIP] Kịch bản chốt đơn Telesale', 
     category: 'Sales', 
     description: 'Quy trình xử lý từ chối và chốt đơn qua điện thoại.',
@@ -248,6 +266,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'cold-outreach-vip',
     title: '[VIP] Chiến lược Email Cold Outreach', 
     category: 'Sales', 
     description: 'Cách tiếp cận khách hàng lạ mà không bị đánh dấu spam.',
@@ -257,42 +276,49 @@ const PROMPTS: Prompt[] = [
 
   // --- SEO CATEGORY ---
   { 
+    id: 'niche-keyword-research',
     title: 'Nghiên cứu từ khóa ngách', 
     category: 'SEO', 
     description: 'Tìm kiếm các từ khóa có độ cạnh tranh thấp.',
     content: 'Tìm cho tôi 20 từ khóa ngách (long-tail keywords) về chủ đề [Chủ đề chính]. Quy trình:\n1. Lọc ra các từ khóa có ý định tìm kiếm (Search Intent) là "Mua hàng" hoặc "Tìm giải pháp".\n2. Sắp xếp theo bảng gồm: Từ khóa, Độ khó ước tính, Lượng tìm kiếm hàng tháng.\n3. Đề xuất tiêu đề bài viết cho 5 từ khóa tiềm năng nhất.'
   },
   { 
+    id: 'meta-tags-seo',
     title: 'Tối ưu Meta Tags chuẩn SEO', 
     category: 'SEO', 
     description: 'Viết Title và Description thu hút cho website.',
     content: 'Hãy viết Title Tag (dưới 60 ký tự) và Meta Description (dưới 160 ký tự) cho trang web về [Chủ đề]. Quy trình:\n1. Chứa từ khóa chính [Từ khóa] ở ngay đầu câu.\n2. Thêm một lợi ích hoặc con số để tăng tỷ lệ click.\n3. Bao gồm lời kêu gọi hành động (CTA) mạnh mẽ.'
   },
   { 
+    id: 'internal-linking',
     title: 'Chiến lược Internal Linking', 
     category: 'SEO', 
     description: 'Xây dựng cấu trúc liên kết nội bộ tối ưu.',
     content: 'Bạn là chuyên gia Technical SEO. Hãy xây dựng sơ đồ liên kết nội bộ cho cụm bài viết (Topic Cluster) về [Chủ đề chính]. Quy trình:\n1. Xác định bài viết trụ cột (Pillar Page).\n2. Liệt kê 5 bài viết bổ trợ (Cluster Content).\n3. Chỉ rõ Anchor Text cần dùng để liên kết từ bài bổ trợ về bài trụ cột và ngược lại.'
   },
   { 
+    id: 'business-plan-mega',
     title: '[MEGA] Kế hoạch kinh doanh 0 đồng', 
     category: 'Marketing', 
     description: 'Quy trình khởi nghiệp từ ý tưởng đến doanh thu đầu tiên.',
     content: 'Bạn là cố vấn khởi nghiệp cấp cao. Hãy lập kế hoạch kinh doanh cho ý tưởng: [Ý tưởng]. Quy trình 7 bước:\n1. Phân tích thị trường & Đối thủ: Tìm ra "đại dương xanh".\n2. Xác định USP (Điểm bán hàng độc nhất): Tại sao khách hàng phải chọn bạn?\n3. Thiết kế sản phẩm mồi (Lead Magnet): Thu hút 100 khách hàng tiềm năng đầu tiên.\n4. Chiến lược nội dung đa kênh (TikTok, Facebook, Group): Cách phủ sóng thương hiệu với chi phí 0 đồng.\n5. Quy trình bán hàng & Chốt đơn: Kịch bản tư vấn tối ưu tỷ lệ chuyển đổi.\n6. Hệ thống vận hành tinh gọn: Các công cụ AI cần dùng để tiết kiệm nhân sự.\n7. Kế hoạch tài chính: Dự toán doanh thu và điểm hòa vốn.'
   },
   { 
+    id: 'content-production-mega',
     title: '[MEGA] Quy trình sản xuất nội dung 30 ngày', 
     category: 'Content', 
     description: 'Tạo 30 bài viết chất lượng chỉ trong 2 giờ làm việc.',
     content: 'Bạn là Content Director. Hãy xây dựng quy trình sản xuất nội dung cho [Chủ đề] trong 30 ngày. Quy trình:\n1. Brainstorming: Tìm 30 tiêu đề đánh vào 30 nỗi đau khác nhau của khách hàng.\n2. Phân loại định dạng: 10 bài chia sẻ kiến thức, 10 bài kể chuyện, 5 bài bán hàng, 5 bài tương tác.\n3. Sản xuất hàng loạt (Batching): Viết dàn ý cho 30 bài cùng lúc.\n4. Tối ưu hóa AI: Cách dùng Prompt để viết nội dung chi tiết cho từng bài mà không bị trùng lặp.\n5. Lên lịch tự động: Gợi ý các công cụ đăng bài tự động và khung giờ vàng.'
   },
   { 
+    id: 'customer-service-mega',
     title: '[MEGA] Hệ thống CSKH tự động 5 sao', 
     category: 'E-commerce', 
     description: 'Tự động hóa 90% khâu tư vấn và chăm sóc sau bán.',
     content: 'Bạn là chuyên gia tối ưu trải nghiệm khách hàng. Hãy thiết kế hệ thống CSKH cho shop [Tên shop]. Quy trình:\n1. Xây dựng bộ câu hỏi thường gặp (FAQ) thông minh.\n2. Kịch bản Chatbot tư vấn: Từ lúc khách chào đến lúc chốt đơn.\n3. Quy trình xử lý khiếu nại: 4 bước làm hài lòng khách hàng khó tính nhất.\n4. Hệ thống chăm sóc sau bán: Email/Tin nhắn cảm ơn và xin đánh giá 5 sao.\n5. Chiến lược quay vòng khách hàng: Cách tặng quà để khách mua lại lần 2, lần 3.'
   },
   { 
+    id: 'affiliate-empire-mega',
     title: '[MEGA] Đế chế Affiliate Marketing tự động', 
     category: 'Marketing', 
     description: 'Quy trình từ A-Z để xây dựng nguồn thu nhập thụ động bền vững.',
@@ -300,6 +326,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'tiktok-growth-vip',
     title: '[VIP] Quy trình xây dựng kênh TikTok 100k Follower', 
     category: 'Video', 
     description: 'Chiến lược nội dung để phủ sóng thương hiệu thần tốc.',
@@ -307,6 +334,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'chatbot-sales-vip',
     title: '[VIP] Hệ thống bán hàng tự động qua Chatbot AI', 
     category: 'Sales', 
     description: 'Tự động hóa khâu tư vấn và chốt đơn 24/7.',
@@ -314,13 +342,15 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'content-agency-mega',
     title: '[MEGA] Xây dựng Agency Content AI chuyên nghiệp', 
     category: 'Content', 
-    description: 'Quy trình vận hành Agency nội dung quy mô lớn với nhân sự tối thiểu.',
+    description: 'Quy trình vận hành Agency nội dung quy mô lớn with nhân sự tối thiểu.',
     content: 'Bạn là chủ một Agency Content hàng đầu. Hãy thiết kế quy trình vận hành cho Agency của tôi. Quy trình 5 bước chuyên sâu:\n1. Giai đoạn Tìm kiếm khách hàng (Lead Gen): Cách dùng LinkedIn và Cold Email để tìm 10 khách hàng đầu tiên cần dịch vụ nội dung.\n2. Giai đoạn Thiết kế gói dịch vụ (Service Design): Xây dựng các gói bài viết SEO, kịch bản Video, nội dung Fanpage với mức giá cạnh tranh nhờ tối ưu AI.\n3. Giai đoạn Quy trình sản xuất (Production Workflow): Cách dùng ChatGPT, Midjourney và Canva để sản xuất 100 bài viết/tháng chỉ với 1 nhân sự quản lý.\n4. Giai đoạn Kiểm soát chất lượng (QC Process): Checklist 10 điểm để đảm bảo nội dung AI viết ra không bị phát hiện và đạt chất lượng cao nhất.\n5. Giai đoạn Báo cáo & Giữ chân khách hàng (Reporting & Retention): Mẫu báo cáo hiệu quả (KPIs) hàng tháng để khách hàng tiếp tục gia hạn hợp đồng.',
     isVip: true
   },
   { 
+    id: 'youtube-automation-mega',
     title: '[MEGA] Xây dựng kênh YouTube Automation', 
     category: 'Video', 
     description: 'Quy trình tạo kênh YouTube kiếm tiền thụ động mà không cần lộ mặt.',
@@ -328,13 +358,15 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'messenger-sales-vip',
     title: '[VIP] Kịch bản chốt đơn trên Messenger', 
     category: 'Sales', 
-    description: 'Quy trình tư vấn khách hàng qua tin nhắn với tỷ lệ chốt đơn >30%.',
+    description: 'Quy trình tư vấn khách hàng qua tin nhắn with tỷ lệ chốt đơn >30%.',
     content: 'Bạn là sát thủ chốt đơn qua tin nhắn. Hãy viết kịch bản tư vấn cho sản phẩm [Sản phẩm]. Quy trình:\n1. Phá băng: Câu hỏi mở đầu để khách hàng tương tác ngay.\n2. Khám phá: 3 câu hỏi để xác định nhu cầu và khả năng chi trả.\n3. Trình bày: Cách giới thiệu sản phẩm tập trung vào giải quyết nỗi đau của khách.\n4. Xử lý từ chối: Kịch bản khi khách nói "Để chị suy nghĩ thêm" hoặc "Hỏi ý kiến chồng".\n5. Chốt hạ: Kỹ thuật tạo sự khan hiếm để khách chuyển khoản ngay.',
     isVip: true
   },
   { 
+    id: 'pr-article-vip',
     title: '[VIP] Viết bài PR báo chí chuyên nghiệp', 
     category: 'Content', 
     description: 'Tạo bài viết PR thu hút, khách quan và dễ được duyệt đăng báo.',
@@ -342,6 +374,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'upwork-fiverr-vip',
     title: '[VIP] Tối ưu hóa hồ sơ Upwork/Fiverr', 
     category: 'Sales', 
     description: 'Cách viết Profile thu hút khách hàng quốc tế và nhận dự án đầu tiên.',
@@ -349,6 +382,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'pinterest-affiliate-mega',
     title: '[MEGA] Affiliate Marketing trên Pinterest', 
     category: 'Marketing', 
     description: 'Quy trình kéo traffic miễn phí từ Pinterest về link Affiliate.',
@@ -356,6 +390,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'content-ideas-vip',
     title: '[VIP] Sáng tạo 100 ý tưởng nội dung trong 10 phút', 
     category: 'Content', 
     description: 'Kỹ thuật Brainstorming thần tốc để không bao giờ bí ý tưởng.',
@@ -363,6 +398,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'livestream-script-vip',
     title: '[VIP] Viết kịch bản Livestream bán hàng', 
     category: 'Sales', 
     description: 'Cấu trúc kịch bản giữ chân người xem và chốt đơn liên tục trên Live.',
@@ -370,6 +406,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'email-newsletter-mega',
     title: '[MEGA] Xây dựng hệ thống Email Newsletter', 
     category: 'Marketing', 
     description: 'Quy trình xây dựng danh sách email và kiếm tiền từ bản tin định kỳ.',
@@ -377,6 +414,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'google-maps-seo-vip',
     title: '[VIP] Tối ưu hóa Google Maps (GMB)', 
     category: 'SEO', 
     description: 'Cách đưa địa điểm kinh doanh của bạn lên top tìm kiếm địa phương.',
@@ -384,6 +422,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'podcast-script-vip',
     title: '[VIP] Viết kịch bản Podcast chuyên sâu', 
     category: 'Video', 
     description: 'Cấu trúc nội dung Podcast thu hút và có chiều sâu.',
@@ -391,6 +430,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'etsy-digital-mega',
     title: '[MEGA] Quy trình bán hàng trên Etsy với AI', 
     category: 'E-commerce', 
     description: 'Cách tạo và bán sản phẩm kỹ thuật số (Digital Products) trên Etsy.',
@@ -398,6 +438,7 @@ const PROMPTS: Prompt[] = [
     isVip: true
   },
   { 
+    id: 'review-analysis-vip',
     title: '[VIP] Phân tích tâm lý khách hàng qua đánh giá', 
     category: 'Marketing', 
     description: 'Dùng AI để đọc vị khách hàng và cải thiện sản phẩm/dịch vụ.',
@@ -507,6 +548,36 @@ export default function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isSubmittingEbook, setIsSubmittingEbook] = useState(false);
   const [ebookFormData, setEbookFormData] = useState({ fullName: '', email: '' });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [quizStep, setQuizStep] = useState(0);
+  const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
+  const [showQuizResult, setShowQuizResult] = useState(false);
+
+  const toggleFavorite = (id: string) => {
+    setFavorites(prev => 
+      prev.includes(id) ? prev.filter(fav => fav !== id) : [...prev, id]
+    );
+  };
+
+  const resetQuiz = () => {
+    setQuizStep(0);
+    setQuizAnswers({});
+    setShowQuizResult(false);
+  };
+
+  // Scroll Listener
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalHeight) * 100;
+      setScrollProgress(progress);
+      setShowScrollTop(window.scrollY > 500);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Auth Listener
   useEffect(() => {
@@ -604,13 +675,15 @@ export default function App() {
     }
   }, [selectedPost]);
 
-  const categories = ['Tất cả', ...new Set(PROMPTS.map(p => p.category))];
-  const filteredPrompts = activeCategory === 'Tất cả' 
+  const categories = ['Tất cả', 'Yêu thích', ...new Set(PROMPTS.map(p => p.category))];
+  const filteredPrompts: Prompt[] = activeCategory === 'Tất cả' 
     ? PROMPTS 
+    : activeCategory === 'Yêu thích'
+    ? PROMPTS.filter(p => favorites.includes(p.id))
     : PROMPTS.filter(p => p.category === activeCategory);
 
   const totalPages = Math.ceil(filteredPrompts.length / ITEMS_PER_PAGE);
-  const paginatedPrompts = filteredPrompts.slice(
+  const paginatedPrompts: Prompt[] = filteredPrompts.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
@@ -666,8 +739,8 @@ export default function App() {
       return;
     }
     const vars: Record<string, string> = {};
-    const matches = prompt.content.match(/\[(.*?)\]/g) || [];
-    matches.forEach(m => {
+    const matches = (prompt.content.match(/\[(.*?)\]/g) || []) as string[];
+    matches.forEach((m: string) => {
       const varName = m.slice(1, -1);
       vars[varName] = '';
     });
@@ -712,6 +785,14 @@ export default function App() {
   if (selectedPost) {
     return (
       <div className="min-h-screen bg-white font-sans text-gray-900">
+        {/* Reading Progress Bar */}
+        <div className="fixed top-0 left-0 w-full h-1 z-[100] bg-gray-100">
+          <motion.div 
+            className="h-full bg-orange-500"
+            style={{ width: `${scrollProgress}%` }}
+          />
+        </div>
+
         {/* Blog Header */}
         <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -754,6 +835,9 @@ export default function App() {
                     <div className="text-xs text-gray-400">AI Content Specialist</div>
                   </div>
                   <div className="ml-auto flex gap-2">
+                    <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-orange-500 hover:text-orange-500 transition-all group">
+                      <Star className="w-4 h-4 group-hover:fill-orange-500" />
+                    </button>
                     <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-blue-500 hover:text-blue-500 transition-all">
                       <Facebook className="w-4 h-4" />
                     </button>
@@ -805,12 +889,27 @@ export default function App() {
               <div className="sticky top-28">
                 <div className="bg-black text-white rounded-3xl p-8 mb-8 relative overflow-hidden group">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl group-hover:bg-orange-500/40 transition-colors" />
-                  <h3 className="text-xl font-bold mb-4 relative z-10">Đừng bỏ lỡ!</h3>
-                  <p className="text-gray-400 text-sm mb-6 relative z-10">
-                    Nhận ngay bộ 100+ Prompt độc quyền giúp bạn x10 năng suất làm việc.
-                  </p>
-                  <button className="w-full py-3 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-colors relative z-10">
-                    Tải xuống miễn phí
+                  <h3 className="text-xl font-bold mb-4 relative z-10 flex items-center gap-2">
+                    <Sparkles className="w-5 h-5 text-orange-500" />
+                    Prompt của ngày
+                  </h3>
+                  <div className="bg-white/10 rounded-2xl p-4 mb-6 relative z-10 border border-white/10">
+                    <p className="text-xs italic text-gray-300 mb-2">"Viết kịch bản video TikTok viral cho sản phẩm [Tên sản phẩm]..."</p>
+                    <div className="flex items-center gap-2 text-[10px] text-orange-400 font-bold">
+                      <Zap className="w-3 h-3" /> 1,2k lượt dùng hôm nay
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => {
+                      setSelectedPost(null);
+                      setTimeout(() => {
+                        const el = document.getElementById('prompts');
+                        el?.scrollIntoView({ behavior: 'smooth' });
+                      }, 100);
+                    }}
+                    className="w-full py-3 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-colors relative z-10"
+                  >
+                    Thử ngay
                   </button>
                 </div>
 
@@ -945,50 +1044,201 @@ export default function App() {
 
       {/* Hero Section */}
       <section className="relative pt-20 pb-32 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-orange-100/50 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-50/50 rounded-full blur-[120px]" />
+        {/* ... existing hero code ... */}
+      </section>
+
+      {/* AI Side Hustle Quiz Section */}
+      <section className="py-24 bg-white relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4 relative z-10">
+          <div className="bg-gray-50 rounded-[48px] p-8 md:p-16 border border-gray-100 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl -z-10" />
+            
+            {!showQuizResult ? (
+              <div className="text-center">
+                <AnimatePresence mode="wait">
+                  {quizStep === 0 && (
+                    <motion.div 
+                      key="step0"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                    >
+                      <span className="inline-block px-4 py-1 bg-orange-100 text-orange-600 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6">
+                        Interactive Quiz
+                      </span>
+                      <h2 className="text-3xl md:text-4xl font-bold mb-6">Tìm kiếm "Nghề tay trái" AI phù hợp nhất với bạn?</h2>
+                      <p className="text-gray-500 mb-10">Chỉ mất 30 giây để AI phân tích kỹ năng và thời gian của bạn.</p>
+                      <button 
+                        onClick={() => setQuizStep(1)}
+                        className="px-10 py-5 bg-black text-white rounded-2xl font-bold hover:scale-105 transition-transform shadow-xl shadow-black/10"
+                      >
+                        Bắt đầu ngay
+                      </button>
+                    </motion.div>
+                  )}
+
+                  {quizStep === 1 && (
+                    <motion.div 
+                      key="step1"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                    >
+                      <h3 className="text-2xl font-bold mb-8">Kỹ năng thế mạnh của bạn là gì?</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {['Viết lách', 'Thiết kế', 'Công nghệ', 'Bán hàng'].map((opt) => (
+                          <button 
+                            key={opt}
+                            onClick={() => { setQuizAnswers({...quizAnswers, skill: opt}); setQuizStep(2); }}
+                            className="p-6 bg-white border border-gray-200 rounded-2xl font-bold hover:border-orange-500 hover:bg-orange-50 transition-all text-left flex items-center justify-between group"
+                          >
+                            {opt}
+                            <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {quizStep === 2 && (
+                    <motion.div 
+                      key="step2"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                    >
+                      <h3 className="text-2xl font-bold mb-8">Bạn có bao nhiêu thời gian rảnh mỗi ngày?</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {['Dưới 1 giờ', '1 - 3 giờ', 'Trên 3 giờ'].map((opt) => (
+                          <button 
+                            key={opt}
+                            onClick={() => { setQuizAnswers({...quizAnswers, time: opt}); setQuizStep(3); }}
+                            className="p-6 bg-white border border-gray-200 rounded-2xl font-bold hover:border-orange-500 hover:bg-orange-50 transition-all text-left flex items-center justify-between group"
+                          >
+                            {opt}
+                            <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {quizStep === 3 && (
+                    <motion.div 
+                      key="step3"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                    >
+                      <h3 className="text-2xl font-bold mb-8">Mục tiêu thu nhập hàng tháng của bạn?</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {['Dưới 5 triệu', '5 - 20 triệu', 'Trên 20 triệu'].map((opt) => (
+                          <button 
+                            key={opt}
+                            onClick={() => { setQuizAnswers({...quizAnswers, income: opt}); setShowQuizResult(true); }}
+                            className="p-6 bg-white border border-gray-200 rounded-2xl font-bold hover:border-orange-500 hover:bg-orange-50 transition-all text-left flex items-center justify-between group"
+                          >
+                            {opt}
+                            <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center"
+              >
+                <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8">
+                  <Sparkles className="w-10 h-10" />
+                </div>
+                <h3 className="text-3xl font-bold mb-4">Kết quả của bạn!</h3>
+                <p className="text-gray-500 mb-8">Dựa trên phân tích, công việc phù hợp nhất với bạn là:</p>
+                <div className="bg-white p-8 rounded-3xl border border-orange-200 shadow-xl shadow-orange-500/5 mb-10">
+                  <h4 className="text-2xl font-bold text-orange-500 mb-2">
+                    {quizAnswers.skill === 'Viết lách' ? 'Content Creator AI' : 
+                     quizAnswers.skill === 'Thiết kế' ? 'AI Artist / Designer' :
+                     quizAnswers.skill === 'Công nghệ' ? 'AI Automation Specialist' : 'AI Sales Closer'}
+                  </h4>
+                  <p className="text-sm text-gray-600">Tiềm năng thu nhập: {quizAnswers.income}</p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <button 
+                    onClick={() => {
+                      const el = document.getElementById('prompts');
+                      el?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="px-8 py-4 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-all"
+                  >
+                    Xem Prompt hỗ trợ
+                  </button>
+                  <button 
+                    onClick={resetQuiz}
+                    className="px-8 py-4 bg-white border border-gray-200 text-gray-600 rounded-xl font-bold hover:bg-gray-50 transition-all"
+                  >
+                    Làm lại Quiz
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </div>
         </div>
+      </section>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="inline-block px-4 py-1.5 bg-orange-50 text-orange-600 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
-              Dành cho Freelancer & Chủ shop Online
-            </span>
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
-              Làm việc ít hơn, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">
-                Kiếm tiền nhiều hơn
-              </span>
-            </h1>
-            <p className="max-w-2xl mx-auto text-lg text-gray-600 mb-10 leading-relaxed">
-              Tận dụng sức mạnh AI để tự động hóa việc viết bài, đăng sản phẩm và xây dựng nguồn thu nhập thụ động bền vững. <br className="hidden md:block" />
-              <span className="font-semibold text-orange-600">Tham gia cùng 1,200+ Freelancer đang dẫn đầu xu hướng.</span>
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#generator" className="w-full sm:w-auto px-8 py-4 bg-black text-white rounded-xl font-semibold hover:scale-105 transition-transform flex items-center justify-center gap-2 group shadow-xl shadow-black/10">
-                Khám phá ý tưởng AI <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a href="#prompts" className="w-full sm:w-auto px-8 py-4 bg-white border border-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors">
-                Xem thư viện Prompt
-              </a>
-            </div>
-
-            {/* Trust Bar */}
-            <div className="mt-20 pt-10 border-t border-gray-100">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] mb-8">Được tin dùng bởi các chuyên gia từ</p>
-              <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-40 grayscale">
-                <div className="font-black text-xl italic">TECHHUB</div>
-                <div className="font-black text-xl">AI_INSIDER</div>
-                <div className="font-black text-xl tracking-tighter">FUTURE_BIZ</div>
-                <div className="font-black text-xl">DIGITAL_NOMAD</div>
+      {/* Quick AI Tools Bento Grid */}
+      <section className="py-24 bg-[#FAFAFA]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Công cụ AI hỗ trợ nhanh</h2>
+            <p className="text-gray-500">Tiết kiệm hàng giờ làm việc mỗi ngày với các công cụ tối ưu sẵn.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="md:col-span-2 md:row-span-2 bg-black text-white p-10 rounded-[40px] relative overflow-hidden group cursor-pointer">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/20 rounded-full blur-3xl group-hover:bg-orange-500/40 transition-colors" />
+              <div className="relative z-10 h-full flex flex-col">
+                <div className="w-14 h-14 bg-orange-500 rounded-2xl flex items-center justify-center mb-8 shadow-xl shadow-orange-500/20">
+                  <PenTool className="w-8 h-8" />
+                </div>
+                <h3 className="text-3xl font-bold mb-4">Viết bài Blog chuẩn SEO</h3>
+                <p className="text-gray-400 mb-8 flex-1">Tạo dàn ý và nội dung bài viết chuyên sâu chỉ với một từ khóa chính. Tối ưu hóa cho Google Search.</p>
+                <button className="w-fit px-6 py-3 bg-white text-black rounded-xl font-bold hover:bg-orange-500 hover:text-white transition-all flex items-center gap-2">
+                  Thử ngay <ArrowRight className="w-4 h-4" />
+                </button>
               </div>
             </div>
-          </motion.div>
+
+            <div className="md:col-span-2 bg-white p-8 rounded-[40px] border border-gray-100 hover:border-orange-200 transition-all group cursor-pointer">
+              <div className="flex items-start justify-between mb-6">
+                <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center">
+                  <Languages className="w-6 h-6" />
+                </div>
+                <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-orange-500 transition-colors" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Dịch thuật chuyên sâu</h3>
+              <p className="text-sm text-gray-500">Dịch thuật tài liệu chuyên ngành với văn phong tự nhiên như người bản xứ.</p>
+            </div>
+
+            <div className="bg-white p-8 rounded-[40px] border border-gray-100 hover:border-orange-200 transition-all group cursor-pointer">
+              <div className="w-12 h-12 bg-purple-50 text-purple-500 rounded-xl flex items-center justify-center mb-6">
+                <Palette className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Tạo Prompt Ảnh</h3>
+              <p className="text-xs text-gray-500">Mô tả ý tưởng, AI sẽ tạo Prompt cho Midjourney/DALL-E.</p>
+            </div>
+
+            <div className="bg-white p-8 rounded-[40px] border border-gray-100 hover:border-orange-200 transition-all group cursor-pointer">
+              <div className="w-12 h-12 bg-green-50 text-green-500 rounded-xl flex items-center justify-center mb-6">
+                <Code2 className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold mb-2">Hỗ trợ Code</h3>
+              <p className="text-xs text-gray-500">Giải thích và tối ưu hóa các đoạn mã lập trình phức tạp.</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1211,7 +1461,18 @@ export default function App() {
                         </span>
                       )}
                     </div>
-                    <span className="text-[10px] font-bold uppercase px-2 py-1 bg-gray-100 rounded text-gray-500">{prompt.category}</span>
+                    <div className="flex items-center gap-2">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); toggleFavorite(prompt.id); }}
+                        className={cn(
+                          "p-1.5 rounded-full transition-all",
+                          favorites.includes(prompt.id) ? "bg-orange-500 text-white" : "text-gray-300 hover:text-orange-500"
+                        )}
+                      >
+                        <Star className={cn("w-3 h-3", favorites.includes(prompt.id) && "fill-current")} />
+                      </button>
+                      <span className="text-[10px] font-bold uppercase px-2 py-1 bg-gray-100 rounded text-gray-500">{prompt.category}</span>
+                    </div>
                   </div>
                   <p className="text-sm text-gray-500 mb-4">{prompt.description}</p>
                   <div className="flex items-center gap-3">
@@ -2340,9 +2601,21 @@ export default function App() {
 
       {/* Blog Post Modal (Removed in favor of full page view) */}
 
-      {/* Floating Contact Buttons */}
+      {/* Floating Contact Buttons & Scroll Top */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
         <AnimatePresence>
+          {showScrollTop && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="w-12 h-12 bg-white text-black border border-gray-100 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-50 transition-colors"
+              title="Lên đầu trang"
+            >
+              <ArrowRight className="w-5 h-5 -rotate-90" />
+            </motion.button>
+          )}
           {showContact && (
             <>
               <motion.a
