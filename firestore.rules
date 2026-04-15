@@ -21,7 +21,7 @@ service cloud.firestore {
 
     function isAdmin() {
       return isAuthenticated() && 
-        (request.auth.token.email == "admin@ai-hustle-phi.vercel.app" && request.auth.token.email_verified == true);
+        ((request.auth.token.email == "tranbaosadec@gmail.com" || request.auth.token.email == "admin@ai-hustle-phi.vercel.app") && request.auth.token.email_verified == true);
     }
 
     function isValidEmail(email) {

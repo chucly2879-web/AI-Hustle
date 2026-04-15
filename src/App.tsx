@@ -599,7 +599,7 @@ export default function App() {
             setUserRole(userData.role || 'free');
           } else {
             // Create new profile
-            const isDefaultAdmin = user.email === 'admin@ai-hustle-phi.vercel.app';
+            const isDefaultAdmin = user.email === 'tranbaosadec@gmail.com' || user.email === 'admin@ai-hustle-phi.vercel.app';
             const newProfile = {
               uid: user.uid,
               email: user.email,
@@ -614,7 +614,7 @@ export default function App() {
         } catch (error) {
           console.error("Error managing user profile:", error);
           // Fallback
-          if (user.email === 'admin@ai-hustle-phi.vercel.app') {
+          if (user.email === 'tranbaosadec@gmail.com' || user.email === 'admin@ai-hustle-phi.vercel.app') {
             setUserRole('admin');
           }
         }
@@ -641,7 +641,7 @@ export default function App() {
 
   // Fetch Subscribers (Admin only)
   useEffect(() => {
-    if (currentUser?.email === 'admin@ai-hustle-phi.vercel.app') {
+    if (currentUser?.email === 'tranbaosadec@gmail.com' || currentUser?.email === 'admin@ai-hustle-phi.vercel.app') {
       const q = query(collection(db, 'subscribers'), orderBy('createdAt', 'desc'));
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));

@@ -54,7 +54,7 @@ export default function AdminPanel() {
 
     // Check if user is admin
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
-      if (!user || user.email !== 'admin@ai-hustle-phi.vercel.app') {
+      if (!user || (user.email !== 'tranbaosadec@gmail.com' && user.email !== 'admin@ai-hustle-phi.vercel.app')) {
         navigate('/dang-nhap-admin');
       }
     });

@@ -23,7 +23,7 @@ const AdminLoginPage: React.FC = () => {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      if (result.user.email === 'admin@ai-hustle-phi.vercel.app' || result.user.email === 'chucly2879@gmail.com') {
+      if (result.user.email === 'tranbaosadec@gmail.com' || result.user.email === 'admin@ai-hustle-phi.vercel.app' || result.user.email === 'chucly2879@gmail.com') {
         setSuccess('Đăng nhập Admin thành công!');
         setTimeout(() => navigate('/admin/dashboard'), 1500);
       } else {
@@ -50,7 +50,7 @@ const AdminLoginPage: React.FC = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      if (email === 'admin@ai-hustle-phi.vercel.app' || email === 'chucly2879@gmail.com') {
+      if (email === 'tranbaosadec@gmail.com' || email === 'admin@ai-hustle-phi.vercel.app' || email === 'chucly2879@gmail.com') {
         setSuccess('Đăng nhập thành công! Đang chuyển hướng...');
         setTimeout(() => navigate('/admin/dashboard'), 1500);
       } else {
