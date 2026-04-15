@@ -41,10 +41,12 @@ import ReactMarkdown from 'react-markdown';
 import { cn } from './lib/utils';
 import { generateSideHustleIdea, runCustomPrompt } from './services/gemini';
 import { db, auth } from './firebase';
-import { collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, getDocFromServer, doc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, getDocFromServer, doc, setDoc, getDoc } from 'firebase/firestore';
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, onAuthStateChanged, User, signOut } from 'firebase/auth';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import AuthPage from './pages/AuthPage';
+import AdminLoginPage from './pages/AdminLoginPage';
+import AdminPanel from './pages/AdminPanel';
 
 interface SideHustle {
   id: string;
@@ -534,7 +536,7 @@ export default function App() {
   const [isPromptRunning, setIsPromptRunning] = useState(false);
   const [promptResult, setPromptResult] = useState('');
   const [emailSubscribed, setEmailSubscribed] = useState(false);
-  const [userRole, setUserRole] = useState<'free' | 'pro'>('free');
+  const [userRole, setUserRole] = useState<'free' | 'pro' | 'admin'>('free');
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const navigate = useNavigate();
@@ -585,11 +587,39 @@ export default function App() {
 
   // Auth Listener
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
-      // Automatically set Pro role for the admin email
-      if (user?.email === 'chucly2879@gmail.com') {
-        setUserRole('pro');
+      if (user) {
+        // Fetch or create user profile in Firestore
+        const userDocRef = doc(db, 'users', user.uid);
+        try {
+          const userDoc = await getDoc(userDocRef);
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUserRole(userData.role || 'free');
+          } else {
+            // Create new profile
+            const isDefaultAdmin = user.email === 'chucly2879@gmail.com';
+            const newProfile = {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName || 'Người dùng',
+              role: isDefaultAdmin ? 'admin' : 'free',
+              status: 'active',
+              createdAt: serverTimestamp()
+            };
+            await setDoc(userDocRef, newProfile);
+            setUserRole(isDefaultAdmin ? 'admin' : 'free');
+          }
+        } catch (error) {
+          console.error("Error managing user profile:", error);
+          // Fallback
+          if (user.email === 'chucly2879@gmail.com') {
+            setUserRole('admin');
+          }
+        }
+      } else {
+        setUserRole('free');
       }
     });
     return () => unsubscribe();
@@ -2542,7 +2572,13 @@ export default function App() {
             </p>
             <div className="flex items-center justify-center gap-6 text-xs text-gray-400">
               <button 
-                onClick={() => navigate('/dang-nhap-admin')}
+                onClick={() => {
+                  if (userRole === 'admin') {
+                    navigate('/admin/dashboard');
+                  } else {
+                    navigate('/dang-nhap-admin');
+                  }
+                }}
                 className="hover:text-orange-500 flex items-center gap-1 transition-colors"
               >
                 <ShieldCheck className="w-3 h-3" />
@@ -2618,7 +2654,8 @@ export default function App() {
   return (
     <Routes>
       <Route path="/dang-nhap" element={<AuthPage />} />
-      <Route path="/dang-nhap-admin" element={<AuthPage isAdmin={true} />} />
+      <Route path="/dang-nhap-admin" element={<AdminLoginPage />} />
+      <Route path="/admin/dashboard" element={<AdminPanel />} />
       <Route path="/*" element={content} />
     </Routes>
   );

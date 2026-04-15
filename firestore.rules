@@ -19,6 +19,11 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    function isAdmin() {
+      return isAuthenticated() && 
+        (request.auth.token.email == "chucly2879@gmail.com" && request.auth.token.email_verified == true);
+    }
+
     function isValidEmail(email) {
       return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
     }
@@ -36,12 +41,32 @@ service cloud.firestore {
       allow create: if isValidSubscriber(request.resource.data);
       
       // Only authenticated admins can read/list subscribers
-      // For this demo, we'll allow the owner email to read
-      allow read, list: if isAuthenticated() && 
-        (request.auth.token.email == "chucly2879@gmail.com" && request.auth.token.email_verified == true);
+      allow read, list: if isAdmin();
       
       // No updates or deletes allowed for now to keep data integrity
       allow update, delete: if false;
+    }
+
+    match /users/{userId} {
+      // Users can read their own profile, admins can read all
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      
+      // Users can create their own profile on first login
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      
+      // Users can update their own profile, admins can update all (for roles/status)
+      allow update: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      
+      // Only admins can delete users
+      allow delete: if isAdmin();
+    }
+
+    match /blog_posts/{postId} {
+      // Blog posts are publicly readable
+      allow read: if true;
+      
+      // Only admins can create, update, or delete blog posts
+      allow write: if isAdmin();
     }
   }
 }

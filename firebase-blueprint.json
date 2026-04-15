@@ -21,12 +21,89 @@
         }
       },
       "required": ["fullName", "email", "createdAt"]
+    },
+    "User": {
+      "title": "User",
+      "description": "User profile information.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The unique ID of the user."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The email address of the user."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the user."
+        },
+        "role": {
+          "type": "string",
+          "enum": ["free", "pro", "admin"],
+          "description": "The role of the user."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "banned"],
+          "description": "The status of the user."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the user was created."
+        }
+      },
+      "required": ["uid", "email", "role", "status", "createdAt"]
+    },
+    "BlogPost": {
+      "title": "BlogPost",
+      "description": "Blog post content.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the blog post."
+        },
+        "tag": {
+          "type": "string",
+          "description": "The tag/category of the blog post."
+        },
+        "content": {
+          "type": "string",
+          "description": "The markdown content of the blog post."
+        },
+        "date": {
+          "type": "string",
+          "description": "The display date of the blog post."
+        },
+        "authorUid": {
+          "type": "string",
+          "description": "The UID of the author."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the post was created."
+        }
+      },
+      "required": ["title", "tag", "content", "date", "authorUid", "createdAt"]
     }
   },
   "firestore": {
     "/subscribers/{subscriberId}": {
       "schema": "Subscriber",
       "description": "Collection of Ebook subscribers."
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Collection of user profiles."
+    },
+    "/blog_posts/{postId}": {
+      "schema": "BlogPost",
+      "description": "Collection of blog posts."
     }
   }
 }
