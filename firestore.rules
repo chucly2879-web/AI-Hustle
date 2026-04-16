@@ -36,6 +36,18 @@ service cloud.firestore {
              data.createdAt is timestamp;
     }
 
+    function isValidBlogPost(data) {
+      return data.keys().hasAll(['title', 'tag', 'content', 'date', 'authorUid', 'createdAt']) &&
+             data.title is string && data.tag is string && data.content is string &&
+             data.date is string && data.authorUid is string && data.createdAt is timestamp;
+    }
+
+    function isValidPrompt(data) {
+      return data.keys().hasAll(['title', 'description', 'content', 'category', 'isVip', 'createdAt']) &&
+             data.title is string && data.description is string && data.content is string &&
+             data.category is string && data.isVip is bool && data.createdAt is timestamp;
+    }
+
     match /subscribers/{subscriberId} {
       // Anyone can subscribe (create a document)
       allow create: if isValidSubscriber(request.resource.data);
@@ -66,7 +78,15 @@ service cloud.firestore {
       allow read: if true;
       
       // Only admins can create, update, or delete blog posts
-      allow write: if isAdmin();
+      allow create, update, delete: if isAdmin() && isValidBlogPost(request.resource.data);
+    }
+
+    match /prompts/{promptId} {
+      // Prompts are publicly readable
+      allow read: if true;
+      
+      // Only admins can create, update, or delete prompts
+      allow create, update, delete: if isAdmin() && isValidPrompt(request.resource.data);
     }
   }
 }

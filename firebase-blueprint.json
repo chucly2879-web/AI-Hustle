@@ -90,6 +90,44 @@
         }
       },
       "required": ["title", "tag", "content", "date", "authorUid", "createdAt"]
+    },
+    "Prompt": {
+      "title": "Prompt",
+      "description": "AI Prompt template.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the prompt."
+        },
+        "description": {
+          "type": "string",
+          "description": "A short description of what the prompt does."
+        },
+        "content": {
+          "type": "string",
+          "description": "The actual prompt text with variables."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category of the prompt."
+        },
+        "isVip": {
+          "type": "boolean",
+          "description": "Whether this is a VIP-only prompt."
+        },
+        "variables": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of variable names in the prompt."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the prompt was created."
+        }
+      },
+      "required": ["title", "description", "content", "category", "isVip", "createdAt"]
     }
   },
   "firestore": {
@@ -104,6 +142,10 @@
     "/blog_posts/{postId}": {
       "schema": "BlogPost",
       "description": "Collection of blog posts."
+    },
+    "/prompts/{promptId}": {
+      "schema": "Prompt",
+      "description": "Collection of AI prompts."
     }
   }
 }
