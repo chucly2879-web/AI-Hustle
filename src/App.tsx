@@ -48,6 +48,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import { cn } from './lib/utils';
 import { generateSideHustleIdea, runCustomPrompt } from './services/gemini';
 import { db, auth } from './firebase';
@@ -478,6 +479,28 @@ const VIDEOS: VideoTutorial[] = [
 
 const BLOG_POSTS = [
   { 
+    title: 'Con đường sự nghiệp và phát triển - Số Chủ Đạo 1', 
+    date: '17/04/2024', 
+    tag: 'Video',
+    content: `
+<div class="video-container">
+  <iframe src="https://www.youtube.com/embed/HWufRUXZW50?modestbranding=1" width="1280" height="720" frameborder="0" allow="autoplay">
+  </iframe>
+</div>
+
+## Con đường sự nghiệp và phát triển
+
+Với tố chất lãnh đạo bẩm sinh, người **Số Chủ Đạo 1** phù hợp với các vị trí quản lý, điều hành hoặc những nghề nghiệp đòi hỏi sự sáng tạo và độc lập. Họ thường thành công trong các lĩnh vực:
+
+- **Lãnh đạo & Quản lý:** Giám đốc, trưởng phòng, quản lý dự án.
+- **Khởi nghiệp:** Chủ doanh nghiệp, người sáng lập.
+- **Sáng tạo:** Nhà thiết kế, nghệ sĩ, kiến trúc sư.
+- **Chuyên gia độc lập:** Tư vấn viên, Freelancer chuyên nghiệp.
+
+Họ là những người tiên phong, luôn đi đầu trong mọi hoạt động và có khả năng truyền cảm hứng mạnh mẽ cho cộng đồng.
+    `
+  },
+  { 
     title: 'Cách tôi viết 10 bài blog/ngày với AI', 
     date: '13/04/2024', 
     tag: 'Kinh nghiệm',
@@ -667,9 +690,18 @@ export default function App() {
       setIsLoadingBlog(false);
     });
 
+    const fetchCss = onSnapshot(doc(db, 'settings', 'global'), (doc) => {
+      if (doc.exists()) {
+        setGlobalCustomCss(doc.data().customCss || '');
+      }
+    }, (error) => {
+      handleFirestoreError(error, 'get', 'settings/global');
+    });
+
     return () => {
       fetchPrompts();
       fetchBlogPosts();
+      fetchCss();
     };
   }, []);
   const [isLoadingBlog, setIsLoadingBlog] = useState(true);
@@ -677,6 +709,7 @@ export default function App() {
   const [activeBlogCategory, setActiveBlogCategory] = useState('Tất cả');
   const [activeTab, setActiveTab] = useState<'home' | 'library' | 'admin' | 'roadmap' | 'hooks' | 'ideas'>('home');
   const [showVideoDropdown, setShowVideoDropdown] = useState(false);
+  const [globalCustomCss, setGlobalCustomCss] = useState('');
   const [selectedVideo, setSelectedVideo] = useState<VideoTutorial | null>(null);
 
   const BLOG_CATEGORIES = ['Tất cả', 'Yêu thích', 'Content', 'E-commerce', 'Video', 'Marketing', 'Sales', 'SEO'];
@@ -3434,8 +3467,8 @@ export default function App() {
               referrerPolicy="no-referrer"
             />
 
-            <div className="prose prose-lg prose-orange max-w-none">
-              <ReactMarkdown>{selectedPost.content}</ReactMarkdown>
+            <div className="prose prose-lg prose-orange max-w-none blog-content">
+              <ReactMarkdown rehypePlugins={[rehypeRaw]}>{selectedPost.content}</ReactMarkdown>
             </div>
           </article>
 
@@ -3535,6 +3568,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* Navigation */}
+      <style id="custom-global-css">{globalCustomCss}</style>
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <button 

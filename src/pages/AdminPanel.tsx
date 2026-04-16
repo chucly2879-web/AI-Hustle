@@ -19,7 +19,10 @@ import {
   Loader2,
   AlertCircle,
   ArrowLeft,
-  Zap
+  Zap,
+  Settings,
+  Eye,
+  Save
 } from 'lucide-react';
 import { auth, db } from '../firebase';
 import { 
@@ -32,7 +35,8 @@ import {
   deleteDoc, 
   addDoc, 
   serverTimestamp,
-  getDocs
+  getDocs,
+  setDoc
 } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
@@ -40,7 +44,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 import { runCustomPrompt } from '../services/gemini';
 
-type Tab = 'overview' | 'users' | 'subscribers' | 'blog';
+type Tab = 'overview' | 'users' | 'subscribers' | 'blog' | 'settings';
 
 export default function AdminPanel() {
   const [activeTab, setActiveTab] = useState<Tab>('overview');
@@ -58,6 +62,8 @@ export default function AdminPanel() {
     content: '',
     date: new Date().toLocaleDateString('vi-VN')
   });
+  const [customCss, setCustomCss] = useState('');
+  const [isSavingCss, setIsSavingCss] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -89,11 +95,19 @@ export default function AdminPanel() {
       setIsLoading(false);
     });
 
+    // Fetch Global Settings
+    const unsubscribeSettings = onSnapshot(doc(db, 'settings', 'global'), (doc) => {
+      if (doc.exists()) {
+        setCustomCss(doc.data().customCss || '');
+      }
+    });
+
     return () => {
       unsubscribeAuth();
       unsubscribeUsers();
       unsubscribeSubscribers();
       unsubscribeBlog();
+      unsubscribeSettings();
     };
   }, [navigate]);
 
@@ -316,6 +330,22 @@ Bắt đầu ngay hôm nay với một ngách nhỏ và kiên trì tối ưu hó
     }
   };
 
+  const handleSaveCss = async () => {
+    setIsSavingCss(true);
+    try {
+      await setDoc(doc(db, 'settings', 'global'), {
+        customCss,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+      alert('Đã lưu cấu hình CSS thành công!');
+    } catch (error) {
+      console.error("Error saving CSS:", error);
+      alert('Lỗi khi lưu CSS.');
+    } finally {
+      setIsSavingCss(false);
+    }
+  };
+
   const stats = [
     { label: 'Tổng người dùng', value: users.length, icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
     { label: 'Đăng ký Ebook', value: subscribers.length, icon: Mail, color: 'text-orange-600', bg: 'bg-orange-50' },
@@ -361,6 +391,12 @@ Bắt đầu ngay hôm nay với một ngách nhỏ và kiên trì tối ưu hó
             active={activeTab === 'blog'} 
             onClick={() => setActiveTab('blog')} 
           />
+          <SidebarLink 
+            icon={Settings} 
+            label="Tùy biến giao diện" 
+            active={activeTab === 'settings'} 
+            onClick={() => setActiveTab('settings')} 
+          />
         </nav>
 
         <div className="p-4 border-t border-gray-100">
@@ -389,7 +425,8 @@ Bắt đầu ngay hôm nay với một ngách nhỏ và kiên trì tối ưu hó
             <h2 className="text-3xl font-black text-gray-900 capitalize">
               {activeTab === 'overview' ? 'Tổng quan hệ thống' : 
                activeTab === 'users' ? 'Quản lý người dùng' : 
-               activeTab === 'subscribers' ? 'Danh sách đăng ký' : 'Quản lý Blog'}
+               activeTab === 'subscribers' ? 'Danh sách đăng ký' : 
+               activeTab === 'settings' ? 'Tùy biến giao diện' : 'Quản lý Blog'}
             </h2>
             <p className="text-gray-500 font-medium">Chào mừng trở lại, Quản trị viên</p>
           </div>
@@ -688,6 +725,54 @@ Bắt đầu ngay hôm nay với một ngách nhỏ và kiên trì tối ưu hó
                       </div>
                     </div>
                   ))}
+                </div>
+              )}
+
+              {activeTab === 'settings' && (
+                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-8">
+                  <div className="mb-8">
+                    <h3 className="text-xl font-black mb-2">Tùy biến giao diện (CSS)</h3>
+                    <p className="text-gray-500 text-sm">
+                      Lưu ý: CSS sẽ được chèn vào trang chính qua thẻ <code>&lt;style id="custom-global-css"&gt;</code>.
+                    </p>
+                  </div>
+
+                  <div className="space-y-6">
+                    <div className="bg-gray-900 rounded-2xl p-4 overflow-hidden ring-1 ring-white/10 shadow-2xl">
+                      <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-4 px-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full bg-red-500" />
+                          <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                          <div className="w-3 h-3 rounded-full bg-green-500" />
+                        </div>
+                        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Global Stylesheet</span>
+                      </div>
+                      <textarea
+                        value={customCss}
+                        onChange={(e) => setCustomCss(e.target.value)}
+                        className="w-full bg-transparent border-none focus:ring-0 text-white font-mono text-sm leading-relaxed p-4 min-h-[500px] placeholder:text-gray-700"
+                        spellCheck={false}
+                        placeholder="/* Viết CSS của bạn tại đây... */"
+                      />
+                    </div>
+
+                    <div className="flex justify-end gap-3">
+                      <button 
+                        onClick={() => setCustomCss('')}
+                        className="px-6 py-3 border border-gray-200 rounded-xl font-bold text-gray-400 hover:text-gray-900 hover:bg-gray-50 transition-all flex items-center gap-2"
+                      >
+                        <Trash2 className="w-4 h-4" /> Xóa trắng
+                      </button>
+                      <button 
+                        onClick={handleSaveCss}
+                        disabled={isSavingCss}
+                        className="px-8 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all flex items-center gap-2 shadow-lg shadow-green-600/20 disabled:opacity-50"
+                      >
+                        {isSavingCss ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                        Lưu cấu hình
+                      </button>
+                    </div>
+                  </div>
                 </div>
               )}
             </motion.div>
