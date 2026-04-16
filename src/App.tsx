@@ -40,7 +40,11 @@ import {
   LogOut,
   User as UserIcon,
   ShieldCheck,
-  Copy
+  Copy,
+  Clock,
+  Target,
+  Play,
+  ChevronDown
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
@@ -54,6 +58,7 @@ import AuthPage from './pages/AuthPage';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminPanel from './pages/AdminPanel';
 import { RoadmapDashboard } from './components/RoadmapWidget';
+import { TikTokHookLab } from './components/TikTokHookGenerator';
 
 interface SideHustle {
   id: string;
@@ -670,7 +675,8 @@ export default function App() {
   const [isLoadingBlog, setIsLoadingBlog] = useState(true);
   const [isLoadingPrompts, setIsLoadingPrompts] = useState(true);
   const [activeBlogCategory, setActiveBlogCategory] = useState('Tất cả');
-  const [activeTab, setActiveTab] = useState<'home' | 'library' | 'admin' | 'roadmap'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'library' | 'admin' | 'roadmap' | 'hooks' | 'ideas'>('home');
+  const [showVideoDropdown, setShowVideoDropdown] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<VideoTutorial | null>(null);
 
   const BLOG_CATEGORIES = ['Tất cả', 'Yêu thích', 'Content', 'E-commerce', 'Video', 'Marketing', 'Sales', 'SEO'];
@@ -1038,7 +1044,10 @@ export default function App() {
       {/* Roadmap Promo Banner */}
       <section className="pb-24 px-4">
         <div 
-          onClick={() => setActiveTab('roadmap')}
+          onClick={() => {
+            if (userRole === 'pro') setActiveTab('roadmap');
+            else setShowUpgradeModal(true);
+          }}
           className="max-w-7xl mx-auto bg-gradient-to-r from-gray-900 to-black rounded-[40px] p-8 md:p-12 relative overflow-hidden group cursor-pointer border border-white/5"
         >
           <div className="absolute top-0 right-0 w-1/3 h-full bg-orange-500/10 skew-x-12 translate-x-20 blur-3xl group-hover:scale-110 transition-transform duration-700" />
@@ -1067,6 +1076,68 @@ export default function App() {
                 <button className="relative px-12 py-6 bg-white text-black rounded-3xl font-black text-xl hover:scale-105 transition-all shadow-2xl flex items-center gap-3">
                   Xem lộ trình ngay <TrendingUp className="w-6 h-6 text-orange-500" />
                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Hook Lab Promo Banner */}
+      <section className="pb-24 px-4 overflow-hidden">
+        <div 
+          onClick={() => {
+            if (userRole === 'pro') setActiveTab('hooks');
+            else setShowUpgradeModal(true);
+          }}
+          className="max-w-7xl mx-auto bg-white rounded-[40px] p-8 md:p-12 relative overflow-hidden group cursor-pointer border border-gray-100 shadow-xl shadow-orange-500/5"
+        >
+          <div className="absolute -right-20 -top-20 w-80 h-80 bg-orange-500/5 rounded-full blur-[100px] group-hover:bg-orange-500/10 transition-colors duration-700" />
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="px-3 py-1 bg-red-100 text-red-600 text-[10px] font-black uppercase rounded-lg shadow-sm border border-red-200">
+                  Phòng thí nghiệm Hook
+                </span>
+                <span className="flex items-center gap-1 text-[10px] font-bold text-gray-400">
+                  <Clock className="w-3 h-3" /> Chỉ 3 giây để thắng cuộc
+                </span>
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
+                Làm Video AI? <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Đừng để họ lướt qua!</span>
+              </h2>
+              <p className="text-gray-500 text-lg mb-8 max-w-md leading-relaxed">
+                Khám phá 5 công thức tâm lý học giúp video của bạn bùng nổ view ngay từ giây đầu tiên.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-xl text-xs font-bold text-gray-600">
+                  <Target className="w-4 h-4 text-orange-500" /> Tỉ lệ giữ chân +45%
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-xl text-xs font-bold text-gray-600">
+                  <Play className="w-4 h-4 text-red-500" /> Viral dễ dàng hơn
+                </div>
+              </div>
+            </div>
+            <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+              <div className="relative w-full max-w-[400px]">
+                <div className="absolute inset-0 bg-red-500/20 rounded-[32px] blur-3xl group-hover:bg-red-500/30 transition-all" />
+                <div className="relative bg-black rounded-[32px] p-6 shadow-2xl transform group-hover:rotate-1 group-hover:scale-105 transition-all duration-500">
+                  <div className="flex items-center gap-3 mb-6 border-b border-white/10 pb-4">
+                    <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
+                      <Zap className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-[10px] font-black uppercase text-gray-400">Hot Formula</div>
+                      <div className="text-white font-bold text-sm">Gây sốc bằng con số</div>
+                    </div>
+                  </div>
+                  <div className="text-gray-300 italic text-sm mb-6 leading-relaxed">
+                    "Cái video này mình làm trong đúng 47 giây — bằng AI, không cần edit."
+                  </div>
+                  <button className="w-full py-4 bg-orange-500 text-white rounded-2xl font-black hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/20">
+                    Lấy công thức ngay
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1337,59 +1408,6 @@ export default function App() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Side Hustle Ideas Grid */}
-      <section id="ideas" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-          <div className="text-left">
-            <h2 className="text-3xl font-bold mb-2">Ý tưởng nghề nghiệp AI</h2>
-            <p className="text-gray-500">Những hướng đi tốt nhất cho người có toàn thời gian.</p>
-          </div>
-          <a href="#" className="text-orange-500 font-bold flex items-center gap-1 hover:underline">
-            Xem tất cả <ArrowRight className="w-4 h-4" />
-          </a>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {SIDE_HUSTLES.map((hustle, idx) => (
-            <motion.div
-              key={hustle.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="group bg-white p-8 rounded-2xl border border-gray-100 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-500/5 transition-all"
-            >
-              <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-gray-600 group-hover:bg-orange-500 group-hover:text-white transition-colors mb-6">
-                {hustle.icon}
-              </div>
-              <h3 className="text-xl font-bold mb-3">{hustle.title}</h3>
-              <p className="text-gray-500 text-sm leading-relaxed mb-6">
-                {hustle.description}
-              </p>
-              
-              <div className="flex flex-wrap gap-2 mb-6">
-                {hustle.tools.map(tool => (
-                  <span key={tool} className="px-2 py-1 bg-gray-100 text-gray-600 text-[10px] font-bold uppercase rounded">
-                    {tool}
-                  </span>
-                ))}
-              </div>
-
-              <div className="pt-6 border-t border-gray-50 flex items-center justify-between text-xs font-medium">
-                <div className="flex flex-col gap-1">
-                  <span className="text-gray-400 uppercase tracking-wider">Thu nhập tiềm năng</span>
-                  <span className="text-green-600 font-bold">{(hustle as any).potential_income}</span>
-                </div>
-                <div className="flex flex-col gap-1 text-right">
-                  <span className="text-gray-400 uppercase tracking-wider">Tiềm năng</span>
-                  <span className="text-blue-600 font-bold">{hustle.potential}</span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
         </div>
       </section>
 
@@ -3183,10 +3201,20 @@ export default function App() {
             <div>
               <h4 className="font-bold mb-6">Khám phá</h4>
               <ul className="space-y-4 text-sm text-gray-500">
-                <li><a href="#ideas" className="hover:text-orange-500 transition-colors">Ý tưởng AI</a></li>
-                <li><a href="#ai-tools" className="hover:text-orange-500 transition-colors">Công cụ AI</a></li>
-                <li><a href="#prompts" className="hover:text-orange-500 transition-colors">Thư viện Prompt</a></li>
-                <li><a href="#generator" className="hover:text-orange-500 transition-colors">Trình tạo lộ trình</a></li>
+                <li>
+                  <button 
+                    onClick={() => {
+                      if (userRole === 'pro') setActiveTab('ideas');
+                      else setShowUpgradeModal(true);
+                    }}
+                    className="hover:text-orange-500 transition-colors flex items-center gap-1"
+                  >
+                    Ý tưởng AI {userRole !== 'pro' && <Lock className="w-3 h-3 text-gray-300" />}
+                  </button>
+                </li>
+                <li><button onClick={() => { setActiveTab('home'); setTimeout(() => document.getElementById('ai-tools')?.scrollIntoView({ behavior: 'smooth' }), 100); }} className="hover:text-orange-500 transition-colors">Công cụ AI</button></li>
+                <li><button onClick={() => { setActiveTab('home'); setTimeout(() => document.getElementById('prompts')?.scrollIntoView({ behavior: 'smooth' }), 100); }} className="hover:text-orange-500 transition-colors">Thư viện Prompt</button></li>
+                <li><button onClick={() => { if(userRole === 'pro') setActiveTab('roadmap'); else setShowUpgradeModal(true); }} className="hover:text-orange-500 transition-colors flex items-center gap-1">Lộ trình 1k User {userRole !== 'pro' && <Lock className="w-3 h-3 text-gray-300" />}</button></li>
                 <li><a href="#blog" className="hover:text-orange-500 transition-colors">Blog kiến thức</a></li>
               </ul>
             </div>
@@ -3253,6 +3281,80 @@ export default function App() {
           </p>
         </div>
         <RoadmapDashboard />
+      </div>
+    </div>
+  );
+
+  const hooksContent = (
+    <div className="py-24 bg-gray-50/50 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 text-center mb-16">
+        <span className="inline-block px-4 py-1 bg-orange-100 text-orange-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-6">
+          3-Second Hook Secret
+        </span>
+        <h1 className="text-4xl md:text-6xl font-black mb-6">TikTok Hook Lab</h1>
+        <p className="text-gray-500 max-w-2xl mx-auto text-lg">
+          90% người xem sẽ lướt qua nếu 3 giây đầu không hấp dẫn. Sử dụng các công thức triệu view này để giữ chân họ.
+        </p>
+      </div>
+      <TikTokHookLab onToast={(msg) => {
+        setToastMessage(msg);
+        setShowSuccessToast(true);
+        setTimeout(() => setShowSuccessToast(false), 3000);
+      }} />
+    </div>
+  );
+
+  const ideasContent = (
+    <div className="py-24 bg-gray-50/50 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="text-center mb-16">
+          <span className="inline-block px-4 py-1 bg-blue-100 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-6">
+            Pro Career Path
+          </span>
+          <h1 className="text-4xl md:text-5xl font-black mb-4">Thư viện Ý tưởng AI</h1>
+          <p className="text-gray-500 max-w-2xl mx-auto">
+            Những hướng đi tốt nhất để tạo thu nhập với AI, được cập nhật liên tục cho thành viên Pro.
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {SIDE_HUSTLES.map((hustle, idx) => (
+            <motion.div
+              key={hustle.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              className="group bg-white p-8 rounded-3xl border border-gray-100 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-500/5 transition-all"
+            >
+              <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-gray-600 group-hover:bg-orange-500 group-hover:text-white transition-colors mb-6">
+                {hustle.icon}
+              </div>
+              <h3 className="text-xl font-bold mb-3">{hustle.title}</h3>
+              <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3">
+                {hustle.description}
+              </p>
+              
+              <div className="flex flex-wrap gap-2 mb-6">
+                {hustle.tools.map(tool => (
+                  <span key={tool} className="px-2 py-1 bg-gray-100 text-gray-600 text-[10px] font-bold uppercase rounded">
+                    {tool}
+                  </span>
+                ))}
+              </div>
+
+              <div className="pt-6 border-t border-gray-50 flex items-center justify-between text-xs font-medium">
+                <div className="flex flex-col gap-1">
+                  <span className="text-gray-400 uppercase tracking-wider">Thu nhập tiềm năng</span>
+                  <span className="text-green-600 font-bold">{(hustle as any).potential_income}</span>
+                </div>
+                <div className="flex flex-col gap-1 text-right">
+                  <span className="text-gray-400 uppercase tracking-wider">Tiềm năng</span>
+                  <span className="text-blue-600 font-bold">{hustle.potential}</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -3450,17 +3552,104 @@ export default function App() {
           </button>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">
             <button onClick={() => setActiveTab('home')} className={cn("hover:text-orange-500 transition-colors", activeTab === 'home' && "text-orange-500 font-bold")}>Trang chủ</button>
-            <button 
-              onClick={() => setActiveTab('roadmap')} 
-              className={cn("hover:text-orange-500 transition-colors relative", activeTab === 'roadmap' && "text-orange-500 font-bold")}
-            >
-              Lộ trình 1k User
-              <span className="absolute -top-3 -right-6 px-1.5 py-0.5 bg-orange-100 text-orange-600 text-[8px] font-black rounded-full uppercase border border-orange-200">New</span>
-            </button>
-            <a href="#ideas" className="hover:text-orange-500 transition-colors">Ý tưởng</a>
-            <a href="#ai-tools" className="hover:text-orange-500 transition-colors">Công cụ AI</a>
             <a href="#prompts" className="hover:text-orange-500 transition-colors">Prompt</a>
-            <a href="#videos" className="hover:text-orange-500 transition-colors">Video</a>
+            <a href="#ai-tools" className="hover:text-orange-500 transition-colors">Công cụ AI</a>
+            
+            {/* Video Dropdown */}
+            <div className="relative group py-4" onMouseEnter={() => setShowVideoDropdown(true)} onMouseLeave={() => setShowVideoDropdown(false)}>
+              <button 
+                className={cn(
+                  "flex items-center gap-1 hover:text-orange-500 transition-colors",
+                  (activeTab === 'roadmap' || activeTab === 'hooks' || activeTab === 'ideas') && "text-orange-500 font-bold"
+                )}
+              >
+                Video <ChevronDown className="w-4 h-4" />
+              </button>
+              
+              <AnimatePresence>
+                {showVideoDropdown && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute top-full left-0 w-64 bg-white border border-gray-100 shadow-xl rounded-2xl py-3 z-50 overflow-hidden"
+                  >
+                    <a 
+                      href="#videos" 
+                      onClick={() => { setActiveTab('home'); setShowVideoDropdown(false); }}
+                      className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm"
+                    >
+                      <Youtube className="w-4 h-4 text-red-500" />
+                      <span>Video hướng dẫn</span>
+                    </a>
+                    
+                    <button 
+                      onClick={() => {
+                        if (userRole === 'pro') {
+                          setActiveTab('roadmap');
+                        } else {
+                          setShowUpgradeModal(true);
+                        }
+                        setShowVideoDropdown(false);
+                      }}
+                      className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <TrendingUp className="w-4 h-4 text-orange-500" />
+                        <span>Lộ trình 1k User</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {userRole !== 'pro' && <Lock className="w-3 h-3 text-gray-300" />}
+                        <span className="text-[8px] bg-orange-100 text-orange-600 px-1 rounded font-black">PRO</span>
+                      </div>
+                    </button>
+
+                    <button 
+                      onClick={() => {
+                        if (userRole === 'pro') {
+                          setActiveTab('hooks');
+                        } else {
+                          setShowUpgradeModal(true);
+                        }
+                        setShowVideoDropdown(false);
+                      }}
+                      className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Zap className="w-4 h-4 text-yellow-500" />
+                        <span>Hook Lab</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {userRole !== 'pro' && <Lock className="w-3 h-3 text-gray-300" />}
+                        <span className="text-[8px] bg-orange-100 text-orange-600 px-1 rounded font-black">PRO</span>
+                      </div>
+                    </button>
+
+                    <button 
+                      onClick={() => {
+                        if (userRole === 'pro') {
+                          setActiveTab('ideas');
+                        } else {
+                          setShowUpgradeModal(true);
+                        }
+                        setShowVideoDropdown(false);
+                      }}
+                      className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Briefcase className="w-4 h-4 text-blue-500" />
+                        <span>Ý tưởng AI</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {userRole !== 'pro' && <Lock className="w-3 h-3 text-gray-300" />}
+                        <span className="text-[8px] bg-orange-100 text-orange-600 px-1 rounded font-black">PRO</span>
+                      </div>
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             <a href="#blog" className="hover:text-orange-500 transition-colors">Blog</a>
             {currentUser && (
               <button 
@@ -3549,7 +3738,33 @@ export default function App() {
         </div>
       </nav>
 
-      {activeTab === 'home' ? mainContent : activeTab === 'roadmap' ? roadmapContent : libraryContent}
+      {activeTab === 'home' ? mainContent : 
+       (activeTab === 'roadmap' || activeTab === 'hooks' || activeTab === 'ideas') && userRole !== 'pro' ? (
+         <div className="py-32 flex flex-col items-center justify-center text-center px-4 bg-gray-50/50 min-h-screen">
+           <motion.div 
+             initial={{ scale: 0.9, opacity: 0 }}
+             animate={{ scale: 1, opacity: 1 }}
+             className="max-w-md w-full bg-white p-12 rounded-[40px] shadow-2xl shadow-orange-500/10 border border-gray-100"
+           >
+             <div className="w-20 h-20 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-8 mx-auto">
+               <Lock className="w-10 h-10" />
+             </div>
+             <h2 className="text-3xl font-black mb-4">Tính năng PRO</h2>
+             <p className="text-gray-500 mb-8 leading-relaxed">
+               Nâng cấp lên tài khoản Pro để truy cập lộ trình 1.000 user, Hook Lab triệu view và thư viện ý tưởng độc quyền.
+             </p>
+             <button 
+               onClick={() => setShowUpgradeModal(true)}
+               className="w-full py-5 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-2xl font-black shadow-xl shadow-orange-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-3"
+             >
+               Nâng cấp ngay ⭐
+             </button>
+           </motion.div>
+         </div>
+       ) : activeTab === 'roadmap' ? roadmapContent : 
+       activeTab === 'hooks' ? hooksContent : 
+       activeTab === 'ideas' ? ideasContent :
+       libraryContent}
     </div>
   );
 
