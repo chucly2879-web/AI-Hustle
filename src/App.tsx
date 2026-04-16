@@ -24,6 +24,7 @@ import {
   MessageSquare,
   Facebook,
   X,
+  Lock,
   ChevronLeft,
   Share2,
   Twitter,
@@ -592,8 +593,10 @@ export default function App() {
   const [isPromptRunning, setIsPromptRunning] = useState(false);
   const [promptResult, setPromptResult] = useState('');
   const [emailSubscribed, setEmailSubscribed] = useState(false);
-  const [userRole, setUserRole] = useState<'free' | 'pro' | 'admin'>('free');
+  const [userRole, setUserRole] = useState<'free' | 'pro' | 'admin'>('free'); // Changed back to active role for logic
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [aiUsageCount, setAiUsageCount] = useState(0);
+  const AI_DAILY_LIMIT = 5;
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -732,11 +735,18 @@ export default function App() {
 
   const runPromptWithAI = async () => {
     if (!editingPrompt) return;
+    
+    if (userRole === 'free' && aiUsageCount >= AI_DAILY_LIMIT) {
+      setShowUpgradeModal(true);
+      return;
+    }
+
     setIsPromptRunning(true);
     try {
       const finalPrompt = getFinalPrompt();
       const result = await runCustomPrompt(finalPrompt);
       setPromptResult(result);
+      if (userRole === 'free') setAiUsageCount(prev => prev + 1);
     } catch (error) {
       console.error(error);
       setPromptResult('Có lỗi xảy ra khi chạy AI. Vui lòng thử lại.');
@@ -748,10 +758,17 @@ export default function App() {
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!interests) return;
+
+    if (userRole === 'free' && aiUsageCount >= AI_DAILY_LIMIT) {
+      setShowUpgradeModal(true);
+      return;
+    }
+
     setIsLoading(true);
     try {
       const result = await generateSideHustleIdea(interests);
       setAiResult(result);
+      if (userRole === 'free') setAiUsageCount(prev => prev + 1);
     } catch (error) {
       console.error(error);
       setAiResult('Có lỗi xảy ra. Vui lòng thử lại sau.');
@@ -1844,7 +1861,24 @@ export default function App() {
                           exit={{ height: 0, opacity: 0 }}
                           className="overflow-hidden"
                         >
-                          <div className="mt-4 pt-4 border-t border-gray-100 space-y-4">
+                          <div className="mt-4 pt-4 border-t border-gray-100 space-y-4 relative">
+                            {prompt.isVip && userRole === 'free' && (
+                              <div className="absolute inset-x-0 bottom-0 top-4 bg-white/80 backdrop-blur-[1px] z-20 flex flex-col items-center justify-center text-center p-6 space-y-4">
+                                <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center">
+                                  <Lock className="w-6 h-6" />
+                                </div>
+                                <div>
+                                  <h5 className="font-bold text-gray-900">Tính năng này đã bị khóa</h5>
+                                  <p className="text-xs text-gray-500">Nâng cấp Pro để xem Prompt thực chiến này</p>
+                                </div>
+                                <button 
+                                  onClick={(e) => { e.stopPropagation(); setShowUpgradeModal(true); }}
+                                  className="px-6 py-2 bg-black text-white text-xs font-bold rounded-xl shadow-lg ring-1 ring-white/20 hover:scale-105 transition-transform"
+                                >
+                                  Nâng cấp ngay
+                                </button>
+                              </div>
+                            )}
                             <div className="space-y-2">
                               <h5 className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Nội dung câu lệnh:</h5>
                               <div className="p-4 bg-gray-50 rounded-xl text-xs font-mono text-gray-600 leading-relaxed whitespace-pre-wrap border border-gray-100">
@@ -2172,21 +2206,35 @@ export default function App() {
         </div>
       </section>
 
-      {/* AI Masterclass Section (Pro Only) */}
-      <AnimatePresence>
-        {userRole === 'pro' && (
-          <motion.section 
-            id="masterclass"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="py-24 bg-orange-950 text-white overflow-hidden"
-          >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-8">
-                <div>
-                  <span className="text-orange-500 font-bold text-sm uppercase tracking-widest mb-2 block">Khu vực dành riêng cho Pro</span>
-                  <h2 className="text-4xl font-bold mb-4">AI Masterclass Dashboard</h2>
+      {/* AI Masterclass Section */}
+      <section id="masterclass" className="py-24 bg-orange-950 text-white overflow-hidden relative">
+        {userRole === 'free' && (
+          <div className="absolute inset-0 z-30 flex flex-col items-center justify-center p-6 bg-orange-950/80 backdrop-blur-sm pt-20">
+            <div className="max-w-md w-full text-center space-y-6">
+              <div className="w-20 h-20 bg-orange-500 text-white rounded-[24px] flex items-center justify-center mx-auto shadow-2xl shadow-orange-500/20 mb-4 scale-110">
+                <Lock className="w-10 h-10" />
+              </div>
+              <h2 className="text-4xl font-bold">Khu vực dành riêng cho PRO</h2>
+              <p className="text-orange-200 leading-relaxed">
+                Khám phá lộ trình từ con số 0 đến 10,000 khách hàng đầu tiên cùng chuyên gia AI. Toàn bộ kho video Masterclass, tài liệu thực chiến và cộng đồng kín đang chờ bạn.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button 
+                  onClick={() => setShowUpgradeModal(true)}
+                  className="px-8 py-4 bg-orange-500 text-white rounded-2xl font-bold hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20 flex items-center gap-2"
+                >
+                  Mở khóa Masterclass ngay <Star className="w-4 h-4 fill-current" />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className={cn("max-w-7xl mx-auto px-4 sm:px-6 lg:px-8", userRole === 'free' && "blur-md pointer-events-none opacity-40")}>
+          <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-8">
+            <div>
+              <span className="text-orange-500 font-bold text-sm uppercase tracking-widest mb-2 block">Khu vực dành riêng cho Pro</span>
+              <h2 className="text-4xl font-bold mb-4">AI Masterclass Dashboard</h2>
                   <div className="flex items-center gap-4">
                     <div className="flex-1 h-2 w-48 bg-white/10 rounded-full overflow-hidden">
                       <div className="h-full w-[65%] bg-orange-500" />
@@ -2398,9 +2446,7 @@ export default function App() {
                 </div>
               </div>
             </div>
-          </motion.section>
-        )}
-      </AnimatePresence>
+          </section>
 
       {/* Floating Action Buttons */}
       <div className="fixed bottom-8 right-8 z-[100] flex flex-col gap-4">
@@ -2623,19 +2669,43 @@ export default function App() {
               className="bg-white max-w-md w-full rounded-[40px] p-10 text-center relative overflow-hidden"
             >
               <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-orange-500 to-red-600" />
-              <div className="w-20 h-20 bg-orange-100 text-orange-600 rounded-3xl flex items-center justify-center mx-auto mb-8">
+              <div className="w-20 h-20 bg-orange-100 text-orange-600 rounded-3xl flex items-center justify-center mx-auto mb-8 relative">
                 <Star className="w-10 h-10 fill-current" />
+                {aiUsageCount >= AI_DAILY_LIMIT && (
+                  <div className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full animate-bounce">
+                    Limit Reach!
+                  </div>
+                )}
               </div>
-              <h3 className="text-3xl font-bold mb-4">Nội dung này bị khóa!</h3>
-              <p className="text-gray-500 mb-8 leading-relaxed">
-                Bạn đang cố gắng truy cập vào **Prompt VIP** dành riêng cho thành viên gói Pro. Hãy nâng cấp ngay để mở khóa toàn bộ kho tài nguyên.
+              <h3 className="text-3xl font-bold mb-4">
+                {userRole === 'free' && aiUsageCount >= AI_DAILY_LIMIT ? "Hết lượt chạy AI!" : "Mở khóa Quyền lợi PRO"}
+              </h3>
+              <p className="text-gray-500 mb-8 leading-relaxed text-sm">
+                {userRole === 'free' && aiUsageCount >= AI_DAILY_LIMIT 
+                  ? "Bạn đã dùng hết 5 lượt chạy miễn phí hôm nay. Đừng để gián đoạn dòng tiền của bạn!" 
+                  : "Nâng cấp gói Pro để truy cập ngay 500+ Prompt VIP, khóa học Masterclass và cộng đồng Zalo kín."
+                }
               </p>
-              <div className="space-y-3 mb-10">
+
+              <div className="bg-gray-50 rounded-2xl p-4 mb-8 space-y-3">
+                {[
+                  "Chạy AI không giới hạn lượt",
+                  "Mở khóa 500+ Prompt độc quyền",
+                  "Truy cập Dashboard Masterclass",
+                  "Hỗ trợ Zalo 1-1"
+                ].map((benefit, i) => (
+                  <div key={i} className="flex items-center gap-2 text-xs font-bold text-gray-700">
+                    <CheckCircle2 className="w-4 h-4 text-orange-500" /> {benefit}
+                  </div>
+                ))}
+              </div>
+
+              <div className="space-y-3">
                 <button 
                   onClick={() => { setUserRole('pro'); setShowUpgradeModal(false); }}
-                  className="w-full py-4 bg-orange-500 text-white rounded-2xl font-bold hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20"
+                  className="w-full py-4 bg-orange-500 text-white rounded-2xl font-bold hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2"
                 >
-                  Nâng cấp Pro ngay (199k)
+                  Nâng cấp Pro ngay <ArrowRight className="w-4 h-4" />
                 </button>
                 <button 
                   onClick={() => setShowUpgradeModal(false)}
@@ -2644,7 +2714,7 @@ export default function App() {
                   Để sau
                 </button>
               </div>
-              <p className="text-[10px] text-gray-400">Hoàn tiền 100% trong 7 ngày nếu không hài lòng.</p>
+              <p className="mt-6 text-[10px] text-gray-400">Gợi ý: Gói năm tiết kiệm hơn 20%</p>
             </motion.div>
           </div>
         )}
@@ -3341,25 +3411,63 @@ export default function App() {
               </button>
             )}
             <button onClick={() => setShowContact(true)} className="hover:text-orange-500 transition-colors">Liên hệ</button>
-            {userRole === 'pro' && <a href="#masterclass" className="text-orange-600 font-bold">Masterclass</a>}
+            <a 
+              href="#masterclass" 
+              className={cn(
+                "flex items-center gap-1 font-bold transition-all",
+                userRole === 'pro' ? "text-orange-600" : "text-gray-400 opacity-80"
+              )}
+            >
+              {userRole !== 'pro' && <Lock className="w-3 h-3" />}
+              Masterclass
+            </a>
             
             <div className="h-6 w-px bg-gray-100" />
 
             {currentUser ? (
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
-                  {currentUser.photoURL ? (
-                    <img src={currentUser.photoURL} alt="Avatar" className="w-8 h-8 rounded-full border border-gray-200" referrerPolicy="no-referrer" />
-                  ) : (
-                    <div className="w-8 h-8 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center">
-                      <UserIcon className="w-4 h-4" />
-                    </div>
-                  )}
+                  <div className="relative">
+                    {currentUser.photoURL ? (
+                      <img src={currentUser.photoURL} alt="Avatar" className="w-8 h-8 rounded-full border border-gray-200" referrerPolicy="no-referrer" />
+                    ) : (
+                      <div className="w-8 h-8 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center border border-orange-200">
+                        <UserIcon className="w-4 h-4" />
+                      </div>
+                    )}
+                    {userRole === 'pro' && (
+                      <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-orange-500 border-2 border-white rounded-full flex items-center justify-center">
+                        <Star className="w-1.5 h-1.5 text-white fill-current" />
+                      </div>
+                    )}
+                  </div>
                   <div className="flex flex-col">
-                    <span className="text-xs font-bold text-gray-900 leading-none">{currentUser.displayName || 'Người dùng'}</span>
-                    <span className="text-[10px] text-gray-400 capitalize">{userRole} Plan</span>
+                    <div className="flex items-center gap-1">
+                      <span className="text-xs font-bold text-gray-900 leading-none">{currentUser.displayName || 'Người dùng'}</span>
+                      {userRole === 'pro' && (
+                        <span className="text-[8px] bg-orange-500 text-white px-1 rounded font-black uppercase">PRO</span>
+                      )}
+                    </div>
+                    {userRole === 'free' ? (
+                      <button 
+                        onClick={() => setShowUpgradeModal(true)}
+                        className="text-[9px] text-orange-600 font-bold hover:underline"
+                      >
+                        Nâng cấp ngay
+                      </button>
+                    ) : (
+                      <span className="text-[10px] text-gray-400 capitalize">{userRole} Plan</span>
+                    )}
                   </div>
                 </div>
+                {userRole === 'free' && (
+                  <button 
+                    onClick={() => setShowUpgradeModal(true)}
+                    className="px-4 py-1.5 bg-gradient-to-r from-orange-500 to-red-600 text-white text-xs font-bold rounded-full shadow-lg shadow-orange-500/20 hover:scale-105 transition-all"
+                  >
+                    Nâng cấp PRO ⭐
+                  </button>
+                )}
                 <button 
                   onClick={handleLogout}
                   className="p-2 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-full transition-all"
