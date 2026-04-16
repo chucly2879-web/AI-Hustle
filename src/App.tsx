@@ -560,6 +560,9 @@ export default function App() {
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [showQuizResult, setShowQuizResult] = useState(false);
   const [expandedPromptId, setExpandedPromptId] = useState<string | null>(null);
+  const [firestoreBlogPosts, setFirestoreBlogPosts] = useState<any[]>([]);
+
+  const allBlogPosts = [...firestoreBlogPosts, ...BLOG_POSTS];
 
   const toggleFavorite = (id: string) => {
     setFavorites(prev => 
@@ -621,6 +624,16 @@ export default function App() {
       } else {
         setUserRole('free');
       }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Fetch Blog Posts from Firestore
+  useEffect(() => {
+    const q = query(collection(db, 'blog_posts'), orderBy('createdAt', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setFirestoreBlogPosts(posts);
     });
     return () => unsubscribe();
   }, []);
@@ -937,7 +950,7 @@ export default function App() {
                     Bài viết liên quan
                   </h3>
                   <div className="space-y-6">
-                    {BLOG_POSTS.filter(p => p.title !== selectedPost.title).map((post, idx) => (
+                    {allBlogPosts.filter(p => p.title !== selectedPost.title).map((post, idx) => (
                       <div 
                         key={idx} 
                         onClick={() => setSelectedPost(post)}
@@ -1776,9 +1789,9 @@ export default function App() {
           <a href="#" className="text-sm font-bold text-orange-500 hover:underline">Xem Blog</a>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {BLOG_POSTS.map((post, idx) => (
+          {allBlogPosts.map((post, idx) => (
             <div 
-              key={idx} 
+              key={post.id || idx} 
               onClick={() => setSelectedPost(post)}
               className="group cursor-pointer"
             >

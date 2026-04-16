@@ -47,6 +47,14 @@ export default function AdminPanel() {
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showBlogModal, setShowBlogModal] = useState(false);
+  const [editingPost, setEditingPost] = useState<any>(null);
+  const [blogFormData, setBlogFormData] = useState({
+    title: '',
+    tag: 'Kinh nghiệm',
+    content: '',
+    date: new Date().toLocaleDateString('vi-VN')
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -117,6 +125,44 @@ export default function AdminPanel() {
     }
   };
 
+  const handleBlogSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (editingPost) {
+        await updateDoc(doc(db, 'blog_posts', editingPost.id), {
+          ...blogFormData,
+          updatedAt: serverTimestamp()
+        });
+      } else {
+        await addDoc(collection(db, 'blog_posts'), {
+          ...blogFormData,
+          createdAt: serverTimestamp()
+        });
+      }
+      setShowBlogModal(false);
+      setEditingPost(null);
+      setBlogFormData({
+        title: '',
+        tag: 'Kinh nghiệm',
+        content: '',
+        date: new Date().toLocaleDateString('vi-VN')
+      });
+    } catch (error) {
+      console.error("Error saving blog post:", error);
+    }
+  };
+
+  const openEditModal = (post: any) => {
+    setEditingPost(post);
+    setBlogFormData({
+      title: post.title,
+      tag: post.tag,
+      content: post.content,
+      date: post.date
+    });
+    setShowBlogModal(true);
+  };
+
   const exportSubscribers = () => {
     const headers = ['Họ Tên', 'Email', 'Ngày Đăng Ký'];
     const csvData = subscribers.map(sub => [
@@ -135,6 +181,93 @@ export default function AdminPanel() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const migrateHardcodedPosts = async () => {
+    const BLOG_POSTS = [
+      { 
+        title: 'Cách tôi viết 10 bài blog/ngày với AI', 
+        date: '13/04/2024', 
+        tag: 'Kinh nghiệm',
+        content: `
+# Cách tôi viết 10 bài blog/ngày với AI
+
+Bạn đang tốn cả ngày trời chỉ để hoàn thành một bài viết? Với sự hỗ trợ của AI, một Freelancer có thể sản xuất 10 bài blog chất lượng cao mỗi ngày mà vẫn đảm bảo chuẩn SEO và giá trị cho người đọc.
+
+## 1. Thay đổi tư duy: AI là "Trợ lý", bạn là "Tổng biên tập"
+Sai lầm lớn nhất của nhiều người là copy-paste hoàn toàn nội dung từ AI. Để bài viết có thứ hạng cao trên Google, bạn cần đóng vai trò là người định hướng, kiểm soát chất lượng và thêm vào "chất riêng" mà AI không có.
+
+## 2. Quy trình 5 bước viết bài thần tốc
+
+### Bước 1: Nghiên cứu từ khóa và lập kế hoạch (5 phút)
+Thay vì ngồi nghĩ, hãy yêu cầu AI tìm các chủ đề ngách đang có xu hướng nhưng ít cạnh tranh.
+
+### Bước 2: Xây dựng cấu trúc bài viết (Outline) chuyên sâu (5 phút)
+Một cấu trúc tốt là 50% sự thành công. Đừng chỉ yêu cầu AI "viết bài", hãy yêu cầu nó "lập dàn ý".
+
+### Bước 3: Viết từng phần với các Prompt chuyên biệt (15 phút)
+Đừng bắt AI viết cả bài một lúc vì nội dung sẽ bị nông. Hãy bắt nó viết từng mục trong dàn ý.
+
+### Bước 4: "Nhân bản hóa" và Kiểm tra sự thật (10 phút)
+Thêm các câu chuyện cá nhân hoặc trải nghiệm thực tế của bạn. Kiểm tra lại các số liệu, dẫn chứng mà AI đưa ra.
+
+### Bước 5: Tối ưu SEO On-page và Hình ảnh (5 phút)
+Dùng AI để viết Meta Description và tiêu đề thu hút.
+
+## 3. Kết luận
+Việc viết 10 bài/ngày không khó nếu bạn làm chủ được quy trình. Hãy thử áp dụng ngay hôm nay!
+        `
+      },
+      { 
+        title: 'Top 5 công cụ AI cho người bán hàng Shopee', 
+        date: '12/04/2024', 
+        tag: 'Công cụ',
+        content: `
+# Top 5 công cụ AI cho người bán hàng Shopee
+
+Kinh doanh trên Shopee ngày càng cạnh tranh. Dưới đây là 5 công cụ AI giúp bạn tối ưu gian hàng và tăng doanh số hiệu quả.
+
+1. **ChatGPT/Gemini:** Viết mô tả sản phẩm chuẩn SEO và trả lời tin nhắn khách hàng.
+2. **Canva Magic Studio:** Thiết kế ảnh bìa sản phẩm chuyên nghiệp chỉ trong vài giây.
+3. **Midjourney:** Tạo ảnh mẫu (model) mặc quần áo hoặc sử dụng sản phẩm mà không cần thuê studio.
+4. **CapCut AI:** Tự động tạo video giới thiệu sản phẩm từ hình ảnh có sẵn.
+5. **Shopee Analytics Tools:** Phân tích từ khóa và đối thủ cạnh tranh bằng AI.
+
+Sử dụng bộ công cụ này sẽ giúp bạn tiết kiệm 80% thời gian vận hành gian hàng.
+        `
+      },
+      { 
+        title: 'Hướng dẫn kiếm tiền từ Affiliate bằng AI', 
+        date: '10/04/2024', 
+        tag: 'Hướng dẫn',
+        content: `
+# Hướng dẫn kiếm tiền từ Affiliate bằng AI
+
+Tiếp thị liên kết (Affiliate Marketing) là cách tuyệt vời để tạo thu nhập thụ động. AI giúp bạn làm điều này dễ dàng hơn bao giờ hết.
+
+## Các bước thực hiện:
+1. **Chọn ngách sản phẩm:** Sử dụng AI để nghiên cứu các ngách tiềm năng.
+2. **Tạo nội dung review:** Dùng AI viết bài đánh giá hoặc kịch bản video review sản phẩm.
+3. **Xây dựng kênh phân phối:** Sử dụng AI để quản lý Fanpage hoặc kênh TikTok tự động.
+4. **Tối ưu hóa chuyển đổi:** Thử nghiệm các tiêu đề và lời kêu gọi hành động (CTA) khác nhau bằng AI.
+
+Bắt đầu ngay hôm nay với một ngách nhỏ và kiên trì tối ưu hóa nội dung của bạn!
+        `
+      },
+    ];
+
+    try {
+      for (const post of BLOG_POSTS) {
+        await addDoc(collection(db, 'blog_posts'), {
+          ...post,
+          createdAt: serverTimestamp()
+        });
+      }
+      alert('Đã nhập 3 bài viết mẫu vào database thành công!');
+    } catch (error) {
+      console.error("Error migrating posts:", error);
+      alert('Lỗi khi nhập bài viết.');
+    }
   };
 
   const stats = [
@@ -225,9 +358,29 @@ export default function AdminPanel() {
               </button>
             )}
             {activeTab === 'blog' && (
-              <button className="flex items-center gap-2 px-6 py-2 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20">
-                <Plus className="w-4 h-4" /> Viết bài mới
-              </button>
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={migrateHardcodedPosts}
+                  className="flex items-center gap-2 px-6 py-2 bg-gray-100 text-gray-600 rounded-xl text-sm font-bold hover:bg-gray-200 transition-all"
+                >
+                  <Download className="w-4 h-4" /> Nhập bài mẫu
+                </button>
+                <button 
+                  onClick={() => {
+                    setEditingPost(null);
+                    setBlogFormData({
+                      title: '',
+                      tag: 'Kinh nghiệm',
+                      content: '',
+                      date: new Date().toLocaleDateString('vi-VN')
+                    });
+                    setShowBlogModal(true);
+                  }}
+                  className="flex items-center gap-2 px-6 py-2 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20"
+                >
+                  <Plus className="w-4 h-4" /> Viết bài mới
+                </button>
+              </div>
             )}
           </div>
         </header>
@@ -469,7 +622,10 @@ export default function AdminPanel() {
                         <p className="text-xs text-gray-400 mb-6">{post.date}</p>
                         <div className="flex items-center justify-between pt-4 border-t border-gray-50">
                           <div className="flex items-center gap-2">
-                            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-400">
+                            <button 
+                              onClick={() => openEditModal(post)}
+                              className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-400"
+                            >
                               <Edit2 className="w-4 h-4" />
                             </button>
                             <button 
@@ -489,6 +645,87 @@ export default function AdminPanel() {
                 </div>
               )}
             </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Blog Post Modal */}
+        <AnimatePresence>
+          {showBlogModal && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="bg-white w-full max-w-4xl max-h-[90vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+              >
+                <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50">
+                  <h3 className="font-bold text-xl">{editingPost ? 'Chỉnh sửa bài viết' : 'Viết bài mới'}</h3>
+                  <button 
+                    onClick={() => setShowBlogModal(false)}
+                    className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+                  >
+                    <XCircle className="w-6 h-6" />
+                  </button>
+                </div>
+
+                <form onSubmit={handleBlogSubmit} className="flex-1 overflow-y-auto p-8 space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-gray-700">Tiêu đề bài viết</label>
+                      <input 
+                        required
+                        type="text" 
+                        value={blogFormData.title}
+                        onChange={(e) => setBlogFormData({...blogFormData, title: e.target.value})}
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                        placeholder="Nhập tiêu đề..."
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-gray-700">Chủ đề (Tag)</label>
+                      <select 
+                        value={blogFormData.tag}
+                        onChange={(e) => setBlogFormData({...blogFormData, tag: e.target.value})}
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                      >
+                        <option value="Kinh nghiệm">Kinh nghiệm</option>
+                        <option value="Công cụ">Công cụ</option>
+                        <option value="Hướng dẫn">Hướng dẫn</option>
+                        <option value="Xu hướng">Xu hướng</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-700">Nội dung (Markdown)</label>
+                    <textarea 
+                      required
+                      rows={12}
+                      value={blogFormData.content}
+                      onChange={(e) => setBlogFormData({...blogFormData, content: e.target.value})}
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all font-mono text-sm"
+                      placeholder="# Tiêu đề bài viết..."
+                    />
+                  </div>
+
+                  <div className="flex justify-end gap-4 pt-4">
+                    <button 
+                      type="button"
+                      onClick={() => setShowBlogModal(false)}
+                      className="px-6 py-3 bg-gray-100 text-gray-600 rounded-xl font-bold hover:bg-gray-200 transition-all"
+                    >
+                      Hủy bỏ
+                    </button>
+                    <button 
+                      type="submit"
+                      className="px-8 py-3 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/20"
+                    >
+                      {editingPost ? 'Cập nhật bài viết' : 'Đăng bài viết'}
+                    </button>
+                  </div>
+                </form>
+              </motion.div>
+            </div>
           )}
         </AnimatePresence>
       </main>
