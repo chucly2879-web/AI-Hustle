@@ -629,6 +629,10 @@ export default function App() {
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [isSubmittingEbook, setIsSubmittingEbook] = useState(false);
   const [ebookFormData, setEbookFormData] = useState({ fullName: '', email: '' });
+  const [activeQuickTool, setActiveQuickTool] = useState<string | null>(null);
+  const [quickToolInput, setQuickToolInput] = useState('');
+  const [quickToolOutput, setQuickToolOutput] = useState('');
+  const [isQuickToolLoading, setIsQuickToolLoading] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -722,8 +726,8 @@ export default function App() {
   const openPromptEditor = (prompt: Prompt) => {
     setEditingPrompt(prompt);
     const vars: Record<string, string> = {};
-    const matches = prompt.content.match(/\[(.*?)\]/g) || [];
-    matches.forEach(m => {
+    const matches = (prompt.content.match(/\[(.*?)\]/g) || []) as string[];
+    matches.forEach((m: string) => {
       const key = m.slice(1, -1);
       vars[key] = '';
     });
@@ -799,6 +803,39 @@ export default function App() {
       setTimeout(() => setShowSuccessToast(false), 2000);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleQuickTool = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!quickToolInput || !activeQuickTool) return;
+    setIsQuickToolLoading(true);
+    setQuickToolOutput('');
+
+    let systemPrompt = '';
+    switch (activeQuickTool) {
+      case 'seo-blog':
+        systemPrompt = `Bạn là một chuyên gia SEO và Content Marketing. Hãy tạo một dàn ý chi tiết và nội dung bài viết chuẩn SEO cho từ khóa: "${quickToolInput}". Bài viết cần có các thẻ H1, H2, H3, danh sách và lời khuyên tối ưu.`;
+        break;
+      case 'translate':
+        systemPrompt = `Bạn là một biên dịch viên chuyên nghiệp. Hãy dịch đoạn văn bản sau sang tiếng Việt một cách tự nhiên, trôi chảy như người bản xứ: "${quickToolInput}".`;
+        break;
+      case 'image-prompt':
+        systemPrompt = `Bạn là một chuyên gia tạo Prompt cho AI tạo ảnh (Midjourney, DALL-E). Hãy tạo một Prompt chi tiết, chuyên nghiệp bằng tiếng Anh dựa trên ý tưởng: "${quickToolInput}". Bao gồm các thông số về ánh sáng, phong cách, ống kính.`;
+        break;
+      case 'code-assist':
+        systemPrompt = `Bạn là một kỹ sư phần mềm cao cấp. Hãy giải thích, tối ưu hóa hoặc sửa lỗi cho đoạn mã/câu hỏi sau: "${quickToolInput}". Trả lời rõ ràng, kèm ví dụ nếu cần.`;
+        break;
+    }
+
+    try {
+      const result = await runCustomPrompt(systemPrompt);
+      setQuickToolOutput(result);
+    } catch (error) {
+      console.error(error);
+      setQuickToolOutput('Có lỗi xảy ra. Vui lòng thử lại sau.');
+    } finally {
+      setIsQuickToolLoading(false);
     }
   };
 
@@ -1371,6 +1408,227 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      {/* AI Quick Tools Section */}
+      <section id="ai-tools" className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Công cụ AI hỗ trợ nhanh</h2>
+            <p className="text-gray-500">Tiết kiệm hàng giờ làm việc mỗi ngày với các công cụ tối ưu sẵn.</p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Main Tool: SEO Blog */}
+            <motion.div 
+              whileHover={{ y: -5 }}
+              className="lg:col-span-7 relative group overflow-hidden rounded-[40px] bg-black p-8 md:p-12 min-h-[400px] flex flex-col justify-between"
+            >
+              <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-orange-500/20 to-transparent opacity-50" />
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg shadow-orange-500/20">
+                  <PenTool className="w-8 h-8" />
+                </div>
+                <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">Viết bài Blog chuẩn SEO</h3>
+                <p className="text-gray-400 text-lg max-w-md mb-8">
+                  Tạo dàn ý và nội dung bài viết chuyên sâu chỉ với một từ khóa chính. Tối ưu hóa cho Google Search.
+                </p>
+              </div>
+              <div className="relative z-10">
+                <button 
+                  onClick={() => {
+                    setActiveQuickTool('seo-blog');
+                    setQuickToolInput('');
+                    setQuickToolOutput('');
+                  }}
+                  className="px-8 py-4 bg-white text-black rounded-2xl font-bold hover:bg-orange-500 hover:text-white transition-all flex items-center gap-2 group/btn"
+                >
+                  Thử ngay <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </motion.div>
+
+            {/* Side Tools */}
+            <div className="lg:col-span-5 flex flex-col gap-6">
+              {/* Translation Tool */}
+              <motion.div 
+                whileHover={{ y: -5 }}
+                onClick={() => {
+                  setActiveQuickTool('translate');
+                  setQuickToolInput('');
+                  setQuickToolOutput('');
+                }}
+                className="bg-white border border-gray-100 p-8 rounded-[40px] hover:shadow-xl transition-all cursor-pointer group flex flex-col justify-between h-full"
+              >
+                <div className="flex items-start justify-between mb-6">
+                  <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <Languages className="w-7 h-7" />
+                  </div>
+                  <ArrowRight className="w-6 h-6 text-gray-300 group-hover:text-blue-600 transition-colors" />
+                </div>
+                <div>
+                  <h4 className="text-xl font-bold mb-3">Dịch thuật chuyên sâu</h4>
+                  <p className="text-gray-500 text-sm">Dịch thuật tài liệu chuyên ngành với văn phong tự nhiên như người bản xứ.</p>
+                </div>
+              </motion.div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Image Prompt Tool */}
+                <motion.div 
+                  whileHover={{ y: -5 }}
+                  onClick={() => {
+                    setActiveQuickTool('image-prompt');
+                    setQuickToolInput('');
+                    setQuickToolOutput('');
+                  }}
+                  className="bg-white border border-gray-100 p-8 rounded-[40px] hover:shadow-xl transition-all cursor-pointer group"
+                >
+                  <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                    <Palette className="w-6 h-6" />
+                  </div>
+                  <h4 className="font-bold mb-2">Tạo Prompt Ảnh</h4>
+                  <p className="text-gray-500 text-xs">Mô tả ý tưởng, AI sẽ tạo Prompt cho Midjourney/DALL-E.</p>
+                </motion.div>
+
+                {/* Code Assist Tool */}
+                <motion.div 
+                  whileHover={{ y: -5 }}
+                  onClick={() => {
+                    setActiveQuickTool('code-assist');
+                    setQuickToolInput('');
+                    setQuickToolOutput('');
+                  }}
+                  className="bg-white border border-gray-100 p-8 rounded-[40px] hover:shadow-xl transition-all cursor-pointer group"
+                >
+                  <div className="w-12 h-12 bg-green-50 text-green-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                    <Code2 className="w-6 h-6" />
+                  </div>
+                  <h4 className="font-bold mb-2">Hỗ trợ Code</h4>
+                  <p className="text-gray-500 text-xs">Giải thích và tối ưu hóa các đoạn mã lập trình phức tạp.</p>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Tool Modal */}
+      <AnimatePresence>
+        {activeQuickTool && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveQuickTool(null)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-3xl bg-white rounded-[40px] overflow-hidden shadow-2xl"
+            >
+              <div className="p-8 md:p-12">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-4">
+                    <div className={cn(
+                      "w-12 h-12 rounded-2xl flex items-center justify-center text-white",
+                      activeQuickTool === 'seo-blog' && "bg-orange-500",
+                      activeQuickTool === 'translate' && "bg-blue-600",
+                      activeQuickTool === 'image-prompt' && "bg-purple-600",
+                      activeQuickTool === 'code-assist' && "bg-green-600"
+                    )}>
+                      {activeQuickTool === 'seo-blog' && <PenTool className="w-6 h-6" />}
+                      {activeQuickTool === 'translate' && <Languages className="w-6 h-6" />}
+                      {activeQuickTool === 'image-prompt' && <Palette className="w-6 h-6" />}
+                      {activeQuickTool === 'code-assist' && <Code2 className="w-6 h-6" />}
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold">
+                        {activeQuickTool === 'seo-blog' && "Viết bài Blog chuẩn SEO"}
+                        {activeQuickTool === 'translate' && "Dịch thuật chuyên sâu"}
+                        {activeQuickTool === 'image-prompt' && "Tạo Prompt Ảnh"}
+                        {activeQuickTool === 'code-assist' && "Hỗ trợ Code"}
+                      </h3>
+                      <p className="text-gray-500 text-sm">Sử dụng sức mạnh của AI để tối ưu công việc.</p>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => setActiveQuickTool(null)}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+
+                <form onSubmit={handleQuickTool} className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                      {activeQuickTool === 'seo-blog' && "Nhập từ khóa chính:"}
+                      {activeQuickTool === 'translate' && "Nhập văn bản cần dịch:"}
+                      {activeQuickTool === 'image-prompt' && "Mô tả ý tưởng hình ảnh:"}
+                      {activeQuickTool === 'code-assist' && "Nhập đoạn mã hoặc câu hỏi:"}
+                    </label>
+                    <textarea 
+                      value={quickToolInput}
+                      onChange={(e) => setQuickToolInput(e.target.value)}
+                      placeholder={
+                        activeQuickTool === 'seo-blog' ? "Ví dụ: Cách kiếm tiền với AI 2024..." :
+                        activeQuickTool === 'translate' ? "Nhập văn bản tiếng Anh hoặc ngôn ngữ khác..." :
+                        activeQuickTool === 'image-prompt' ? "Ví dụ: Một phi hành gia đang cưỡi ngựa trên sao hỏa, phong cách cyberpunk..." :
+                        "Dán code của bạn vào đây hoặc đặt câu hỏi..."
+                      }
+                      className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 min-h-[150px] resize-none"
+                      required
+                    />
+                  </div>
+                  <button 
+                    type="submit"
+                    disabled={isQuickToolLoading}
+                    className="w-full py-4 bg-black text-white rounded-2xl font-bold hover:bg-gray-800 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    {isQuickToolLoading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" /> Đang xử lý...
+                      </>
+                    ) : (
+                      <>
+                        <Zap className="w-5 h-5 text-orange-500" /> Chạy AI ngay
+                      </>
+                    )}
+                  </button>
+                </form>
+
+                {quickToolOutput && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-8 pt-8 border-t border-gray-100"
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="font-bold text-gray-900">Kết quả từ AI:</h4>
+                      <button 
+                        onClick={() => {
+                          navigator.clipboard.writeText(quickToolOutput);
+                          setToastMessage('Đã sao chép kết quả!');
+                          setShowSuccessToast(true);
+                          setTimeout(() => setShowSuccessToast(false), 2000);
+                        }}
+                        className="flex items-center gap-2 text-xs font-bold text-orange-600 hover:text-orange-700"
+                      >
+                        <Copy className="w-3 h-3" /> Sao chép
+                      </button>
+                    </div>
+                    <div className="bg-gray-50 p-6 rounded-2xl prose prose-sm prose-orange max-w-none max-h-[300px] overflow-y-auto">
+                      <ReactMarkdown>{quickToolOutput}</ReactMarkdown>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Video Modal */}
       <AnimatePresence>
@@ -2832,6 +3090,7 @@ export default function App() {
               <h4 className="font-bold mb-6">Khám phá</h4>
               <ul className="space-y-4 text-sm text-gray-500">
                 <li><a href="#ideas" className="hover:text-orange-500 transition-colors">Ý tưởng AI</a></li>
+                <li><a href="#ai-tools" className="hover:text-orange-500 transition-colors">Công cụ AI</a></li>
                 <li><a href="#prompts" className="hover:text-orange-500 transition-colors">Thư viện Prompt</a></li>
                 <li><a href="#generator" className="hover:text-orange-500 transition-colors">Trình tạo lộ trình</a></li>
                 <li><a href="#blog" className="hover:text-orange-500 transition-colors">Blog kiến thức</a></li>
@@ -3084,6 +3343,7 @@ export default function App() {
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">
             <button onClick={() => setActiveTab('home')} className={cn("hover:text-orange-500 transition-colors", activeTab === 'home' && "text-orange-500 font-bold")}>Trang chủ</button>
             <a href="#ideas" className="hover:text-orange-500 transition-colors">Ý tưởng</a>
+            <a href="#ai-tools" className="hover:text-orange-500 transition-colors">Công cụ AI</a>
             <a href="#prompts" className="hover:text-orange-500 transition-colors">Prompt</a>
             <a href="#videos" className="hover:text-orange-500 transition-colors">Video</a>
             <a href="#blog" className="hover:text-orange-500 transition-colors">Blog</a>
