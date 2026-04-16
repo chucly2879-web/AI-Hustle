@@ -16,6 +16,10 @@ import {
   Terminal,
   ShoppingBag,
   Star,
+  ArrowUp,
+  Instagram,
+  Youtube,
+  Github as GithubIcon,
   MessageCircle,
   MessageSquare,
   Facebook,
@@ -34,7 +38,8 @@ import {
   LogIn,
   LogOut,
   User as UserIcon,
-  ShieldCheck
+  ShieldCheck,
+  Copy
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
@@ -543,6 +548,7 @@ export default function App() {
   const location = useLocation();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
   const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
   const [activeLesson, setActiveLesson] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 8;
@@ -561,6 +567,9 @@ export default function App() {
   const [showQuizResult, setShowQuizResult] = useState(false);
   const [expandedPromptId, setExpandedPromptId] = useState<string | null>(null);
   const [firestoreBlogPosts, setFirestoreBlogPosts] = useState<any[]>([]);
+  const [firestorePrompts, setFirestorePrompts] = useState<any[]>([]);
+  const [isLoadingBlog, setIsLoadingBlog] = useState(true);
+  const [isLoadingPrompts, setIsLoadingPrompts] = useState(true);
   const [activeBlogCategory, setActiveBlogCategory] = useState('Tất cả');
 
   const BLOG_CATEGORIES = ['Tất cả', 'Yêu thích', 'Content', 'E-commerce', 'Video', 'Marketing', 'Sales', 'SEO'];
@@ -639,10 +648,30 @@ export default function App() {
 
   // Fetch Blog Posts from Firestore
   useEffect(() => {
+    setIsLoadingBlog(true);
     const q = query(collection(db, 'blog_posts'), orderBy('createdAt', 'desc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setFirestoreBlogPosts(posts);
+      setIsLoadingBlog(false);
+    }, (error) => {
+      console.error("Error fetching blog posts:", error);
+      setIsLoadingBlog(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Fetch Prompts from Firestore
+  useEffect(() => {
+    setIsLoadingPrompts(true);
+    const q = query(collection(db, 'prompts'), orderBy('createdAt', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const p = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setFirestorePrompts(p as any);
+      setIsLoadingPrompts(false);
+    }, (error) => {
+      console.error("Error fetching prompts:", error);
+      setIsLoadingPrompts(false);
     });
     return () => unsubscribe();
   }, []);
@@ -710,12 +739,13 @@ export default function App() {
     }
   }, [selectedPost]);
 
-  const categories = ['Tất cả', 'Yêu thích', ...new Set(PROMPTS.map(p => p.category))];
+  const allPrompts = [...firestorePrompts, ...PROMPTS];
+  const categories = ['Tất cả', 'Yêu thích', ...new Set(allPrompts.map(p => p.category))];
   const filteredPrompts: Prompt[] = activeCategory === 'Tất cả' 
-    ? PROMPTS 
+    ? allPrompts 
     : activeCategory === 'Yêu thích'
-    ? PROMPTS.filter(p => favorites.includes(p.id))
-    : PROMPTS.filter(p => p.category === activeCategory);
+    ? allPrompts.filter(p => favorites.includes(p.id))
+    : allPrompts.filter(p => p.category === activeCategory);
 
   const totalPages = Math.ceil(filteredPrompts.length / ITEMS_PER_PAGE);
   const paginatedPrompts: Prompt[] = filteredPrompts.slice(
@@ -738,7 +768,12 @@ export default function App() {
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(text).then(() => {
         setCopiedIndex(index);
-        setTimeout(() => setCopiedIndex(null), 2000);
+        setToastMessage('Đã sao chép vào bộ nhớ tạm!');
+        setShowSuccessToast(true);
+        setTimeout(() => {
+          setCopiedIndex(null);
+          setShowSuccessToast(false);
+        }, 2000);
       }).catch(err => {
         console.error('Failed to copy: ', err);
         fallbackCopyTextToClipboard(text, index);
@@ -1015,7 +1050,7 @@ export default function App() {
             <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
               <CheckCircle2 className="w-4 h-4" />
             </div>
-            Chúc mừng! Bạn đã nâng cấp thành công.
+            {toastMessage || 'Thao tác thành công!'}
           </motion.div>
         )}
       </AnimatePresence>
@@ -1039,6 +1074,7 @@ export default function App() {
             <a href="#ideas" className="hover:text-orange-500 transition-colors">Ý tưởng</a>
             <a href="#prompts" className="hover:text-orange-500 transition-colors">Thư viện Prompt</a>
             <a href="#blog" className="hover:text-orange-500 transition-colors">Blog</a>
+            <button onClick={() => setShowContact(true)} className="hover:text-orange-500 transition-colors">Liên hệ</button>
             {userRole === 'pro' && <a href="#masterclass" className="text-orange-600 font-bold">Masterclass</a>}
             
             <div className="h-6 w-px bg-gray-100" />
@@ -1081,7 +1117,69 @@ export default function App() {
 
       {/* Hero Section */}
       <section className="relative pt-20 pb-32 overflow-hidden">
-        {/* ... existing hero code ... */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 overflow-hidden">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-orange-500/10 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="inline-block px-4 py-1.5 bg-orange-100 text-orange-600 rounded-full text-xs font-bold uppercase tracking-widest mb-8 border border-orange-200">
+              Cộng đồng AI Hustle Việt Nam
+            </span>
+            <h1 className="text-5xl md:text-7xl font-black mb-8 leading-[1.1] tracking-tight">
+              Biến AI thành <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Cỗ Máy Kiếm Tiền</span>
+            </h1>
+            <p className="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+              Khám phá lộ trình cá nhân hóa, thư viện Prompt thực chiến và cộng đồng Freelancer AI hàng đầu Việt Nam.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button 
+                onClick={() => {
+                  const el = document.getElementById('generator');
+                  el?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="w-full sm:w-auto px-10 py-5 bg-black text-white rounded-2xl font-bold hover:bg-gray-800 transition-all shadow-2xl shadow-black/20 flex items-center justify-center gap-2 group"
+              >
+                Bắt đầu ngay <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+              <button 
+                onClick={() => {
+                  const el = document.getElementById('prompts');
+                  el?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="w-full sm:w-auto px-10 py-5 bg-white border border-gray-200 text-gray-900 rounded-2xl font-bold hover:bg-gray-50 transition-all flex items-center justify-center gap-2"
+              >
+                Khám phá Prompt
+              </button>
+            </div>
+
+            <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
+              <div className="flex flex-col items-center gap-2">
+                <div className="text-2xl font-bold">10k+</div>
+                <div className="text-[10px] uppercase font-bold tracking-widest">Thành viên</div>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <div className="text-2xl font-bold">500+</div>
+                <div className="text-[10px] uppercase font-bold tracking-widest">Prompt VIP</div>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <div className="text-2xl font-bold">1.2k</div>
+                <div className="text-[10px] uppercase font-bold tracking-widest">Case Study</div>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <div className="text-2xl font-bold">98%</div>
+                <div className="text-[10px] uppercase font-bold tracking-widest">Hài lòng</div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* AI Side Hustle Quiz Section */}
@@ -1479,7 +1577,18 @@ export default function App() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-            {paginatedPrompts.map((prompt, idx) => (
+            {isLoadingPrompts ? (
+              [...Array(4)].map((_, i) => (
+                <div key={i} className="bg-white p-6 rounded-2xl border border-gray-100 animate-pulse flex gap-4">
+                  <div className="w-12 h-12 bg-gray-100 rounded-xl shrink-0" />
+                  <div className="flex-1 space-y-3">
+                    <div className="h-4 bg-gray-100 rounded w-3/4" />
+                    <div className="h-3 bg-gray-100 rounded w-1/2" />
+                  </div>
+                </div>
+              ))
+            ) : (
+              paginatedPrompts.map((prompt, idx) => (
               <motion.div 
                 layout
                 key={prompt.id} 
@@ -1569,7 +1678,7 @@ export default function App() {
                   </div>
                 </div>
               </motion.div>
-            ))}
+            )))}
           </div>
 
           {/* Pagination Controls */}
@@ -1776,9 +1885,18 @@ export default function App() {
                 exit={{ opacity: 0, y: -20 }}
                 className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-10 backdrop-blur-sm"
               >
-                <div className="flex items-center gap-3 mb-6 text-orange-500">
-                  <Sparkles className="w-6 h-6" />
-                  <h3 className="text-xl font-bold">Lộ trình đề xuất cho bạn</h3>
+                <div className="flex items-center justify-between mb-6 text-orange-500">
+                  <div className="flex items-center gap-3">
+                    <Sparkles className="w-6 h-6" />
+                    <h3 className="text-xl font-bold">Lộ trình đề xuất cho bạn</h3>
+                  </div>
+                  <button 
+                    onClick={() => handleCopy(aiResult || '', -2)}
+                    className="p-2 hover:bg-white/10 rounded-lg transition-colors text-gray-400 hover:text-white flex items-center gap-2 text-xs font-bold"
+                  >
+                    {copiedIndex === -2 ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                    {copiedIndex === -2 ? 'Đã sao chép' : 'Sao chép lộ trình'}
+                  </button>
                 </div>
                 <div className="prose prose-invert max-w-none prose-p:text-gray-300 prose-strong:text-white prose-li:text-gray-300">
                   <div className="whitespace-pre-wrap leading-relaxed text-sm md:text-base">
@@ -1820,7 +1938,16 @@ export default function App() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {filteredBlogPosts.map((post, idx) => (
+          {isLoadingBlog ? (
+            [...Array(3)].map((_, i) => (
+              <div key={i} className="animate-pulse">
+                <div className="aspect-video bg-gray-100 rounded-2xl mb-4" />
+                <div className="h-3 bg-gray-100 rounded w-1/4 mb-2" />
+                <div className="h-4 bg-gray-100 rounded w-3/4" />
+              </div>
+            ))
+          ) : (
+            filteredBlogPosts.map((post, idx) => (
             <div 
               key={post.id || idx} 
               onClick={() => setSelectedPost(post)}
@@ -1840,7 +1967,7 @@ export default function App() {
               <span className="text-xs text-gray-400 mb-2 block">{post.date}</span>
               <h4 className="font-bold group-hover:text-orange-500 transition-colors">{post.title}</h4>
             </div>
-          ))}
+          )))}
         </div>
       </section>
 
@@ -2086,6 +2213,103 @@ export default function App() {
           </button>
         </div>
       )}
+
+      {/* Contact Modal */}
+      <AnimatePresence>
+        {showContact && (
+          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="bg-white max-w-lg w-full rounded-[40px] p-10 relative overflow-hidden"
+            >
+              <button 
+                onClick={() => setShowContact(false)}
+                className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              
+              <div className="text-center mb-10">
+                <div className="w-20 h-20 bg-orange-100 text-orange-600 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                  <MessageSquare className="w-10 h-10" />
+                </div>
+                <h3 className="text-3xl font-bold mb-2">Liên hệ với chúng tôi</h3>
+                <p className="text-gray-500">Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn.</p>
+              </div>
+
+              <div className="space-y-4">
+                <a 
+                  href="https://zalo.me/yourid" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="flex items-center gap-4 p-6 bg-blue-50 rounded-3xl hover:bg-blue-100 transition-all group"
+                >
+                  <div className="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/20">
+                    <MessageCircle className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-bold text-blue-900">Hỗ trợ qua Zalo</div>
+                    <div className="text-sm text-blue-700/70">Phản hồi nhanh trong 15 phút</div>
+                  </div>
+                  <ArrowRight className="w-5 h-5 text-blue-300 group-hover:translate-x-1 transition-transform" />
+                </a>
+
+                <a 
+                  href="mailto:contact@aihustle.vn" 
+                  className="flex items-center gap-4 p-6 bg-orange-50 rounded-3xl hover:bg-orange-100 transition-all group"
+                >
+                  <div className="w-12 h-12 bg-orange-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/20">
+                    <Mail className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-bold text-orange-900">Gửi Email cho chúng tôi</div>
+                    <div className="text-sm text-orange-700/70">contact@aihustle.vn</div>
+                  </div>
+                  <ArrowRight className="w-5 h-5 text-orange-300 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
+
+              <div className="mt-10 pt-10 border-t border-gray-100 flex justify-center gap-6">
+                <a href="#" className="p-3 bg-gray-50 rounded-2xl text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-all">
+                  <Facebook className="w-5 h-5" />
+                </a>
+                <a href="#" className="p-3 bg-gray-50 rounded-2xl text-gray-400 hover:text-pink-600 hover:bg-pink-50 transition-all">
+                  <Instagram className="w-5 h-5" />
+                </a>
+                <a href="#" className="p-3 bg-gray-50 rounded-2xl text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all">
+                  <Youtube className="w-5 h-5" />
+                </a>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Floating Action Buttons */}
+      <div className="fixed bottom-8 right-8 z-[100] flex flex-col gap-4">
+        <AnimatePresence>
+          {showScrollTop && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.5, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.5, y: 20 }}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="w-14 h-14 bg-white text-black border border-gray-100 rounded-2xl shadow-2xl flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all group"
+            >
+              <ArrowUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform" />
+            </motion.button>
+          )}
+        </AnimatePresence>
+        
+        <button 
+          onClick={() => setShowContact(!showContact)}
+          className="w-14 h-14 bg-orange-500 text-white rounded-2xl shadow-2xl flex items-center justify-center hover:bg-orange-600 transition-all shadow-orange-500/20"
+        >
+          {showContact ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
+        </button>
+      </div>
 
       {/* Admin Panel Modal */}
       <AnimatePresence>
@@ -2595,26 +2819,72 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-gray-100 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
-          <button 
-            onClick={() => {
-              setSelectedPost(null);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-          >
-            <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white">
-              <Sparkles className="w-5 h-5" />
+      <footer className="bg-white pt-24 pb-12 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div className="col-span-1 md:col-span-1">
+              <div className="flex items-center gap-2 mb-6">
+                <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <span className="font-bold text-xl tracking-tight">AI Hustle</span>
+              </div>
+              <p className="text-gray-500 text-sm leading-relaxed mb-6">
+                Cộng đồng chia sẻ kiến thức, công cụ và lộ trình kiếm tiền bằng AI hàng đầu Việt Nam.
+              </p>
+              <div className="flex items-center gap-4">
+                <a href="#" className="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-all">
+                  <Facebook className="w-5 h-5" />
+                </a>
+                <a href="#" className="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center text-gray-400 hover:text-pink-600 hover:bg-pink-50 transition-all">
+                  <Instagram className="w-5 h-5" />
+                </a>
+                <a href="#" className="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all">
+                  <Youtube className="w-5 h-5" />
+                </a>
+              </div>
             </div>
-            <span className="font-bold text-lg">AI Hustle Explorer</span>
-          </button>
-          
-          <div className="text-center">
-            <p className="text-gray-400 text-sm mb-4">
-              © 2024 AI Hustle. Được tạo ra để truyền cảm hứng cho cộng đồng Freelancer Việt Nam.
-            </p>
-            <div className="flex items-center justify-center gap-6 text-xs text-gray-400">
+
+            <div>
+              <h4 className="font-bold mb-6">Khám phá</h4>
+              <ul className="space-y-4 text-sm text-gray-500">
+                <li><a href="#ideas" className="hover:text-orange-500 transition-colors">Ý tưởng AI</a></li>
+                <li><a href="#prompts" className="hover:text-orange-500 transition-colors">Thư viện Prompt</a></li>
+                <li><a href="#generator" className="hover:text-orange-500 transition-colors">Trình tạo lộ trình</a></li>
+                <li><a href="#blog" className="hover:text-orange-500 transition-colors">Blog kiến thức</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-6">Hỗ trợ</h4>
+              <ul className="space-y-4 text-sm text-gray-500">
+                <li><button onClick={() => setShowContact(true)} className="hover:text-orange-500 transition-colors text-left">Liên hệ</button></li>
+                <li><a href="#" className="hover:text-orange-500 transition-colors">Câu hỏi thường gặp</a></li>
+                <li><a href="#" className="hover:text-orange-500 transition-colors">Chính sách bảo mật</a></li>
+                <li><a href="#" className="hover:text-orange-500 transition-colors">Điều khoản sử dụng</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-6">Đăng ký bản tin</h4>
+              <p className="text-sm text-gray-500 mb-4">Nhận cập nhật mới nhất về AI và kiếm tiền online.</p>
+              <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); alert('Cảm ơn bạn đã đăng ký!'); }}>
+                <input 
+                  type="email" 
+                  placeholder="Email..." 
+                  className="flex-1 px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
+                />
+                <button className="px-4 py-2 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-all">
+                  Gửi
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-400">
+            <p>© 2024 AI Hustle Explorer. All rights reserved.</p>
+            <div className="flex items-center gap-6">
+              <span>Made with ❤️ for Freelancers</span>
               <button 
                 onClick={() => {
                   if (userRole === 'admin') {
@@ -2623,75 +2893,28 @@ export default function App() {
                     navigate('/dang-nhap-admin');
                   }
                 }}
-                className="hover:text-orange-500 flex items-center gap-1 transition-colors"
+                className="hover:text-gray-600 flex items-center gap-1"
               >
                 <ShieldCheck className="w-3 h-3" />
-                Đăng nhập Admin
+                Admin Login
               </button>
-              <a href="#" className="hover:text-gray-600">Điều khoản</a>
-              <a href="#" className="hover:text-gray-600">Bảo mật</a>
             </div>
-          </div>
-
-          <div className="flex items-center gap-6 text-gray-400">
-            <a href="#" className="hover:text-black transition-colors">Facebook</a>
-            <a href="#" className="hover:text-black transition-colors">YouTube</a>
-            <a href="#" className="hover:text-black transition-colors">TikTok</a>
           </div>
         </div>
       </footer>
 
-      {/* Blog Post Modal (Removed in favor of full page view) */}
-
-      {/* Floating Contact Buttons & Scroll Top */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
-        <AnimatePresence>
-          {showScrollTop && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="w-12 h-12 bg-white text-black border border-gray-100 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-50 transition-colors"
-              title="Lên đầu trang"
-            >
-              <ArrowRight className="w-5 h-5 -rotate-90" />
-            </motion.button>
-          )}
-          {showContact && (
-            <>
-              <motion.a
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                href="https://zalo.me/your-number"
-                target="_blank"
-                className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-                title="Chat Zalo"
-              >
-                <MessageCircle className="w-6 h-6" />
-              </motion.a>
-              <motion.a
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                href="https://m.me/your-profile"
-                target="_blank"
-                className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-                title="Chat Facebook"
-              >
-                <Facebook className="w-6 h-6" />
-              </motion.a>
-            </>
-          )}
-        </AnimatePresence>
-        <button
-          onClick={() => setShowContact(!showContact)}
-          className="w-14 h-14 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-xl hover:bg-orange-600 transition-colors"
-        >
-          {showContact ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
-        </button>
-      </div>
+      {/* Admin Toggle (Visible only to owner) */}
+      {currentUser?.email === 'chucly2879@gmail.com' && (
+        <div className="fixed bottom-8 left-8 z-[100]">
+          <button 
+            onClick={() => setShowAdminPanel(!showAdminPanel)}
+            className="p-4 bg-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center gap-2"
+          >
+            <Users className="w-6 h-6" />
+            <span className="text-xs font-bold">Quản lý Lead ({subscribers.length})</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 
