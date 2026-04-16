@@ -59,73 +59,89 @@ interface SideHustle {
   description: string;
   icon: React.ReactNode;
   difficulty: 'Dễ' | 'Trung bình' | 'Khó';
-  potential: 'Thấp' | 'Trung bình' | 'Cao' | 'Rất Cao';
+  potential: 'Thấp' | 'Trung bình' | 'Cao' | 'Rất Cao' | 'Bền vững';
   tools: string[];
+  potential_income?: string;
+  market_demand?: string;
 }
 
 const SIDE_HUSTLES: SideHustle[] = [
   {
     id: 'content',
-    title: 'Viết nội dung (Content)',
-    description: 'Sử dụng AI để viết blog, kịch bản video, bài đăng mạng xã hội hoặc sách điện tử.',
+    title: 'Sáng tạo nội dung AI',
+    description: 'Sử dụng AI để viết blog, kịch bản video và nội dung mạng xã hội cho các doanh nghiệp. Tiết kiệm 80% thời gian nghiên cứu.',
     icon: <PenTool className="w-6 h-6" />,
     difficulty: 'Dễ',
-    potential: 'Trung bình',
-    tools: ['ChatGPT', 'Claude', 'Jasper']
+    potential: 'Cao',
+    tools: ['ChatGPT', 'Claude', 'Jasper'],
+    potential_income: '15 - 35 triệu/tháng',
+    market_demand: 'Rất cao'
   },
   {
     id: 'art',
-    title: 'Nghệ thuật & Thiết kế',
-    description: 'Tạo logo, minh họa sách, hoặc bán các tác phẩm nghệ thuật kỹ thuật số được tạo bởi AI.',
+    title: 'Thiết kế hình ảnh AI',
+    description: 'Tạo logo, hình minh họa và ảnh sản phẩm chuyên nghiệp. Phù hợp cho Freelancer thiết kế và chủ shop.',
     icon: <Palette className="w-6 h-6" />,
     difficulty: 'Trung bình',
     potential: 'Cao',
-    tools: ['Midjourney', 'DALL-E 3', 'Canva Magic']
+    tools: ['Midjourney', 'DALL-E 3', 'Canva Magic'],
+    potential_income: '20 - 45 triệu/tháng',
+    market_demand: 'Cao'
   },
   {
     id: 'coding',
-    title: 'Lập trình & Công cụ',
-    description: 'Xây dựng các tiện ích mở rộng trình duyệt hoặc ứng dụng nhỏ giải quyết vấn đề cụ thể.',
+    title: 'Lập trình & Công cụ AI',
+    description: 'Xây dựng các tiện ích mở rộng trình duyệt hoặc ứng dụng nhỏ giải quyết vấn đề cụ thể cho doanh nghiệp.',
     icon: <Code2 className="w-6 h-6" />,
     difficulty: 'Khó',
     potential: 'Rất Cao',
-    tools: ['Cursor', 'GitHub Copilot', 'v0.dev']
+    tools: ['Cursor', 'GitHub Copilot', 'v0.dev'],
+    potential_income: '40 - 120 triệu/tháng',
+    market_demand: 'Bùng nổ'
   },
   {
     id: 'translation',
-    title: 'Dịch thuật chuyên sâu',
-    description: 'Cung cấp dịch vụ dịch thuật và bản địa hóa nhanh chóng với độ chính xác cao nhờ AI.',
+    title: 'Dịch thuật chuyên sâu AI',
+    description: 'Dịch thuật tài liệu, website đa ngôn ngữ với độ chính xác cao. Kết hợp AI và biên tập thủ công.',
     icon: <Languages className="w-6 h-6" />,
     difficulty: 'Dễ',
     potential: 'Trung bình',
-    tools: ['DeepL', 'Google Translate AI', 'ChatGPT']
+    tools: ['DeepL', 'Google Translate AI', 'ChatGPT'],
+    potential_income: '8 - 15 triệu/tháng',
+    market_demand: 'Trung bình'
   },
   {
     id: 'consulting',
     title: 'Tư vấn giải pháp AI',
-    description: 'Giúp các doanh nghiệp nhỏ tự động hóa quy trình bằng các công cụ AI hiện có.',
+    description: 'Giúp doanh nghiệp tự động hóa quy trình, xây dựng Chatbot và tối ưu hóa hiệu suất làm việc.',
     icon: <Briefcase className="w-6 h-6" />,
-    difficulty: 'Trung bình',
-    potential: 'Cao',
-    tools: ['Make.com', 'Zapier', 'OpenAI API']
+    difficulty: 'Khó',
+    potential: 'Rất Cao',
+    tools: ['Make.com', 'Zapier', 'OpenAI API'],
+    potential_income: '30 - 70 triệu/tháng',
+    market_demand: 'Đang bùng nổ'
   },
   {
     id: 'ecommerce-seo',
-    title: 'Tối ưu SEO TMĐT',
-    description: 'Sử dụng AI để viết tiêu đề, mô tả và tối ưu từ khóa giúp sản phẩm đứng top Shopee/Lazada.',
+    title: 'Tối ưu SEO TMĐT AI',
+    description: 'Tối ưu tiêu đề, mô tả sản phẩm Shopee/Lazada/TikTok Shop giúp tăng tỷ lệ chuyển đổi và hiển thị.',
     icon: <ShoppingBag className="w-6 h-6" />,
     difficulty: 'Dễ',
     potential: 'Cao',
-    tools: ['ChatGPT', 'Shopee Analytics', 'KeywordTool.io']
+    tools: ['ChatGPT', 'Shopee Analytics', 'KeywordTool.io'],
+    potential_income: '12 - 30 triệu/tháng',
+    market_demand: 'Rất cao'
   },
   {
     id: 'niche-site',
-    title: 'Xây dựng Niche Site',
-    description: 'Tạo các website chuyên biệt về một ngách sản phẩm và kiếm tiền từ tiếp thị liên kết (Affiliate).',
+    title: 'Xây dựng Niche Site AI',
+    description: 'Xây dựng hệ thống website vệ tinh, blog chuyên sâu để kiếm tiền từ Affiliate và quảng cáo.',
     icon: <Star className="w-6 h-6" />,
     difficulty: 'Trung bình',
-    potential: 'Rất Cao',
-    tools: ['WordPress', 'Gemini AI', 'Google Search Console']
+    potential: 'Bền vững',
+    tools: ['WordPress', 'Gemini AI', 'Google Search Console'],
+    potential_income: '20 - 80 triệu/tháng',
+    market_demand: 'Ổn định'
   }
 ];
 
@@ -456,6 +472,60 @@ const PROMPTS: Prompt[] = [
   },
 ];
 
+interface VideoTutorial {
+  id: string;
+  title: string;
+  thumbnail: string;
+  duration: string;
+  category: string;
+  level: 'Cơ bản' | 'Nâng cao';
+  views: string;
+  url: string;
+}
+
+const VIDEOS: VideoTutorial[] = [
+  {
+    id: 'v1',
+    title: 'Cách tạo 100 video TikTok/tháng với AI',
+    thumbnail: 'https://picsum.photos/seed/vid1/800/450',
+    duration: '12:45',
+    category: 'Video',
+    level: 'Cơ bản',
+    views: '1.2k',
+    url: '#'
+  },
+  {
+    id: 'v2',
+    title: 'Làm chủ Midjourney trong 15 phút',
+    thumbnail: 'https://picsum.photos/seed/vid2/800/450',
+    duration: '15:20',
+    category: 'Design',
+    level: 'Cơ bản',
+    views: '2.5k',
+    url: '#'
+  },
+  {
+    id: 'v3',
+    title: 'Xây dựng hệ thống Affiliate tự động với AI',
+    thumbnail: 'https://picsum.photos/seed/vid3/800/450',
+    duration: '25:10',
+    category: 'Automation',
+    level: 'Nâng cao',
+    views: '800',
+    url: '#'
+  },
+  {
+    id: 'v4',
+    title: 'Tối ưu SEO Shopee bằng ChatGPT Pro',
+    thumbnail: 'https://picsum.photos/seed/vid4/800/450',
+    duration: '18:30',
+    category: 'E-commerce',
+    level: 'Cơ bản',
+    views: '1.8k',
+    url: '#'
+  }
+];
+
 const BLOG_POSTS = [
   { 
     title: 'Cách tôi viết 10 bài blog/ngày với AI', 
@@ -568,9 +638,47 @@ export default function App() {
   const [expandedPromptId, setExpandedPromptId] = useState<string | null>(null);
   const [firestoreBlogPosts, setFirestoreBlogPosts] = useState<any[]>([]);
   const [firestorePrompts, setFirestorePrompts] = useState<any[]>([]);
+
+  const handleFirestoreError = (error: unknown, operationType: string, path: string | null) => {
+    const errInfo = {
+      error: error instanceof Error ? error.message : String(error),
+      authInfo: {
+        userId: currentUser?.uid,
+        email: currentUser?.email,
+      },
+      operationType,
+      path
+    };
+    console.error('Firestore Error: ', JSON.stringify(errInfo));
+    // Optionally show a toast or error boundary
+  };
+
+  // Fetch Data
+  useEffect(() => {
+    const fetchPrompts = onSnapshot(collection(db, 'prompts'), (snapshot) => {
+      const promptsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setFirestorePrompts(promptsData);
+    }, (error) => {
+      handleFirestoreError(error, 'list', 'prompts');
+    });
+
+    const fetchBlogPosts = onSnapshot(collection(db, 'blog_posts'), (snapshot) => {
+      const blogData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setFirestoreBlogPosts(blogData);
+    }, (error) => {
+      handleFirestoreError(error, 'list', 'blog_posts');
+    });
+
+    return () => {
+      fetchPrompts();
+      fetchBlogPosts();
+    };
+  }, []);
   const [isLoadingBlog, setIsLoadingBlog] = useState(true);
   const [isLoadingPrompts, setIsLoadingPrompts] = useState(true);
   const [activeBlogCategory, setActiveBlogCategory] = useState('Tất cả');
+  const [activeTab, setActiveTab] = useState<'home' | 'library' | 'admin'>('home');
+  const [selectedVideo, setSelectedVideo] = useState<VideoTutorial | null>(null);
 
   const BLOG_CATEGORIES = ['Tất cả', 'Yêu thích', 'Content', 'E-commerce', 'Video', 'Marketing', 'Sales', 'SEO'];
 
@@ -586,6 +694,112 @@ export default function App() {
     setFavorites(prev => 
       prev.includes(id) ? prev.filter(fav => fav !== id) : [...prev, id]
     );
+  };
+
+  const allPrompts = [...firestorePrompts, ...PROMPTS];
+  const categories = ['Tất cả', 'Yêu thích', 'Content', 'Social Media', 'Ads', 'Email', 'SEO', 'Automation'];
+  
+  const filteredPrompts = allPrompts.filter(p => {
+    if (activeCategory === 'Tất cả') return true;
+    if (activeCategory === 'Yêu thích') return favorites.includes(p.id);
+    return p.category === activeCategory;
+  });
+
+  const totalPages = Math.ceil(filteredPrompts.length / ITEMS_PER_PAGE);
+  const paginatedPrompts = filteredPrompts.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+
+  const handleCopy = async (text: string, index?: number) => {
+    await navigator.clipboard.writeText(text);
+    if (index !== undefined) setCopiedIndex(index);
+    setToastMessage('Đã sao chép vào bộ nhớ tạm!');
+    setShowSuccessToast(true);
+    setTimeout(() => {
+      setShowSuccessToast(false);
+      if (index !== undefined) setCopiedIndex(null);
+    }, 2000);
+  };
+
+  const openPromptEditor = (prompt: Prompt) => {
+    setEditingPrompt(prompt);
+    const vars: Record<string, string> = {};
+    const matches = prompt.content.match(/\[(.*?)\]/g) || [];
+    matches.forEach(m => {
+      const key = m.slice(1, -1);
+      vars[key] = '';
+    });
+    setPromptVariables(vars);
+    setPromptResult('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const getFinalPrompt = () => {
+    if (!editingPrompt) return '';
+    let content = editingPrompt.content;
+    Object.entries(promptVariables).forEach(([key, value]) => {
+      content = content.replace(`[${key}]`, value || `[${key}]`);
+    });
+    return content;
+  };
+
+  const runPromptWithAI = async () => {
+    if (!editingPrompt) return;
+    setIsPromptRunning(true);
+    try {
+      const finalPrompt = getFinalPrompt();
+      const result = await runCustomPrompt(finalPrompt);
+      setPromptResult(result);
+    } catch (error) {
+      console.error(error);
+      setPromptResult('Có lỗi xảy ra khi chạy AI. Vui lòng thử lại.');
+    } finally {
+      setIsPromptRunning(false);
+    }
+  };
+
+  const handleGenerate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!interests) return;
+    setIsLoading(true);
+    try {
+      const result = await generateSideHustleIdea(interests);
+      setAiResult(result);
+    } catch (error) {
+      console.error(error);
+      setAiResult('Có lỗi xảy ra. Vui lòng thử lại sau.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleEbookSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmittingEbook(true);
+    try {
+      await addDoc(collection(db, 'subscribers'), {
+        ...ebookFormData,
+        type: 'ebook_download',
+        timestamp: serverTimestamp()
+      });
+      setEmailSubscribed(true);
+      setToastMessage('Cảm ơn bạn! Link tải Ebook đã được gửi vào email.');
+      setShowSuccessToast(true);
+      setTimeout(() => setShowSuccessToast(false), 3000);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSubmittingEbook(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setToastMessage('Đã đăng xuất thành công');
+      setShowSuccessToast(true);
+      setTimeout(() => setShowSuccessToast(false), 2000);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const resetQuiz = () => {
@@ -637,6 +851,8 @@ export default function App() {
           // Fallback
           if (user.email === 'tranbaosadec@gmail.com' || user.email === 'admin@ai-hustle-phi.vercel.app' || user.email === 'chucly2879@gmail.com') {
             setUserRole('admin');
+          } else {
+            setUserRole('free');
           }
         }
       } else {
@@ -646,475 +862,72 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  // Fetch Blog Posts from Firestore
-  useEffect(() => {
-    setIsLoadingBlog(true);
-    const q = query(collection(db, 'blog_posts'), orderBy('createdAt', 'desc'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setFirestoreBlogPosts(posts);
-      setIsLoadingBlog(false);
-    }, (error) => {
-      console.error("Error fetching blog posts:", error);
-      setIsLoadingBlog(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  // Fetch Prompts from Firestore
-  useEffect(() => {
-    setIsLoadingPrompts(true);
-    const q = query(collection(db, 'prompts'), orderBy('createdAt', 'desc'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const p = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setFirestorePrompts(p as any);
-      setIsLoadingPrompts(false);
-    }, (error) => {
-      console.error("Error fetching prompts:", error);
-      setIsLoadingPrompts(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  // Test Connection
-  useEffect(() => {
-    async function testConnection() {
-      try {
-        await getDocFromServer(doc(db, 'test', 'connection'));
-      } catch (error) {
-        if(error instanceof Error && error.message.includes('the client is offline')) {
-          console.error("Please check your Firebase configuration.");
-        }
-      }
-    }
-    testConnection();
-  }, []);
-
-  // Fetch Subscribers (Admin only)
-  useEffect(() => {
-    if (currentUser?.email === 'tranbaosadec@gmail.com' || currentUser?.email === 'admin@ai-hustle-phi.vercel.app' || currentUser?.email === 'chucly2879@gmail.com') {
-      const q = query(collection(db, 'subscribers'), orderBy('createdAt', 'desc'));
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setSubscribers(data);
-      }, (error) => {
-        console.error("Error fetching subscribers:", error);
-      });
-      return () => unsubscribe();
-    }
-  }, [currentUser]);
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      setUserRole('free');
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
-
-  const handleEbookSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmittingEbook(true);
-    try {
-      await addDoc(collection(db, 'subscribers'), {
-        fullName: ebookFormData.fullName,
-        email: ebookFormData.email,
-        createdAt: serverTimestamp()
-      });
-      setEmailSubscribed(true);
-      setEbookFormData({ fullName: '', email: '' });
-    } catch (error) {
-      console.error("Error subscribing:", error);
-      alert("Có lỗi xảy ra, vui lòng thử lại sau.");
-    } finally {
-      setIsSubmittingEbook(false);
-    }
-  };
-
-  // Auto-scroll to top when post is selected
-  React.useEffect(() => {
-    if (selectedPost) {
-      window.scrollTo(0, 0);
-    }
-  }, [selectedPost]);
-
-  const allPrompts = [...firestorePrompts, ...PROMPTS];
-  const categories = ['Tất cả', 'Yêu thích', ...new Set(allPrompts.map(p => p.category))];
-  const filteredPrompts: Prompt[] = activeCategory === 'Tất cả' 
-    ? allPrompts 
-    : activeCategory === 'Yêu thích'
-    ? allPrompts.filter(p => favorites.includes(p.id))
-    : allPrompts.filter(p => p.category === activeCategory);
-
-  const totalPages = Math.ceil(filteredPrompts.length / ITEMS_PER_PAGE);
-  const paginatedPrompts: Prompt[] = filteredPrompts.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
-
-  // Reset page and expansion when category changes
-  React.useEffect(() => {
-    setCurrentPage(1);
-    setExpandedPromptId(null);
-  }, [activeCategory]);
-
-  // Reset expansion when page changes
-  React.useEffect(() => {
-    setExpandedPromptId(null);
-  }, [currentPage]);
-
-  const handleCopy = (text: string, index: number) => {
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text).then(() => {
-        setCopiedIndex(index);
-        setToastMessage('Đã sao chép vào bộ nhớ tạm!');
-        setShowSuccessToast(true);
-        setTimeout(() => {
-          setCopiedIndex(null);
-          setShowSuccessToast(false);
-        }, 2000);
-      }).catch(err => {
-        console.error('Failed to copy: ', err);
-        fallbackCopyTextToClipboard(text, index);
-      });
-    } else {
-      fallbackCopyTextToClipboard(text, index);
-    }
-  };
-
-  const fallbackCopyTextToClipboard = (text: string, index: number) => {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    
-    // Ensure the textarea is not visible
-    textArea.style.position = "fixed";
-    textArea.style.left = "-999999px";
-    textArea.style.top = "-999999px";
-    document.body.appendChild(textArea);
-    
-    textArea.focus();
-    textArea.select();
-
-    try {
-      const successful = document.execCommand('copy');
-      if (successful) {
-        setCopiedIndex(index);
-        setTimeout(() => setCopiedIndex(null), 2000);
-      }
-    } catch (err) {
-      console.error('Fallback: Oops, unable to copy', err);
-    }
-
-    document.body.removeChild(textArea);
-  };
-
-  const openPromptEditor = (prompt: Prompt) => {
-    if (prompt.isVip && userRole !== 'pro') {
-      setShowUpgradeModal(true);
-      return;
-    }
-    const vars: Record<string, string> = {};
-    const matches = (prompt.content.match(/\[(.*?)\]/g) || []) as string[];
-    matches.forEach((m: string) => {
-      const varName = m.slice(1, -1);
-      vars[varName] = '';
-    });
-    setEditingPrompt(prompt);
-    setPromptVariables(vars);
-    setPromptResult('');
-  };
-
-  const getFinalPrompt = () => {
-    if (!editingPrompt) return '';
-    let final = editingPrompt.content;
-    Object.entries(promptVariables).forEach(([key, value]) => {
-      final = final.replace(`[${key}]`, value || `[${key}]`);
-    });
-    return final;
-  };
-
-  const runPromptWithAI = async () => {
-    if (!editingPrompt) return;
-    setIsPromptRunning(true);
-    try {
-      const result = await runCustomPrompt(getFinalPrompt());
-      setPromptResult(result);
-    } catch (error) {
-      console.error(error);
-      setPromptResult('Có lỗi xảy ra khi chạy AI. Vui lòng thử lại.');
-    } finally {
-      setIsPromptRunning(false);
-    }
-  };
-
-  const handleGenerate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!interests.trim()) return;
-
-    setIsLoading(true);
-    const result = await generateSideHustleIdea(interests);
-    setAiResult(result);
-    setIsLoading(false);
-  };
-
-  const content = selectedPost ? (
-      <div className="min-h-screen bg-white font-sans text-gray-900">
-        {/* Reading Progress Bar */}
-        <div className="fixed top-0 left-0 w-full h-1 z-[100] bg-gray-100">
-          <motion.div 
-            className="h-full bg-orange-500"
-            style={{ width: `${scrollProgress}%` }}
-          />
-        </div>
-
-        {/* Blog Header */}
-        <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-          <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <button 
-              onClick={() => setSelectedPost(null)}
-              className="flex items-center gap-2 text-gray-500 hover:text-orange-500 transition-colors font-medium"
-            >
-              <ChevronLeft className="w-5 h-5" />
-              Quay lại trang chủ
-            </button>
-            <div className="flex items-center gap-4">
-              <button className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400">
-                <Share2 className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </header>
-
-        <main className="max-w-7xl mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            {/* Main Content */}
-            <article className="lg:col-span-8">
-              <div className="mb-8">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-bold uppercase tracking-wider">
-                    {selectedPost.tag}
-                  </span>
-                  <span className="text-gray-400 text-sm">{selectedPost.date} • 5 phút đọc</span>
-                </div>
-                <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-                  {selectedPost.title}
-                </h1>
-                
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold">
-                    CL
-                  </div>
-                  <div>
-                    <div className="font-bold text-sm">Chuc Ly</div>
-                    <div className="text-xs text-gray-400">AI Content Specialist</div>
-                  </div>
-                  <div className="ml-auto flex gap-2">
-                    <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-orange-500 hover:text-orange-500 transition-all group">
-                      <Star className="w-4 h-4 group-hover:fill-orange-500" />
-                    </button>
-                    <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-blue-500 hover:text-blue-500 transition-all">
-                      <Facebook className="w-4 h-4" />
-                    </button>
-                    <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-blue-400 hover:text-blue-400 transition-all">
-                      <Twitter className="w-4 h-4" />
-                    </button>
-                    <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-blue-700 hover:text-blue-700 transition-all">
-                      <Linkedin className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <img 
-                src={`https://picsum.photos/seed/${selectedPost.title}/1200/600`} 
-                alt={selectedPost.title}
-                className="w-full aspect-video object-cover rounded-3xl mb-12 shadow-2xl shadow-orange-500/10"
-                referrerPolicy="no-referrer"
-              />
-
-              {/* Table of Contents */}
-              <div className="bg-gray-50 rounded-2xl p-6 mb-12 border border-gray-100">
-                <div className="flex items-center gap-2 mb-4 text-gray-900 font-bold">
-                  <List className="w-5 h-5 text-orange-500" />
-                  Mục lục nội dung
-                </div>
-                <nav className="space-y-2 text-sm">
-                  <a href="#section-1" className="block text-gray-600 hover:text-orange-500 transition-colors pl-4 border-l-2 border-transparent hover:border-orange-500">1. Thay đổi tư duy: AI là "Trợ lý"</a>
-                  <a href="#section-2" className="block text-gray-600 hover:text-orange-500 transition-colors pl-4 border-l-2 border-transparent hover:border-orange-500">2. Quy trình 5 bước viết bài thần tốc</a>
-                  <a href="#section-3" className="block text-gray-600 hover:text-orange-500 transition-colors pl-4 border-l-2 border-transparent hover:border-orange-500">3. Các công cụ hỗ trợ đắc lực</a>
-                  <a href="#section-4" className="block text-gray-600 hover:text-orange-500 transition-colors pl-4 border-l-2 border-transparent hover:border-orange-500">4. Kết luận</a>
-                </nav>
-              </div>
-
-              <div className="prose prose-lg prose-orange max-w-none">
-                <ReactMarkdown>{selectedPost.content}</ReactMarkdown>
-              </div>
-
-              <div className="mt-16 pt-8 border-t border-gray-100">
-                <h3 className="font-bold text-xl mb-6">Bình luận</h3>
-                <div className="bg-gray-50 rounded-2xl p-8 text-center text-gray-400 italic">
-                  Tính năng bình luận đang được phát triển...
-                </div>
-              </div>
-            </article>
-
-            {/* Sidebar */}
-            <aside className="lg:col-span-4 space-y-12">
-              <div className="sticky top-28">
-                <div className="bg-black text-white rounded-3xl p-8 mb-8 relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl group-hover:bg-orange-500/40 transition-colors" />
-                  <h3 className="text-xl font-bold mb-4 relative z-10 flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-orange-500" />
-                    Prompt của ngày
-                  </h3>
-                  <div className="bg-white/10 rounded-2xl p-4 mb-6 relative z-10 border border-white/10">
-                    <p className="text-xs italic text-gray-300 mb-2">"Viết kịch bản video TikTok viral cho sản phẩm [Tên sản phẩm]..."</p>
-                    <div className="flex items-center gap-2 text-[10px] text-orange-400 font-bold">
-                      <Zap className="w-3 h-3" /> 1,2k lượt dùng hôm nay
-                    </div>
-                  </div>
-                  <button 
-                    onClick={() => {
-                      setSelectedPost(null);
-                      setTimeout(() => {
-                        const el = document.getElementById('prompts');
-                        el?.scrollIntoView({ behavior: 'smooth' });
-                      }, 100);
-                    }}
-                    className="w-full py-3 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-colors relative z-10"
-                  >
-                    Thử ngay
-                  </button>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
-                    <Zap className="w-5 h-5 text-orange-500" />
-                    Bài viết liên quan
-                  </h3>
-                  <div className="space-y-6">
-                    {allBlogPosts.filter(p => p.title !== selectedPost.title).map((post, idx) => (
-                      <div 
-                        key={idx} 
-                        onClick={() => setSelectedPost(post)}
-                        className="group cursor-pointer flex gap-4"
-                      >
-                        <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100">
-                          <img 
-                            src={`https://picsum.photos/seed/${post.title}/200/200`} 
-                            alt={post.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform"
-                            referrerPolicy="no-referrer"
-                          />
-                        </div>
-                        <div>
-                          <h4 className="font-bold text-sm leading-snug group-hover:text-orange-500 transition-colors line-clamp-2">
-                            {post.title}
-                          </h4>
-                          <span className="text-[10px] text-gray-400 uppercase font-bold mt-1 block">{post.date}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </aside>
-          </div>
-        </main>
-
-        {/* Footer */}
-        <footer className="bg-gray-50 py-12 border-t border-gray-100 mt-24">
-          <div className="max-w-7xl mx-auto px-4 text-center">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <span className="font-bold text-lg">AI Hustle Explorer</span>
-            </div>
-            <p className="text-gray-400 text-sm">© 2024 AI Hustle. All rights reserved.</p>
-          </div>
-        </footer>
+  const libraryContent = (
+    <div className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mb-12">
+        <h2 className="text-3xl font-bold mb-2">Thư viện của tôi</h2>
+        <p className="text-gray-500">Nơi lưu trữ các Prompt và bài viết bạn đã yêu thích.</p>
       </div>
-    ) : (
-    <div className="min-h-screen bg-[#FAFAFA] text-[#1A1A1A] font-sans selection:bg-orange-100">
-      {/* Success Toast */}
-      <AnimatePresence>
-        {showSuccessToast && (
-          <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] bg-black text-white px-6 py-3 rounded-full font-bold shadow-2xl flex items-center gap-3"
-          >
-            <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-              <CheckCircle2 className="w-4 h-4" />
-            </div>
-            {toastMessage || 'Thao tác thành công!'}
-          </motion.div>
-        )}
-      </AnimatePresence>
 
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <button 
-            onClick={() => {
-              setSelectedPost(null);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-          >
-            <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white">
-              <Sparkles className="w-5 h-5" />
-            </div>
-            <span className="font-bold text-xl tracking-tight">AI Hustle</span>
-          </button>
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">
-            <a href="#ideas" className="hover:text-orange-500 transition-colors">Ý tưởng</a>
-            <a href="#prompts" className="hover:text-orange-500 transition-colors">Thư viện Prompt</a>
-            <a href="#blog" className="hover:text-orange-500 transition-colors">Blog</a>
-            <button onClick={() => setShowContact(true)} className="hover:text-orange-500 transition-colors">Liên hệ</button>
-            {userRole === 'pro' && <a href="#masterclass" className="text-orange-600 font-bold">Masterclass</a>}
-            
-            <div className="h-6 w-px bg-gray-100" />
-
-            {currentUser ? (
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  {currentUser.photoURL ? (
-                    <img src={currentUser.photoURL} alt="Avatar" className="w-8 h-8 rounded-full border border-gray-200" referrerPolicy="no-referrer" />
-                  ) : (
-                    <div className="w-8 h-8 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center">
-                      <UserIcon className="w-4 h-4" />
-                    </div>
-                  )}
-                  <div className="flex flex-col">
-                    <span className="text-xs font-bold text-gray-900 leading-none">{currentUser.displayName || 'Người dùng'}</span>
-                    <span className="text-[10px] text-gray-400 capitalize">{userRole} Plan</span>
-                  </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div>
+          <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+            <Star className="w-5 h-5 text-orange-500 fill-orange-500" />
+            Prompt đã lưu ({favorites.filter(id => allPrompts.some(p => p.id === id)).length})
+          </h3>
+          <div className="space-y-4">
+            {allPrompts.filter(p => favorites.includes(p.id)).map((prompt) => (
+              <div key={prompt.id} className="bg-white p-6 rounded-2xl border border-gray-100 hover:border-orange-200 transition-all flex items-center justify-between group">
+                <div>
+                  <h4 className="font-bold mb-1">{prompt.title}</h4>
+                  <p className="text-xs text-gray-400">{prompt.category}</p>
                 </div>
                 <button 
-                  onClick={handleLogout}
-                  className="p-2 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-full transition-all"
-                  title="Đăng xuất"
+                  onClick={() => openPromptEditor(prompt)}
+                  className="p-3 bg-gray-50 text-gray-400 hover:bg-orange-500 hover:text-white rounded-xl transition-all"
                 >
-                  <LogOut className="w-4 h-4" />
+                  <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
-            ) : (
-              <button 
-                onClick={() => navigate('/dang-nhap')}
-                className="flex items-center gap-2 px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-all font-bold"
-              >
-                <LogIn className="w-4 h-4" />
-                Đăng nhập
-              </button>
+            ))}
+            {favorites.filter(id => allPrompts.some(p => p.id === id)).length === 0 && (
+              <div className="text-center py-12 bg-gray-50 rounded-3xl border border-dashed border-gray-200 text-gray-400">
+                Chưa có Prompt nào được lưu.
+              </div>
             )}
           </div>
         </div>
-      </nav>
 
+        <div>
+          <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-blue-500" />
+            Bài viết đã lưu ({favorites.filter(id => allBlogPosts.some(p => (p.id || p.title) === id)).length})
+          </h3>
+          <div className="space-y-4">
+            {allBlogPosts.filter(p => favorites.includes(p.id || p.title)).map((post, idx) => (
+              <div key={idx} onClick={() => setSelectedPost(post)} className="bg-white p-6 rounded-2xl border border-gray-100 hover:border-blue-200 transition-all cursor-pointer flex items-center gap-4 group">
+                <div className="w-16 h-16 bg-gray-100 rounded-xl overflow-hidden shrink-0">
+                  <img src={`https://picsum.photos/seed/${post.title}/200/200`} className="w-full h-full object-cover" alt="" referrerPolicy="no-referrer" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-bold mb-1 group-hover:text-blue-500 transition-colors">{post.title}</h4>
+                  <p className="text-xs text-gray-400">{post.date}</p>
+                </div>
+              </div>
+            ))}
+            {favorites.filter(id => allBlogPosts.some(p => (p.id || p.title) === id)).length === 0 && (
+              <div className="text-center py-12 bg-gray-50 rounded-3xl border border-dashed border-gray-200 text-gray-400">
+                Chưa có bài viết nào được lưu.
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const mainContent = (
+    <>
       {/* Hero Section */}
       <section className="relative pt-20 pb-32 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 overflow-hidden">
@@ -1489,21 +1302,166 @@ export default function App() {
 
               <div className="pt-6 border-t border-gray-50 flex items-center justify-between text-xs font-medium">
                 <div className="flex flex-col gap-1">
-                  <span className="text-gray-400 uppercase tracking-wider">Độ khó</span>
-                  <span className={cn(
-                    hustle.difficulty === 'Dễ' ? 'text-green-600' : 
-                    hustle.difficulty === 'Trung bình' ? 'text-orange-600' : 'text-red-600'
-                  )}>{hustle.difficulty}</span>
+                  <span className="text-gray-400 uppercase tracking-wider">Thu nhập tiềm năng</span>
+                  <span className="text-green-600 font-bold">{(hustle as any).potential_income}</span>
                 </div>
                 <div className="flex flex-col gap-1 text-right">
                   <span className="text-gray-400 uppercase tracking-wider">Tiềm năng</span>
-                  <span className="text-blue-600">{hustle.potential}</span>
+                  <span className="text-blue-600 font-bold">{hustle.potential}</span>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
       </section>
+
+      {/* Video Tutorials Section */}
+      <section id="videos" className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div className="text-left">
+              <h2 className="text-3xl font-bold mb-2">Video hướng dẫn thực chiến</h2>
+              <p className="text-gray-500">Học cách áp dụng AI vào công việc qua các video chi tiết.</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-400 font-medium">Sắp xếp theo:</span>
+              <select className="bg-gray-50 border-none text-sm font-bold focus:ring-0 rounded-lg">
+                <option>Mới nhất</option>
+                <option>Xem nhiều nhất</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {VIDEOS.map((video) => (
+              <motion.div 
+                key={video.id}
+                whileHover={{ y: -5 }}
+                className="group cursor-pointer"
+                onClick={() => setSelectedVideo(video)}
+              >
+                <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 shadow-lg group-hover:shadow-orange-500/10 transition-all">
+                  <img 
+                    src={video.thumbnail} 
+                    alt={video.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                    <div className="w-12 h-12 bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-orange-500 shadow-xl scale-90 group-hover:scale-100 transition-transform">
+                      <Youtube className="w-6 h-6 fill-current" />
+                    </div>
+                  </div>
+                  <div className="absolute bottom-3 right-3 px-2 py-1 bg-black/70 backdrop-blur text-[10px] font-bold text-white rounded">
+                    {video.duration}
+                  </div>
+                  <div className="absolute top-3 left-3 px-2 py-1 bg-orange-500 text-white text-[10px] font-bold uppercase rounded shadow-lg">
+                    {video.level}
+                  </div>
+                </div>
+                <h4 className="font-bold text-sm leading-tight group-hover:text-orange-500 transition-colors line-clamp-2 mb-2">
+                  {video.title}
+                </h4>
+                <div className="flex items-center justify-between text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+                  <span>{video.category}</span>
+                  <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {video.views} lượt xem</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {selectedVideo && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedVideo(null)}
+              className="absolute inset-0 bg-black/90 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-5xl bg-white rounded-[32px] overflow-hidden shadow-2xl"
+            >
+              <button 
+                onClick={() => setSelectedVideo(null)}
+                className="absolute top-6 right-6 z-10 p-2 bg-black/5 hover:bg-black/10 rounded-full transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-3">
+                <div className="lg:col-span-2 bg-black aspect-video flex items-center justify-center relative group">
+                  <img 
+                    src={selectedVideo.thumbnail} 
+                    className="w-full h-full object-cover opacity-60" 
+                    alt="Video Preview"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-8">
+                    <Youtube className="w-20 h-20 text-red-600 mb-6" />
+                    <h2 className="text-2xl font-bold mb-4">{selectedVideo.title}</h2>
+                    <p className="text-gray-300 mb-8 max-w-md">Video này hiện có sẵn cho thành viên Pro. Vui lòng đăng nhập hoặc nâng cấp để xem toàn bộ nội dung.</p>
+                    <button className="px-8 py-4 bg-orange-500 text-white rounded-2xl font-bold hover:bg-orange-600 transition-colors shadow-xl shadow-orange-500/20">
+                      Xem trên YouTube
+                    </button>
+                  </div>
+                </div>
+                <div className="p-8 lg:p-10 flex flex-col">
+                  <div className="flex items-center gap-2 mb-6">
+                    <span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-[10px] font-bold uppercase">
+                      {selectedVideo.category}
+                    </span>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-[10px] font-bold uppercase">
+                      {selectedVideo.level}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">{selectedVideo.title}</h3>
+                  <div className="space-y-4 mb-8 flex-1">
+                    <div className="flex items-center gap-3 text-sm text-gray-500">
+                      <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-xs">CL</div>
+                      <span>Giảng viên: Chuc Ly</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-gray-500">
+                      <Calendar className="w-4 h-4" />
+                      <span>Cập nhật: 15/04/2024</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-gray-500">
+                      <Eye className="w-4 h-4" />
+                      <span>{selectedVideo.views} lượt xem</span>
+                    </div>
+                  </div>
+                  <div className="pt-6 border-t border-gray-100">
+                    <h4 className="font-bold text-sm mb-4">Tài liệu đính kèm:</h4>
+                    <div className="space-y-2">
+                      <button className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors group">
+                        <div className="flex items-center gap-3">
+                          <FileText className="w-4 h-4 text-orange-500" />
+                          <span className="text-xs font-medium">Slide bài giảng.pdf</span>
+                        </div>
+                        <Download className="w-4 h-4 text-gray-300 group-hover:text-orange-500" />
+                      </button>
+                      <button className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors group">
+                        <div className="flex items-center gap-3">
+                          <Terminal className="w-4 h-4 text-orange-500" />
+                          <span className="text-xs font-medium">Danh sách Prompt.txt</span>
+                        </div>
+                        <Download className="w-4 h-4 text-gray-300 group-hover:text-orange-500" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Testimonials Section */}
       <section className="py-24 bg-gray-50">
@@ -2201,6 +2159,55 @@ export default function App() {
         )}
       </AnimatePresence>
 
+      {/* Floating Action Buttons */}
+      <div className="fixed bottom-8 right-8 z-[100] flex flex-col gap-4">
+        <AnimatePresence>
+          {showScrollTop && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.5, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.5, y: 20 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="w-14 h-14 bg-white text-black border border-gray-100 rounded-2xl shadow-2xl flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all group"
+              title="Lên đầu trang"
+            >
+              <ArrowUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform" />
+            </motion.button>
+          )}
+        </AnimatePresence>
+
+        {currentUser && (
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setActiveTab(activeTab === 'library' ? 'home' : 'library')}
+            className={cn(
+              "w-14 h-14 rounded-2xl shadow-2xl flex items-center justify-center transition-all group",
+              activeTab === 'library' ? "bg-orange-500 text-white" : "bg-white text-gray-400 hover:text-orange-500"
+            )}
+            title="Thư viện của tôi"
+          >
+            <Star className={cn("w-6 h-6", activeTab === 'library' && "fill-current")} />
+          </motion.button>
+        )}
+
+        <motion.button 
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setShowContact(!showContact)}
+          className={cn(
+            "w-14 h-14 rounded-2xl shadow-2xl flex items-center justify-center transition-all group relative",
+            showContact ? "bg-orange-500 text-white" : "bg-black text-white hover:bg-gray-800"
+          )}
+          title="Liên hệ hỗ trợ"
+        >
+          {showContact ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6 group-hover:rotate-12 transition-transform" />}
+          {!showContact && <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-white rounded-full animate-bounce" />}
+        </motion.button>
+      </div>
+
       {/* Admin Toggle (Visible only to owner) */}
       {currentUser?.email === 'chucly2879@gmail.com' && (
         <div className="fixed bottom-8 left-8 z-[100]">
@@ -2213,8 +2220,6 @@ export default function App() {
           </button>
         </div>
       )}
-
-      {/* Contact Modal */}
       <AnimatePresence>
         {showContact && (
           <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
@@ -2287,29 +2292,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Floating Action Buttons */}
-      <div className="fixed bottom-8 right-8 z-[100] flex flex-col gap-4">
-        <AnimatePresence>
-          {showScrollTop && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.5, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.5, y: 20 }}
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="w-14 h-14 bg-white text-black border border-gray-100 rounded-2xl shadow-2xl flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all group"
-            >
-              <ArrowUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform" />
-            </motion.button>
-          )}
-        </AnimatePresence>
-        
-        <button 
-          onClick={() => setShowContact(!showContact)}
-          className="w-14 h-14 bg-orange-500 text-white rounded-2xl shadow-2xl flex items-center justify-center hover:bg-orange-600 transition-all shadow-orange-500/20"
-        >
-          {showContact ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
-        </button>
-      </div>
+      {/* Floating Action Buttons removed duplicate */}
 
       {/* Admin Panel Modal */}
       <AnimatePresence>
@@ -2903,18 +2886,257 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Admin Toggle (Visible only to owner) */}
-      {currentUser?.email === 'chucly2879@gmail.com' && (
-        <div className="fixed bottom-8 left-8 z-[100]">
+      {/* Admin Toggle (Visible only to owner) removed duplicate */}
+    </>
+  );
+
+  const content = selectedPost ? (
+    <div className="min-h-screen bg-white font-sans text-gray-900">
+      {/* Reading Progress Bar */}
+      <div className="fixed top-0 left-0 w-full h-1 z-[100] bg-gray-100">
+        <motion.div 
+          className="h-full bg-orange-500"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
+      {/* Blog Header */}
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <button 
-            onClick={() => setShowAdminPanel(!showAdminPanel)}
-            className="p-4 bg-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center gap-2"
+            onClick={() => setSelectedPost(null)}
+            className="flex items-center gap-2 text-gray-500 hover:text-orange-500 transition-colors font-medium"
           >
-            <Users className="w-6 h-6" />
-            <span className="text-xs font-bold">Quản lý Lead ({subscribers.length})</span>
+            <ChevronLeft className="w-5 h-5" />
+            Quay lại trang chủ
           </button>
+          <div className="flex items-center gap-4">
+            <button className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400">
+              <Share2 className="w-5 h-5" />
+            </button>
+          </div>
         </div>
-      )}
+      </header>
+
+      <main className="max-w-7xl mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          {/* Main Content */}
+          <article className="lg:col-span-8">
+            <div className="mb-8">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-bold uppercase tracking-wider">
+                  {selectedPost.tag}
+                </span>
+                <span className="text-gray-400 text-sm">{selectedPost.date} • 5 phút đọc</span>
+              </div>
+              <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
+                {selectedPost.title}
+              </h1>
+              
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold">
+                  CL
+                </div>
+                <div>
+                  <div className="font-bold text-sm">Chuc Ly</div>
+                  <div className="text-xs text-gray-400">AI Content Specialist</div>
+                </div>
+                <div className="ml-auto flex gap-2">
+                  <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-orange-500 hover:text-orange-500 transition-all group">
+                    <Star className="w-4 h-4 group-hover:fill-orange-500" />
+                  </button>
+                  <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-blue-500 hover:text-blue-500 transition-all">
+                    <Facebook className="w-4 h-4" />
+                  </button>
+                  <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-blue-400 hover:text-blue-400 transition-all">
+                    <Twitter className="w-4 h-4" />
+                  </button>
+                  <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-blue-700 hover:text-blue-700 transition-all">
+                    <Linkedin className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <img 
+              src={`https://picsum.photos/seed/${selectedPost.title}/1200/600`} 
+              alt={selectedPost.title}
+              className="w-full aspect-video object-cover rounded-3xl mb-12 shadow-2xl shadow-orange-500/10"
+              referrerPolicy="no-referrer"
+            />
+
+            <div className="prose prose-lg prose-orange max-w-none">
+              <ReactMarkdown>{selectedPost.content}</ReactMarkdown>
+            </div>
+          </article>
+
+          {/* Sidebar */}
+          <aside className="lg:col-span-4 space-y-12">
+            <div className="sticky top-28">
+              <div className="bg-black text-white rounded-3xl p-8 mb-8 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl group-hover:bg-orange-500/40 transition-colors" />
+                <h3 className="text-xl font-bold mb-4 relative z-10 flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-orange-500" />
+                  Prompt của ngày
+                </h3>
+                <div className="bg-white/10 rounded-2xl p-4 mb-6 relative z-10 border border-white/10">
+                  <p className="text-xs italic text-gray-300 mb-2">"Viết kịch bản video TikTok viral cho sản phẩm [Tên sản phẩm]..."</p>
+                  <div className="flex items-center gap-2 text-[10px] text-orange-400 font-bold">
+                    <Zap className="w-3 h-3" /> 1,2k lượt dùng hôm nay
+                  </div>
+                </div>
+                <button 
+                  onClick={() => {
+                    setSelectedPost(null);
+                    setTimeout(() => {
+                      const el = document.getElementById('prompts');
+                      el?.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }}
+                  className="w-full py-3 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-colors relative z-10"
+                >
+                  Thử ngay
+                </button>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
+                  <Zap className="w-5 h-5 text-orange-500" />
+                  Bài viết liên quan
+                </h3>
+                <div className="space-y-6">
+                  {allBlogPosts.filter(p => p.title !== selectedPost.title).map((post, idx) => (
+                    <div 
+                      key={idx} 
+                      onClick={() => setSelectedPost(post)}
+                      className="group cursor-pointer flex gap-4"
+                    >
+                      <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100">
+                        <img 
+                          src={`https://picsum.photos/seed/${post.title}/200/200`} 
+                          alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-sm leading-snug group-hover:text-orange-500 transition-colors line-clamp-2">
+                          {post.title}
+                        </h4>
+                        <span className="text-[10px] text-gray-400 uppercase font-bold mt-1 block">{post.date}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-gray-50 py-12 border-t border-gray-100 mt-24">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <span className="font-bold text-lg">AI Hustle Explorer</span>
+          </div>
+          <p className="text-gray-400 text-sm">© 2024 AI Hustle. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  ) : (
+    <div className="min-h-screen bg-[#FAFAFA] text-[#1A1A1A] font-sans selection:bg-orange-100">
+      <AnimatePresence>
+        {showSuccessToast && (
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] bg-black text-white px-6 py-3 rounded-full font-bold shadow-2xl flex items-center gap-3"
+          >
+            <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+              <CheckCircle2 className="w-4 h-4" />
+            </div>
+            {toastMessage || 'Thao tác thành công!'}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <button 
+            onClick={() => {
+              setSelectedPost(null);
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          >
+            <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <span className="font-bold text-xl tracking-tight">AI Hustle</span>
+          </button>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">
+            <button onClick={() => setActiveTab('home')} className={cn("hover:text-orange-500 transition-colors", activeTab === 'home' && "text-orange-500 font-bold")}>Trang chủ</button>
+            <a href="#ideas" className="hover:text-orange-500 transition-colors">Ý tưởng</a>
+            <a href="#prompts" className="hover:text-orange-500 transition-colors">Prompt</a>
+            <a href="#videos" className="hover:text-orange-500 transition-colors">Video</a>
+            <a href="#blog" className="hover:text-orange-500 transition-colors">Blog</a>
+            {currentUser && (
+              <button 
+                onClick={() => setActiveTab('library')} 
+                className={cn("hover:text-orange-500 transition-colors flex items-center gap-1", activeTab === 'library' && "text-orange-500 font-bold")}
+              >
+                <Star className="w-4 h-4" /> Thư viện của tôi
+              </button>
+            )}
+            <button onClick={() => setShowContact(true)} className="hover:text-orange-500 transition-colors">Liên hệ</button>
+            {userRole === 'pro' && <a href="#masterclass" className="text-orange-600 font-bold">Masterclass</a>}
+            
+            <div className="h-6 w-px bg-gray-100" />
+
+            {currentUser ? (
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  {currentUser.photoURL ? (
+                    <img src={currentUser.photoURL} alt="Avatar" className="w-8 h-8 rounded-full border border-gray-200" referrerPolicy="no-referrer" />
+                  ) : (
+                    <div className="w-8 h-8 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center">
+                      <UserIcon className="w-4 h-4" />
+                    </div>
+                  )}
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold text-gray-900 leading-none">{currentUser.displayName || 'Người dùng'}</span>
+                    <span className="text-[10px] text-gray-400 capitalize">{userRole} Plan</span>
+                  </div>
+                </div>
+                <button 
+                  onClick={handleLogout}
+                  className="p-2 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-full transition-all"
+                  title="Đăng xuất"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <button 
+                onClick={() => navigate('/dang-nhap')}
+                className="flex items-center gap-2 px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-all font-bold"
+              >
+                <LogIn className="w-4 h-4" />
+                Đăng nhập
+              </button>
+            )}
+          </div>
+        </div>
+      </nav>
+
+      {activeTab === 'home' ? mainContent : libraryContent}
     </div>
   );
 

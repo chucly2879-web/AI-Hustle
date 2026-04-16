@@ -75,7 +75,7 @@ service cloud.firestore {
 
     match /blog_posts/{postId} {
       // Blog posts are publicly readable
-      allow read: if true;
+      allow read, list: if true;
       
       // Only admins can create, update, or delete blog posts
       allow create, update, delete: if isAdmin() && isValidBlogPost(request.resource.data);
@@ -83,7 +83,7 @@ service cloud.firestore {
 
     match /prompts/{promptId} {
       // Prompts are publicly readable
-      allow read: if true;
+      allow read, list: if true;
       
       // Only admins can create, update, or delete prompts
       allow create, update, delete: if isAdmin() && isValidPrompt(request.resource.data);
