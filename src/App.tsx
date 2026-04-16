@@ -561,8 +561,17 @@ export default function App() {
   const [showQuizResult, setShowQuizResult] = useState(false);
   const [expandedPromptId, setExpandedPromptId] = useState<string | null>(null);
   const [firestoreBlogPosts, setFirestoreBlogPosts] = useState<any[]>([]);
+  const [activeBlogCategory, setActiveBlogCategory] = useState('Tất cả');
+
+  const BLOG_CATEGORIES = ['Tất cả', 'Yêu thích', 'Content', 'E-commerce', 'Video', 'Marketing', 'Sales', 'SEO'];
 
   const allBlogPosts = [...firestoreBlogPosts, ...BLOG_POSTS];
+
+  const filteredBlogPosts = allBlogPosts.filter(post => {
+    if (activeBlogCategory === 'Tất cả') return true;
+    if (activeBlogCategory === 'Yêu thích') return favorites.includes(post.id || post.title);
+    return post.tag === activeBlogCategory;
+  });
 
   const toggleFavorite = (id: string) => {
     setFavorites(prev => 
@@ -1784,12 +1793,34 @@ export default function App() {
 
       {/* Blog Section */}
       <section id="blog" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-12">
-          <h2 className="text-3xl font-bold">Bài viết mới nhất</h2>
-          <a href="#" className="text-sm font-bold text-orange-500 hover:underline">Xem Blog</a>
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
+          <div>
+            <h2 className="text-3xl font-bold mb-2">Bài viết mới nhất</h2>
+            <p className="text-gray-500 text-sm">Cập nhật kiến thức và xu hướng AI mới nhất</p>
+          </div>
+          <a href="#" className="text-sm font-bold text-orange-500 hover:underline">Xem tất cả</a>
         </div>
+
+        {/* Blog Categories */}
+        <div className="flex items-center gap-3 mb-12 overflow-x-auto pb-4 no-scrollbar">
+          {BLOG_CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveBlogCategory(cat)}
+              className={cn(
+                "px-6 py-2.5 rounded-full text-sm font-bold transition-all whitespace-nowrap",
+                activeBlogCategory === cat
+                  ? "bg-orange-500 text-white shadow-lg shadow-orange-500/30"
+                  : "bg-white border border-gray-100 text-gray-600 hover:border-orange-200 hover:text-orange-500"
+              )}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {allBlogPosts.map((post, idx) => (
+          {filteredBlogPosts.map((post, idx) => (
             <div 
               key={post.id || idx} 
               onClick={() => setSelectedPost(post)}

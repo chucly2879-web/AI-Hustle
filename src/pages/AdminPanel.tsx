@@ -188,7 +188,7 @@ export default function AdminPanel() {
       { 
         title: 'Cách tôi viết 10 bài blog/ngày với AI', 
         date: '13/04/2024', 
-        tag: 'Kinh nghiệm',
+        tag: 'Content',
         content: `
 # Cách tôi viết 10 bài blog/ngày với AI
 
@@ -221,7 +221,7 @@ Việc viết 10 bài/ngày không khó nếu bạn làm chủ được quy trì
       { 
         title: 'Top 5 công cụ AI cho người bán hàng Shopee', 
         date: '12/04/2024', 
-        tag: 'Công cụ',
+        tag: 'E-commerce',
         content: `
 # Top 5 công cụ AI cho người bán hàng Shopee
 
@@ -239,7 +239,7 @@ Sử dụng bộ công cụ này sẽ giúp bạn tiết kiệm 80% thời gian 
       { 
         title: 'Hướng dẫn kiếm tiền từ Affiliate bằng AI', 
         date: '10/04/2024', 
-        tag: 'Hướng dẫn',
+        tag: 'Marketing',
         content: `
 # Hướng dẫn kiếm tiền từ Affiliate bằng AI
 
@@ -688,6 +688,12 @@ Bắt đầu ngay hôm nay với một ngách nhỏ và kiên trì tối ưu hó
                         onChange={(e) => setBlogFormData({...blogFormData, tag: e.target.value})}
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
                       >
+                        <option value="Content">Content</option>
+                        <option value="E-commerce">E-commerce</option>
+                        <option value="Video">Video</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Sales">Sales</option>
+                        <option value="SEO">SEO</option>
                         <option value="Kinh nghiệm">Kinh nghiệm</option>
                         <option value="Công cụ">Công cụ</option>
                         <option value="Hướng dẫn">Hướng dẫn</option>
