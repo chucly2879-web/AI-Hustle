@@ -18,7 +18,8 @@ import {
   Download,
   Loader2,
   AlertCircle,
-  ArrowLeft
+  ArrowLeft,
+  Zap
 } from 'lucide-react';
 import { auth, db } from '../firebase';
 import { 
@@ -37,6 +38,7 @@ import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
+import { runCustomPrompt } from '../services/gemini';
 
 type Tab = 'overview' | 'users' | 'subscribers' | 'blog';
 
@@ -49,6 +51,7 @@ export default function AdminPanel() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showBlogModal, setShowBlogModal] = useState(false);
   const [editingPost, setEditingPost] = useState<any>(null);
+  const [isAiGenerating, setIsAiGenerating] = useState(false);
   const [blogFormData, setBlogFormData] = useState({
     title: '',
     tag: 'Kinh nghiệm',
@@ -161,6 +164,49 @@ export default function AdminPanel() {
       date: post.date
     });
     setShowBlogModal(true);
+  };
+
+  const handleAiGenerateBlog = async () => {
+    if (!blogFormData.title) {
+      alert('Vui lòng nhập tiêu đề để AI có cơ sở tạo nội dung!');
+      return;
+    }
+    setIsAiGenerating(true);
+    try {
+      const prompt = `Bạn là một blogger chuyên nghiệp về công nghệ và AI. 
+      Hãy viết một bài blog cực kỳ chuyên sâu, hấp dẫn và chuẩn SEO cho tiêu đề: "${blogFormData.title}". 
+      
+      Yêu cầu:
+      1. Ngôn ngữ: Tiếng Việt.
+      2. Định dạng: Markdown (dùng H2, H3, bôi đậm, danh sách).
+      3. Cấu trúc bài viết:
+         - Mở đầu thu hút.
+         - Ít nhất 3 mục chính giải thích chi tiết.
+         - Các ví dụ thực tế hoặc danh sách công cụ gợi ý.
+         - Kết luận và lời khuyên.
+      4. Độ dài: Ít nhất 500 từ.`;
+      
+      const result = await runCustomPrompt(prompt);
+      setBlogFormData(prev => ({ ...prev, content: result }));
+    } catch (error) {
+      console.error(error);
+      alert('Lỗi khi tạo nội dung với AI.');
+    } finally {
+      setIsAiGenerating(false);
+    }
+  };
+
+  const handleAiSuggestTitle = async () => {
+    setIsAiGenerating(true);
+    try {
+      const prompt = `Hãy gợi ý 5 tiêu đề bài viết blog cực kỳ thu hút (clickbait nhưng giá trị) về chủ đề AI, Kiếm tiền online và Tự động hóa doanh nghiệp trong năm 2024. Chỉ trả về danh sách các tiêu đề, con số đầu dòng.`;
+      const result = await runCustomPrompt(prompt);
+      alert("Gợi ý từ AI:\n\n" + result);
+    } catch (error) {
+      alert('Lỗi khi gợi ý tiêu đề.');
+    } finally {
+      setIsAiGenerating(false);
+    }
   };
 
   const exportSubscribers = () => {
@@ -671,7 +717,16 @@ Bắt đầu ngay hôm nay với một ngách nhỏ và kiên trì tối ưu hó
                 <form onSubmit={handleBlogSubmit} className="flex-1 overflow-y-auto p-8 space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-sm font-bold text-gray-700">Tiêu đề bài viết</label>
+                      <div className="flex items-center justify-between">
+                        <label className="text-sm font-bold text-gray-700">Tiêu đề bài viết</label>
+                        <button 
+                          type="button"
+                          onClick={handleAiSuggestTitle}
+                          className="text-[10px] font-bold text-orange-500 hover:underline"
+                        >
+                          Gợi ý tiêu đề AI
+                        </button>
+                      </div>
                       <input 
                         required
                         type="text" 
@@ -703,7 +758,18 @@ Bắt đầu ngay hôm nay với một ngách nhỏ và kiên trì tối ưu hó
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">Nội dung (Markdown)</label>
+                    <div className="flex items-center justify-between">
+                      <label className="text-sm font-bold text-gray-700">Nội dung (Markdown)</label>
+                      <button 
+                        type="button"
+                        onClick={handleAiGenerateBlog}
+                        disabled={isAiGenerating}
+                        className="flex items-center gap-2 px-3 py-1 bg-orange-50 text-orange-600 rounded-lg text-xs font-bold hover:bg-orange-100 transition-all disabled:opacity-50"
+                      >
+                        {isAiGenerating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Zap className="w-3 h-3" />}
+                        Tạo nội dung với AI
+                      </button>
+                    </div>
                     <textarea 
                       required
                       rows={12}
