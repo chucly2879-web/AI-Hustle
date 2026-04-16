@@ -643,15 +643,19 @@ export default function App() {
     const fetchPrompts = onSnapshot(collection(db, 'prompts'), (snapshot) => {
       const promptsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setFirestorePrompts(promptsData);
+      setIsLoadingPrompts(false);
     }, (error) => {
       handleFirestoreError(error, 'list', 'prompts');
+      setIsLoadingPrompts(false);
     });
 
     const fetchBlogPosts = onSnapshot(collection(db, 'blog_posts'), (snapshot) => {
       const blogData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setFirestoreBlogPosts(blogData);
+      setIsLoadingBlog(false);
     }, (error) => {
       handleFirestoreError(error, 'list', 'blog_posts');
+      setIsLoadingBlog(false);
     });
 
     return () => {
