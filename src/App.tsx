@@ -53,6 +53,7 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import AuthPage from './pages/AuthPage';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminPanel from './pages/AdminPanel';
+import { RoadmapDashboard } from './components/RoadmapWidget';
 
 interface SideHustle {
   id: string;
@@ -669,7 +670,7 @@ export default function App() {
   const [isLoadingBlog, setIsLoadingBlog] = useState(true);
   const [isLoadingPrompts, setIsLoadingPrompts] = useState(true);
   const [activeBlogCategory, setActiveBlogCategory] = useState('Tất cả');
-  const [activeTab, setActiveTab] = useState<'home' | 'library' | 'admin'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'library' | 'admin' | 'roadmap'>('home');
   const [selectedVideo, setSelectedVideo] = useState<VideoTutorial | null>(null);
 
   const BLOG_CATEGORIES = ['Tất cả', 'Yêu thích', 'Content', 'E-commerce', 'Video', 'Marketing', 'Sales', 'SEO'];
@@ -1031,6 +1032,44 @@ export default function App() {
               </div>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Roadmap Promo Banner */}
+      <section className="pb-24 px-4">
+        <div 
+          onClick={() => setActiveTab('roadmap')}
+          className="max-w-7xl mx-auto bg-gradient-to-r from-gray-900 to-black rounded-[40px] p-8 md:p-12 relative overflow-hidden group cursor-pointer border border-white/5"
+        >
+          <div className="absolute top-0 right-0 w-1/3 h-full bg-orange-500/10 skew-x-12 translate-x-20 blur-3xl group-hover:scale-110 transition-transform duration-700" />
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <span className="inline-block px-3 py-1 bg-orange-500 text-white text-[10px] font-black uppercase rounded-lg mb-6 shadow-lg shadow-orange-500/20">
+                Chiến lược miễn phí
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
+                Lộ trình chi tiết <br /> 
+                <span className="text-orange-500 underline decoration-2 underline-offset-8">Đạt 1.000 User Đầu Tiên</span>
+              </h2>
+              <p className="text-gray-400 text-lg mb-8 max-w-md">
+                Công thức 4 giai đoạn chuẩn hóa từ TikTok/Reels về Website giúp bạn xây dựng cộng đồng bền vững.
+              </p>
+              <div className="flex items-center gap-4 text-white font-bold">
+                <div className="flex -space-x-3">
+                  {[1,2,3,4].map(i => <div key={i} className="w-10 h-10 rounded-full border-2 border-black bg-gray-800" />)}
+                </div>
+                <span className="text-sm opacity-80">+1.2k người đã xem chiến lược này</span>
+              </div>
+            </div>
+            <div className="flex justify-center lg:justify-end">
+              <div className="relative">
+                <div className="absolute inset-0 bg-orange-500 rounded-full blur-[100px] opacity-20 group-hover:opacity-40 transition-opacity" />
+                <button className="relative px-12 py-6 bg-white text-black rounded-3xl font-black text-xl hover:scale-105 transition-all shadow-2xl flex items-center gap-3">
+                  Xem lộ trình ngay <TrendingUp className="w-6 h-6 text-orange-500" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -3204,6 +3243,20 @@ export default function App() {
     </>
   );
 
+  const roadmapContent = (
+    <div className="py-24 bg-gray-50/50 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-black mb-4">Chiến lược đạt 1.000 User</h1>
+          <p className="text-gray-500 max-w-2xl mx-auto">
+            Lộ trình chi tiết giúp bạn xây dựng cộng đồng và phát triển thương hiệu cá nhân bằng sức mạnh của AI.
+          </p>
+        </div>
+        <RoadmapDashboard />
+      </div>
+    </div>
+  );
+
   const content = selectedPost ? (
     <div className="min-h-screen bg-white font-sans text-gray-900">
       {/* Reading Progress Bar */}
@@ -3397,6 +3450,13 @@ export default function App() {
           </button>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">
             <button onClick={() => setActiveTab('home')} className={cn("hover:text-orange-500 transition-colors", activeTab === 'home' && "text-orange-500 font-bold")}>Trang chủ</button>
+            <button 
+              onClick={() => setActiveTab('roadmap')} 
+              className={cn("hover:text-orange-500 transition-colors relative", activeTab === 'roadmap' && "text-orange-500 font-bold")}
+            >
+              Lộ trình 1k User
+              <span className="absolute -top-3 -right-6 px-1.5 py-0.5 bg-orange-100 text-orange-600 text-[8px] font-black rounded-full uppercase border border-orange-200">New</span>
+            </button>
             <a href="#ideas" className="hover:text-orange-500 transition-colors">Ý tưởng</a>
             <a href="#ai-tools" className="hover:text-orange-500 transition-colors">Công cụ AI</a>
             <a href="#prompts" className="hover:text-orange-500 transition-colors">Prompt</a>
@@ -3489,7 +3549,7 @@ export default function App() {
         </div>
       </nav>
 
-      {activeTab === 'home' ? mainContent : libraryContent}
+      {activeTab === 'home' ? mainContent : activeTab === 'roadmap' ? roadmapContent : libraryContent}
     </div>
   );
 
