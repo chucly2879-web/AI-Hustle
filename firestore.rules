@@ -1,92 +1,30 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // ===============================================================
-    // Assumed Data Model
-    // ===============================================================
-    //
-    // Collection: subscribers
-    // Document ID: auto-generated
-    // Fields:
-    //   - fullName: string (required, 2-100 chars)
-    //   - email: string (required, valid email format)
-    //   - createdAt: timestamp (required)
-    //
-    // ===============================================================
-
-    // Helper Functions
-    function isAuthenticated() {
-      return request.auth != null;
-    }
-
+    function isAuthenticated() { return request.auth != null; }
     function isAdmin() {
       return isAuthenticated() && 
-        ((request.auth.token.email == "tranbaosadec@gmail.com" || request.auth.token.email == "admin@ai-hustle-phi.vercel.app" || request.auth.token.email == "chucly2879@gmail.com") && request.auth.token.email_verified == true);
+        (request.auth.token.email == "tranbaosadec@gmail.com" || 
+         request.auth.token.email == "chucly2879@gmail.com");
     }
 
-    function isValidEmail(email) {
-      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
-    }
-
-    function isValidSubscriber(data) {
-      return data.keys().hasAll(['fullName', 'email', 'createdAt']) &&
-             data.keys().hasOnly(['fullName', 'email', 'createdAt']) &&
-             data.fullName is string && data.fullName.size() >= 2 && data.fullName.size() <= 100 &&
-             isValidEmail(data.email) &&
-             data.createdAt is timestamp;
-    }
-
-    function isValidBlogPost(data) {
-      return data.keys().hasAll(['title', 'tag', 'content', 'date', 'authorUid', 'createdAt']) &&
-             data.title is string && data.tag is string && data.content is string &&
-             data.date is string && data.authorUid is string && data.createdAt is timestamp;
-    }
-
-    function isValidPrompt(data) {
-      return data.keys().hasAll(['title', 'description', 'content', 'category', 'isVip', 'createdAt']) &&
-             data.title is string && data.description is string && data.content is string &&
-             data.category is string && data.isVip is bool && data.createdAt is timestamp;
-    }
-
-    match /subscribers/{subscriberId} {
-      // Anyone can subscribe (create a document)
-      allow create: if isValidSubscriber(request.resource.data);
-      
-      // Only authenticated admins can read/list subscribers
-      allow read, list: if isAdmin();
-      
-      // No updates or deletes allowed for now to keep data integrity
-      allow update, delete: if false;
+    match /subscribers/{docId} {
+      allow read: if isAdmin();
+      allow create: if true;
     }
 
     match /users/{userId} {
-      // Users can read their own profile, admins can read all
-      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
-      
-      // Users can create their own profile on first login
-      allow create: if isAuthenticated() && request.auth.uid == userId;
-      
-      // Users can update their own profile, admins can update all (for roles/status)
-      allow update: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
-      
-      // Only admins can delete users
-      allow delete: if isAdmin();
+      allow read, write: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
     }
 
     match /blog_posts/{postId} {
-      // Blog posts are publicly readable
-      allow read, list: if true;
-      
-      // Only admins can create, update, or delete blog posts
-      allow create, update, delete: if isAdmin() && isValidBlogPost(request.resource.data);
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
     match /prompts/{promptId} {
-      // Prompts are publicly readable
-      allow read, list: if true;
-      
-      // Only admins can create, update, or delete prompts
-      allow create, update, delete: if isAdmin() && isValidPrompt(request.resource.data);
+      allow read: if true;
+      allow write: if isAdmin();
     }
   }
 }
