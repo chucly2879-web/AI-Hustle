@@ -1,6 +1,17 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+let aiInstance: GoogleGenAI | null = null;
+
+function getAi() {
+  if (!aiInstance) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("API key should be set when using the Gemini API.");
+    }
+    aiInstance = new GoogleGenAI({ apiKey });
+  }
+  return aiInstance;
+}
 
 export async function generateSideHustleIdea(interests: string) {
   const prompt = `
@@ -17,8 +28,9 @@ export async function generateSideHustleIdea(interests: string) {
   `;
 
   try {
+    const ai = getAi();
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.0-flash",
       contents: prompt,
     });
     return response.text || "Không có kết quả trả về.";
@@ -30,8 +42,9 @@ export async function generateSideHustleIdea(interests: string) {
 
 export async function runCustomPrompt(prompt: string) {
   try {
+    const ai = getAi();
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.0-flash",
       contents: prompt,
     });
     return response.text || "Không có kết quả trả về.";
