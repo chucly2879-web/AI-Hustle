@@ -164,138 +164,107 @@ const PROMPTS: Prompt[] = [
     content: 'Bạn là một chuyên gia SEO kỳ cựu. Hãy thực hiện quy trình sau:\n1. Nghiên cứu 10 từ khóa phụ liên quan đến [Từ khóa chính].\n2. Lập dàn ý chi tiết gồm 5 thẻ H2 và các thẻ H3 tương ứng cho tiêu đề: [Tiêu đề bài viết].\n3. Viết đoạn mở đầu thu hút (Hook) đánh vào nỗi đau của [Đối tượng độc giả].\n4. Viết nội dung chi tiết cho mục H2 đầu tiên.\n5. Đề xuất 3 tiêu đề tối ưu tỷ lệ click (CTR).'
   },
   { 
-    id: 'fb-content',
-    title: 'Sáng tạo nội dung Facebook Fanpage', 
+    id: 'content-production-mega',
+    title: '[MEGA] Quy trình sản xuất nội dung 30 ngày', 
     category: 'Content', 
-    description: 'Lên kế hoạch nội dung 7 ngày thu hút tương tác.',
-    content: 'Bạn là Social Media Manager chuyên nghiệp. Hãy xây dựng kế hoạch nội dung 7 ngày cho Fanpage về [Chủ đề/Ngành hàng]. Quy trình:\n- Ngày 1: Bài viết chia sẻ giá trị/kiến thức.\n- Ngày 2: Bài viết giải trí/meme liên quan.\n- Ngày 3: Bài viết đặt câu hỏi/thảo luận.\n- Ngày 4: Bài viết giới thiệu sản phẩm khéo léo.\n- Ngày 5: Bài viết Feedback khách hàng.\n- Ngày 6: Bài viết đằng sau hậu trường.\n- Ngày 7: Bài viết mini-game/quà tặng.\nYêu cầu: Mỗi bài viết bao gồm Tiêu đề, Nội dung chính và 5 Hashtag.'
+    description: 'Tạo 30 bài viết chất lượng chỉ trong 2 giờ làm việc.',
+    content: 'Bạn là Content Director. Hãy xây dựng quy trình sản xuất nội dung cho [Chủ đề] trong 30 ngày. Quy trình:\n1. Brainstorming: Tìm 30 tiêu đề đánh vào 30 nỗi đau khác nhau của khách hàng.\n2. Phân loại định dạng: 10 bài chia sẻ kiến thức, 10 bài kể chuyện, 5 bài bán hàng, 5 bài tương tác.\n3. Sản xuất hàng loạt (Batching): Viết dàn ý cho 30 bài cùng lúc.\n4. Tối ưu hóa AI: Cách dùng Prompt để viết nội dung chi tiết cho từng bài mà không bị trùng lặp.\n5. Lên lịch tự động: Gợi ý các công cụ đăng bài tự động và khung giờ vàng.'
   },
   { 
-    id: 'linkedin-branding',
-    title: '[VIP] Xây dựng nhân hiệu trên LinkedIn', 
+    id: 'content-agency-mega',
+    title: '[MEGA] Vận hành Agency Content AI 10k$', 
     category: 'Content', 
-    description: 'Quy trình 30 ngày phủ sóng thương hiệu cá nhân.',
-    content: 'Lập kế hoạch nội dung 7 ngày trên LinkedIn cho chuyên gia trong lĩnh vực [Lĩnh vực]. Quy trình thực hiện:\n1. Xác định 3 trụ cột nội dung (Content Pillars) chính.\n2. Viết 1 bài Storytelling về thất bại và bài học kinh nghiệm.\n3. Viết 1 bài phân tích xu hướng thị trường hiện tại.\n4. Viết 1 bài hướng dẫn (How-to) giải quyết vấn đề [Vấn đề].\n5. Gợi ý cách tương tác với 10 người có tầm ảnh hưởng trong ngành.',
+    description: 'Quy trình vận hành Agency nội dung quy mô lớn với doanh thu đột phá.',
+    content: 'Bạn là CEO của một Agency Content hàng đầu thế giới. Hãy thiết lập quy trình vận hành Agency triệu đô cho tôi.\n\n### GIAI ĐOẠN 1: LEAD GENERATION (TÌM KHÁCH HÀNG)\n1. Sử dụng LinkedIn Sales Navigator để lọc 100 khách hàng tiềm năng trong ngách [Ngách của tôi].\n2. Viết 3 mẫu Cold Email cá nhân hóa đánh vào nỗi đau về chi phí sản xuất nội dung.\n3. Xây dựng phễu quà tặng (Lead Magnet) là bản phân tích đối thủ cạnh tranh.\n\n### GIAI ĐOẠN 2: SERVICE DESIGN (THIẾT KẾ DỊCH VỤ)\n1. Xây dựng 3 gói dịch vụ: Basic (10 bài), Standard (30 bài + Video), Premium (Trọn gói Omni-channel).\n2. Sử dụng AI để tối ưu chi phí sản xuất xuống còn 1/10 giá thị trường.\n\n### GIAI ĐOẠN 3: AI PRODUCTION WORKFLOW (QUY TRÌNH SẢN XUẤT)\n1. Sử dụng tổ hợp ChatGPT (Viết lách) + Midjourney (Hình ảnh) + Canva (Design) + ElevenLabs (Lồng tiếng).\n2. Thiết lập Workflow trên Make.com để tự động hóa việc đẩy bài từ AI sang Google Docs.\n\n### GIAI ĐOẠN 4: QUALITY CONTROL (KIỂM SOÁT CHẤT LƯỢNG)\n1. Checklist 15 điểm: Văn phong, tính nguyên bản (AI Detection), sự chính xác, tính nhất quán thương hiệu...\n2. Quy trình sửa bài 2 vòng với nhân sự quản lý (Editor).\n\n### GIAI ĐOẠN 5: REPORTING & RETENTION (GIỮ CHÂN KHÁCH HÀNG)\n1. Mẫu báo cáo hiệu quả số lượng bài, lượt tương tác và tỷ lệ chuyển đổi.\n2. Chiến lược Upsell sang các dịch vụ cao cấp hơn.',
+    isVip: true
+  },
+  { 
+    id: 'content-ideas-vip',
+    title: '[VIP] Sáng tạo 100 ý tưởng nội dung trong 10 phút', 
+    category: 'Content', 
+    description: 'Kỹ thuật Brainstorming thần tốc để không bao giờ bí ý tưởng.',
+    content: 'Bạn là chuyên gia sáng tạo nội dung. Hãy tạo 100 ý tưởng nội dung cho [Chủ đề]. Quy trình:\n1. Phân loại theo 5 nhóm: Giáo dục, Giải trí, Truyền cảm hứng, Bán hàng, Tương tác.\n2. Sử dụng ma trận nội dung: Kết hợp [Chủ đề] với các góc nhìn khác nhau (Người mới, Chuyên gia, Sai lầm thường gặp, Xu hướng tương lai...).\n3. Đề xuất tiêu đề cho 20 ý tưởng tốt nhất.\n4. Gợi ý định dạng phù hợp cho từng nhóm (Video ngắn, Bài viết dài, Infographic).',
+    isVip: true
+  },
+  { 
+    id: 'storytelling-branding-vip',
+    title: '[VIP] Kể chuyện thương hiệu (Storytelling)', 
+    category: 'Content', 
+    description: 'Xây dựng câu chuyện thương hiệu chạm đến trái tim khách hàng.',
+    content: 'Hãy viết một câu chuyện thương hiệu cho [Tên thương hiệu] theo hành trình anh hùng. Quy trình:\n1. Bối cảnh: Giới thiệu nỗi đau ban đầu của khách hàng.\n2. Biến cố: Thời điểm họ nhận ra cần thay đổi.\n3. Người dẫn đường: Thương hiệu của bạn xuất hiện với giải pháp.\n4. Kết quả: Sự thay đổi tích cực và thành công bền vững.',
     isVip: true
   },
 
-  // --- E-COMMERCE CATEGORY ---
-  { 
-    id: 'hypnotic-desc',
-    title: 'Mô tả sản phẩm thôi miên', 
-    category: 'E-commerce', 
-    description: 'Viết mô tả sản phẩm thu hút theo công thức AIDA.',
-    content: 'Bạn là một bậc thầy về Copywriting bán hàng. Hãy viết mô tả sản phẩm cho: [Tên sản phẩm]. Quy trình:\n- Attention: Tiêu đề gây sốc hoặc câu hỏi đánh đúng tâm lý.\n- Interest: Liệt kê 3 lợi ích cốt lõi (không phải tính năng).\n- Desire: Vẽ ra viễn cảnh khách hàng sau khi dùng sản phẩm.\n- Action: Lời kêu gọi hành động kèm ưu đãi khan hiếm.\nYêu cầu: Ngôn ngữ thôi miên, sử dụng các từ ngữ kích thích cảm xúc.'
-  },
-  { 
-    id: 'customer-feedback',
-    title: 'Phản hồi đánh giá khách hàng Pro', 
-    category: 'E-commerce', 
-    description: 'Quy trình xử lý đánh giá 1 sao và 5 sao chuyên nghiệp.',
-    content: 'Bạn là Quản lý chăm sóc khách hàng. Hãy viết mẫu phản hồi cho 2 trường hợp:\n1. Đánh giá 5 sao: Cảm ơn chân thành, nhắc lại lợi ích sản phẩm và tặng voucher cho lần sau.\n2. Đánh giá 1 sao về lỗi [Lỗi cụ thể]: Xin lỗi chân thành, nhận trách nhiệm, đưa ra giải pháp đền bù (đổi trả/hoàn tiền) và yêu cầu khách hàng inbox để xử lý riêng.\nYêu cầu: Giọng văn lịch sự, cầu thị.'
-  },
-  { 
-    id: 'shopee-seo',
-    title: '[VIP] Tối ưu hóa gian hàng Shopee Pro', 
-    category: 'E-commerce', 
-    description: 'Chiến lược đứng top tìm kiếm và tối ưu tỷ lệ click.',
-    content: 'Bạn là chuyên gia vận hành sàn TMĐT. Hãy thực hiện quy trình tối ưu sản phẩm [Tên sản phẩm]:\n1. Viết tiêu đề chuẩn SEO theo công thức: [Tên gốc sản phẩm] + [Thương hiệu/Đặc tính] + [Công dụng/Lợi ích] + [Từ khóa xu hướng].\n2. Viết 5 điểm nổi bật (Bullet points) tối ưu cho hiển thị mobile.\n3. Thiết kế kịch bản cho 5 ảnh sản phẩm (Ảnh bìa, Ảnh tính năng, Ảnh feedback, Ảnh quà tặng, Ảnh bảng size).\n4. Bộ 18 hashtag chuẩn SEO Shopee phân loại theo: Hashtag ngành, Hashtag sản phẩm, Hashtag thương hiệu.',
-    isVip: true
-  },
-
-  // --- VIDEO CATEGORY ---
+  // --- SOCIAL MEDIA CATEGORY ---
   { 
     id: 'tiktok-viral',
     title: 'Kịch bản TikTok Viral', 
-    category: 'Video', 
+    category: 'Social Media', 
     description: 'Lên kịch bản video ngắn thu hút trong 3 giây đầu.',
-    content: 'Hãy viết một kịch bản video TikTok dài 45 giây về [Chủ đề video]. Quy trình:\n- 0-3s (Hook): Sử dụng kỹ thuật "Sự thật gây sốc" hoặc "Câu hỏi ngược đời".\n- 3-15s (Vấn đề): Đào sâu nỗi đau của [Đối tượng].\n- 15-35s (Giải pháp): Chia sẻ 3 bước thực hiện đơn giản.\n- 35-45s (CTA): Kêu gọi follow để xem phần tiếp theo hoặc nhận quà.'
+    content: 'Hãy viết một kịch bản video TikTok dài 45 giây về [Chủ đề video]. Quy trình:\n- 0-3s (Hook): Sử dụng kỹ thuật "Sự thật gây sốc" hoặc "Câu hỏi ngược đời".\n- 3-15s (Vấn đề): Đào sâu nỗi đau của [Đối tượng].\n- 15-35s (Giải giải pháp): Chia sẻ 3 bước thực hiện đơn giản.\n- 35-45s (CTA): Kêu gọi follow để xem phần tiếp theo hoặc nhận quà.'
   },
   { 
-    id: 'youtube-ideas',
-    title: 'Ý tưởng Video YouTube triệu view', 
-    category: 'Video', 
-    description: 'Tìm kiếm 10 chủ đề video có khả năng lên xu hướng.',
-    content: 'Bạn là chuyên gia sáng tạo nội dung YouTube. Hãy tìm 10 ý tưởng video cho kênh về [Chủ đề kênh]. Quy trình:\n1. Phân tích 3 xu hướng đang hot trong ngách này.\n2. Đề xuất 10 tiêu đề gây tò mò (Clickbait sạch).\n3. Gợi ý mẫu Thumbnail cho 3 ý tưởng tốt nhất.\n4. Viết đoạn mô tả (Description) chuẩn SEO cho video đầu tiên.'
+    id: 'fb-content-pro',
+    title: 'Nội dung Facebook Fanpage 7 ngày', 
+    category: 'Social Media', 
+    description: 'Lên kế hoạch nội dung thu hút tương tác tự động.',
+    content: 'Bạn là Social Media Manager chuyên nghiệp. Hãy xây dựng kế hoạch nội dung 7 ngày cho Fanpage về [Chủ đề/Ngành hàng]. Quy trình:\n- Ngày 1: Bài viết chia sẻ giá trị/kiến thức.\n- Ngày 2: Bài viết giải trí/meme liên quan.\n- Ngày 3: Bài viết đặt câu hỏi/thảo luận.\n- Ngày 4: Bài viết giới thiệu sản phẩm khéo léo.\n- Ngày 5: Bài viết Feedback khách hàng.\n- Ngày 6: Bài viết đằng sau hậu trường.\n- Ngày 7: Bài viết mini-game/quà tặng.\nYêu cầu: Mỗi bài viết bao gồm Tiêu đề, Nội dung chính và 5 Hashtag.'
   },
   { 
-    id: 'viral-script-vip',
-    title: '[VIP] Kịch bản Video Triệu View', 
-    category: 'Video', 
-    description: 'Cấu trúc kịch bản giữ chân người xem đến giây cuối cùng.',
-    content: 'Viết kịch bản video ngắn 60s cho [Chủ đề]. Quy trình thực hiện:\n1. Hook (0-5s): Đánh thẳng vào kết quả cuối cùng khách hàng mong muốn.\n2. Body (5-50s): Chia sẻ quy trình 3 bước "bí mật" mà ít người biết.\n3. Retention: Thêm một câu "Lưu ý quan trọng ở cuối video" để giữ chân người xem.\n4. CTA (50-60s): Hướng dẫn khách hàng nhấn vào link bio để nhận tài liệu.',
+    id: 'tiktok-growth-vip',
+    title: '[VIP] Quy trình xây dựng kênh TikTok 100k Follower', 
+    category: 'Social Media', 
+    description: 'Chiến lược nội dung để phủ sóng thương hiệu thần tốc.',
+    content: 'Bạn là chuyên gia tăng trưởng TikTok. Hãy lập kế hoạch 30 ngày để đạt 100k Follower cho kênh [Tên kênh]. Quy trình:\n- Tuần 1: Định vị thương hiệu và tạo 7 video "Hook" cực mạnh.\n- Tuần 2: Tương tác với cộng đồng và bắt trend thông minh.\n- Tuần 3: Chuỗi video Storytelling để gắn kết cảm xúc với người xem.\n- Tuần 4: Tối ưu hóa thuật toán và livestream bán hàng/tăng tương tác.\nYêu cầu: Mỗi tuần đề xuất 3 ý tưởng video cụ thể.',
     isVip: true
   },
+  { 
+    id: 'youtube-automation-mega',
+    title: '[MEGA] Xây dựng kênh YouTube Automation', 
+    category: 'Social Media', 
+    description: 'Quy trình tạo kênh YouTube kiếm tiền thụ động mà không cần lộ mặt.',
+    content: 'Bạn là chuyên gia YouTube Automation. Hãy lập kế hoạch xây dựng kênh cho ngách [Ngách nội dung]. Quy trình:\n1. Nghiên cứu chủ đề: Tìm 10 chủ đề có CPM cao và lượng tìm kiếm lớn.\n2. Quy trình sản xuất: Cách dùng AI để viết kịch bản, tạo giọng đọc (Text-to-speech) và tìm stock video/hình ảnh.\n3. Tối ưu hóa SEO: Cách viết tiêu đề, mô tả và tag để video ăn đề xuất.\n4. Chiến lược tăng trưởng: Cách dùng Shorts để kéo sub cho kênh chính.\n5. Các phương thức kiếm tiền: Ngoài AdSense, hãy đề xuất 3 cách kiếm tiền khác từ kênh này.',
+    isVip: true
+  },
+  { 
+    id: 'video-script-expert',
+    title: 'Kịch bản Video Review chuyên nghiệp', 
+    category: 'Social Media', 
+    description: 'Cấu trúc kịch bản review sản phẩm thu hút hàng triệu view.',
+    content: 'Viết kịch bản review cho [Tên sản phẩm]. Quy trình:\n1. Mở đầu: Cảnh quay gây tò mò (Unboxing hoặc so sánh).\n2. Trải nghiệm thực tế: Những ưu điểm vượt trội mà ít người biết.\n3. Điểm trừ: Một chút thật thà để tăng độ tin cậy.\n4. So sánh: Với các sản phẩm cùng phân khúc.\n5. Kết luận: Có nên mua hay không?'
+  },
 
-  // --- MARKETING CATEGORY ---
-  { 
-    id: 'email-marketing',
-    title: 'Email Marketing Bán Hàng', 
-    category: 'Marketing', 
-    description: 'Viết chuỗi email bán hàng tự động thuyết phục.',
-    content: 'Viết một chuỗi 3 email bán hàng cho sản phẩm [Tên sản phẩm]. Quy trình:\n- Email 1: Làm quen và trao giá trị (Tặng quà/Chia sẻ mẹo).\n- Email 2: Khơi gợi nỗi đau và giới thiệu giải pháp (Sản phẩm của bạn).\n- Email 3: Tạo sự khan hiếm (Giảm giá có hạn) và chốt đơn.\nYêu cầu: Tiêu đề email phải cực kỳ thu hút để tăng tỷ lệ mở.'
-  },
-  { 
-    id: 'customer-persona',
-    title: 'Xây dựng chân dung khách hàng (Persona)', 
-    category: 'Marketing', 
-    description: 'Phân tích chi tiết đối tượng mục tiêu của bạn.',
-    content: 'Bạn là chuyên gia Marketing Research. Hãy xây dựng chân dung khách hàng mục tiêu cho [Sản phẩm]. Quy trình:\n1. Nhân khẩu học (Tuổi, giới tính, địa lý, thu nhập).\n2. Tâm lý học (Sở thích, nỗi sợ, khao khát).\n3. Hành vi (Thói quen online, kênh mua sắm).\n4. Nỗi đau (Pain points) lớn nhất mà sản phẩm có thể giải quyết.'
-  },
+  // --- ADS CATEGORY ---
   { 
     id: 'fb-ads-vip',
     title: '[VIP] Chiến dịch FB Ads triệu đô', 
-    category: 'Marketing', 
+    category: 'Ads', 
     description: 'Cấu trúc bài viết quảng cáo Facebook tỷ lệ chuyển đổi cực cao.',
     content: 'Bạn là chuyên gia chạy quảng cáo Facebook Ads. Hãy thực hiện quy trình viết nội dung quảng cáo cho [Sản phẩm]:\n1. Viết 3 tiêu đề (Headline) khác nhau: 1 đánh vào tò mò, 1 đánh vào lợi ích, 1 đánh vào cảnh báo.\n2. Viết thân bài theo công thức PAS (Problem - Agitate - Solution).\n3. Đề xuất 3 loại hình ảnh/video tương ứng cho từng mẫu nội dung.\n4. Viết câu kêu gọi hành động (CTA) tối ưu cho nút "Gửi tin nhắn".',
     isVip: true
   },
   { 
-    id: 'sales-funnel-vip',
-    title: '[VIP] Phễu bán hàng tự động (Funnel)', 
-    category: 'Marketing', 
-    description: 'Thiết kế hành trình khách hàng từ nhận biết đến mua hàng.',
-    content: 'Hãy thiết kế một phễu bán hàng 4 giai đoạn cho [Sản phẩm/Dịch vụ]. Quy trình:\n1. Giai đoạn Thu hút: Đề xuất 3 mẫu Lead Magnet (Quà tặng miễn phí).\n2. Giai đoạn Nuôi dưỡng: Lập dàn ý chuỗi 5 email tự động.\n3. Giai đoạn Chuyển đổi: Thiết kế cấu trúc Landing Page bán hàng chuẩn tâm lý.\n4. Giai đoạn Chăm sóc: Đề xuất chiến lược Upsell/Cross-sell để tăng giá trị đơn hàng.',
-    isVip: true
-  },
-  { 
-    id: 'competitor-analysis-vip',
-    title: '[VIP] Phân tích đối thủ cạnh tranh AI', 
-    category: 'Marketing', 
-    description: 'Tìm ra điểm yếu của đối thủ để chiếm lĩnh thị trường.',
-    content: 'Hãy phân tích đối thủ [Tên đối thủ] trong mảng [Ngành hàng]. Quy trình:\n1. Liệt kê 3 điểm mạnh nhất trong chiến lược Marketing của họ.\n2. Tìm ra 3 lỗ hổng/điểm yếu mà khách hàng thường phàn nàn về họ.\n3. Phân tích cấu trúc giá và các chương trình khuyến mãi thường xuyên.\n4. Đề xuất chiến lược "Đánh vào ngách" để [Thương hiệu của bạn] vượt mặt đối thủ.',
-    isVip: true
+    id: 'tiktok-ads-script',
+    title: 'Kịch bản TikTok Ads chuyển đổi', 
+    category: 'Ads', 
+    description: 'Kịch bản video ngắn tối ưu cho chạy quảng cáo TikTok.',
+    content: 'Hãy viết một kịch bản quảng cáo TikTok cho [Sản phẩm]. Quy trình:\n1. Hook (0-3s): Đập tan nỗi sợ/đánh vào khao khát của khách hàng ngay lập tức.\n2. Chứng minh: Đưa ra kết quả thực tế/sau khi dùng sản phẩm.\n3. Lời giải: Tại sao sản phẩm của bạn là duy nhất.\n4. Ưu đãi: Lý do họ phải mua NGAY LẬP TỨC (Giảm giá/Quà tặng).\n5. CTA: Hướng dẫn bấm vào nút bên dưới.'
   },
 
-  // --- SALES CATEGORY ---
+  // --- EMAIL CATEGORY ---
   { 
-    id: 'price-objection',
-    title: 'Xử lý từ chối về giá', 
-    category: 'Sales', 
-    description: 'Cách thuyết phục khách hàng khi họ chê đắt.',
-    content: 'Bạn là sát thủ bán hàng. Hãy viết 3 kịch bản xử lý khi khách hàng nói "Giá bên em cao quá". Quy trình:\n- Cách 1: Chia nhỏ chi phí theo ngày/tháng.\n- Cách 2: So sánh giá trị nhận được so với chi phí bỏ ra.\n- Cách 3: Kể câu chuyện về một khách hàng khác đã từng chê đắt và kết quả họ nhận được sau khi dùng.'
+    id: 'email-marketing',
+    title: 'Email Marketing Bán Hàng', 
+    category: 'Email', 
+    description: 'Viết chuỗi email bán hàng tự động thuyết phục.',
+    content: 'Viết một chuỗi 3 email bán hàng cho sản phẩm [Tên sản phẩm]. Quy trình:\n- Email 1: Làm quen và trao giá trị (Tặng quà/Chia sẻ mẹo).\n- Email 2: Khơi gợi nỗi đau và giới thiệu giải pháp (Sản phẩm của bạn).\n- Email 3: Tạo sự khan hiếm (Giảm giá có hạn) và chốt đơn.\nYêu cầu: Tiêu đề email phải cực kỳ thu hút để tăng tỷ lệ mở.'
   },
   { 
-    id: 'follow-up-email',
-    title: 'Email Follow-up sau cuộc gọi', 
-    category: 'Sales', 
-    description: 'Giữ kết nối và thúc đẩy khách hàng ra quyết định.',
-    content: 'Viết một email follow-up gửi cho khách hàng [Tên] sau khi vừa kết thúc cuộc gọi tư vấn về [Sản phẩm]. Quy trình:\n1. Cảm ơn và tóm tắt 3 điểm mấu chốt đã trao đổi.\n2. Giải quyết 1 thắc mắc còn tồn đọng của khách hàng.\n3. Đưa ra bước tiếp theo (Lịch hẹn/Gửi báo giá) kèm thời hạn (Deadline).'
-  },
-  { 
-    id: 'telesale-script-vip',
-    title: '[VIP] Kịch bản chốt đơn Telesale', 
-    category: 'Sales', 
-    description: 'Quy trình xử lý từ chối và chốt đơn qua điện thoại.',
-    content: 'Xây dựng kịch bản Telesale cho sản phẩm [Tên sản phẩm]. Quy trình 5 bước:\n1. Chào hỏi & Phá băng (30s đầu): Gây ấn tượng bằng một lợi ích ngay lập tức.\n2. Khai thác nỗi đau: Đặt 3 câu hỏi để khách hàng tự nhận ra vấn đề.\n3. Trình bày giải pháp: Tập trung vào tính năng giải quyết nỗi đau đó.\n4. Xử lý từ chối: Chuẩn bị sẵn câu trả lời cho 3 lời từ chối phổ biến nhất.\n5. Chốt đơn: Sử dụng kỹ thuật "Chốt đơn giả định" hoặc "Sự lựa chọn kép".',
-    isVip: true
-  },
-  { 
-    id: 'cold-outreach-vip',
-    title: '[VIP] Chiến lược Email Cold Outreach', 
-    category: 'Sales', 
-    description: 'Cách tiếp cận khách hàng lạ mà không bị đánh dấu spam.',
-    content: 'Viết 3 mẫu email tiếp cận khách hàng [Đối tượng] để giới thiệu dịch vụ [Dịch vụ]. Quy trình:\n1. Cá nhân hóa dòng tiêu đề và câu mở đầu.\n2. Đưa ra một bằng chứng xã hội (Social Proof) ấn tượng.\n3. Đề xuất một cuộc gọi ngắn 5-10 phút (Low friction CTA).\n4. Quy trình Follow-up 3 bước nếu khách hàng không phản hồi.',
+    id: 'email-newsletter-mega-pro',
+    title: '[MEGA] Hệ thống Email Newsletter triệu đô', 
+    category: 'Email', 
+    description: 'Quy trình xây dựng danh sách email và kiếm tiền từ bản tin định kỳ.',
+    content: 'Bạn là chuyên gia Email Marketing. Hãy lập kế hoạch xây dựng Newsletter cho chủ đề [Chủ đề]. Quy trình:\n1. Chọn ngách & Định vị: Tại sao người ta nên đăng ký nhận email của bạn?\n2. Thu thập Lead: Thiết kế Landing Page và quà tặng (Lead Magnet) để thu hút sub.\n3. Cấu trúc nội dung: Dàn ý cho một bản tin hàng tuần (Tin tức, Kiến thức, Tài nguyên, Quảng cáo).\n4. Chiến lược kiếm tiền: Đề xuất 3 cách (Sponsorship, Affiliate, Bán sản phẩm riêng).\n5. Công cụ vận hành: Gợi ý các nền tảng gửi email hiệu quả và chi phí thấp.',
     isVip: true
   },
 
@@ -308,166 +277,140 @@ const PROMPTS: Prompt[] = [
     content: 'Tìm cho tôi 20 từ khóa ngách (long-tail keywords) về chủ đề [Chủ đề chính]. Quy trình:\n1. Lọc ra các từ khóa có ý định tìm kiếm (Search Intent) là "Mua hàng" hoặc "Tìm giải pháp".\n2. Sắp xếp theo bảng gồm: Từ khóa, Độ khó ước tính, Lượng tìm kiếm hàng tháng.\n3. Đề xuất tiêu đề bài viết cho 5 từ khóa tiềm năng nhất.'
   },
   { 
-    id: 'meta-tags-seo',
-    title: 'Tối ưu Meta Tags chuẩn SEO', 
+    id: 'google-maps-seo-vip-pro',
+    title: '[VIP] Tối ưu hóa Google Maps (GMB) chuyên sâu', 
     category: 'SEO', 
-    description: 'Viết Title và Description thu hút cho website.',
-    content: 'Hãy viết Title Tag (dưới 60 ký tự) và Meta Description (dưới 160 ký tự) cho trang web về [Chủ đề]. Quy trình:\n1. Chứa từ khóa chính [Từ khóa] ở ngay đầu câu.\n2. Thêm một lợi ích hoặc con số để tăng tỷ lệ click.\n3. Bao gồm lời kêu gọi hành động (CTA) mạnh mẽ.'
+    description: 'Cách đưa địa điểm kinh doanh của bạn lên top tìm kiếm địa phương.',
+    content: 'Bạn là chuyên gia Local SEO. Hãy tối ưu Google Business Profile cho [Tên doanh nghiệp]. Quy trình:\n1. Tối ưu thông tin cơ bản: Tên, Danh mục, Mô tả chứa từ khóa địa phương.\n2. Chiến lược hình ảnh: Các loại ảnh cần đăng để tăng uy tín và thu hút khách.\n3. Quản lý đánh giá: Cách xin review 5 sao và phản hồi để tăng thứ hạng.\n4. Đăng bài (Posts): Lịch trình đăng tin tức/ưu đãi trên Maps để giữ tương tác.\n5. Trích dẫn (Citations): Danh sách các trang vàng/thư mục cần đăng ký để đồng bộ thông tin.',
+    isVip: true
+  },
+
+  // --- AUTOMATION CATEGORY ---
+  { 
+    id: 'lead-gen-automation',
+    title: 'Tự động hóa tìm kiếm khách hàng (Lead Gen)', 
+    category: 'Automation', 
+    description: 'Quy trình tự động hóa thu thập Lead từ LinkedIn/Facebook.',
+    content: 'Bạn là một Automation Expert. Hãy thiết kế một quy trình tự động hóa việc thu thập Lead từ [Nguồn: LinkedIn/Facebook] và đưa vào [Google Sheets/CRM].\n\nYêu cầu:\n1. Liệt kê các công cụ cần thiết (Make.com, PhantomBuster, Apollo...).\n2. Mô tả từng bước trong Workflow.\n3. Viết kịch bản cho một con bot tự động gửi tin nhắn chào hỏi cá nhân hóa không vi phạm chính sách cộng đồng.'
   },
   { 
-    id: 'internal-linking',
-    title: 'Chiến lược Internal Linking', 
-    category: 'SEO', 
-    description: 'Xây dựng cấu trúc liên kết nội bộ tối ưu.',
-    content: 'Bạn là chuyên gia Technical SEO. Hãy xây dựng sơ đồ liên kết nội bộ cho cụm bài viết (Topic Cluster) về [Chủ đề chính]. Quy trình:\n1. Xác định bài viết trụ cột (Pillar Page).\n2. Liệt kê 5 bài viết bổ trợ (Cluster Content).\n3. Chỉ rõ Anchor Text cần dùng để liên kết từ bài bổ trợ về bài trụ cột và ngược lại.'
+    id: 'omni-channel-auto',
+    title: 'Hệ thống Auto-posting đa kênh', 
+    category: 'Automation', 
+    description: 'Tự động đăng bài từ TikTok sang Reels, Shorts và Facebook.',
+    content: 'Bạn là chuyên gia Automation Marketing. Hãy hướng dẫn cách thiết lập hệ thống tự động đăng nội dung từ [Kênh gốc: TikTok/Youtube] sang [Kênh phụ: Reels/Shorts/Facebook].\n\nQuy trình:\n1. Giải pháp xóa Logo/Watermark tự động.\n2. Cách dùng Make.com hoặc Repurpose.io để đồng bộ hóa.\n3. Chiến lược xoay tua nội dung để tránh bị đánh giá "nội dung trùng lặp".'
   },
   { 
-    id: 'business-plan-mega',
-    title: '[MEGA] Kế hoạch kinh doanh 0 đồng', 
-    category: 'Marketing', 
-    description: 'Quy trình khởi nghiệp từ ý tưởng đến doanh thu đầu tiên.',
-    content: 'Bạn là cố vấn khởi nghiệp cấp cao. Hãy lập kế hoạch kinh doanh cho ý tưởng: [Ý tưởng]. Quy trình 7 bước:\n1. Phân tích thị trường & Đối thủ: Tìm ra "đại dương xanh".\n2. Xác định USP (Điểm bán hàng độc nhất): Tại sao khách hàng phải chọn bạn?\n3. Thiết kế sản phẩm mồi (Lead Magnet): Thu hút 100 khách hàng tiềm năng đầu tiên.\n4. Chiến lược nội dung đa kênh (TikTok, Facebook, Group): Cách phủ sóng thương hiệu với chi phí 0 đồng.\n5. Quy trình bán hàng & Chốt đơn: Kịch bản tư vấn tối ưu tỷ lệ chuyển đổi.\n6. Hệ thống vận hành tinh gọn: Các công cụ AI cần dùng để tiết kiệm nhân sự.\n7. Kế hoạch tài chính: Dự toán doanh thu và điểm hòa vốn.'
+    id: 'ai-agent-cs-pro',
+    title: 'Xây dựng AI Agent CSKH tự động', 
+    category: 'Automation', 
+    description: 'Thiết kế Agent AI tự động trả lời thắc mắc và chốt đơn.',
+    content: 'Bạn là AI Architect. Hãy thiết kế Prompt cho một Chatbot AI có thể tự động trả lời thắc mắc của khách hàng về [Sản phẩm/Dịch vụ] dựa trên file Knowledge Base [Mô tả sản phẩm].\n\nYêu cầu:\n- Phân tích 10 câu hỏi thường gặp nhất.\n- Thiết lập giọng văn: [Thân thiện/Chuyên nghiệp].\n- Kịch bản dẫn dắt khách hàng từ thắc mắc đến để lại thông tin đặt hàng.'
   },
   { 
-    id: 'content-production-mega',
-    title: '[MEGA] Quy trình sản xuất nội dung 30 ngày', 
-    category: 'Content', 
-    description: 'Tạo 30 bài viết chất lượng chỉ trong 2 giờ làm việc.',
-    content: 'Bạn là Content Director. Hãy xây dựng quy trình sản xuất nội dung cho [Chủ đề] trong 30 ngày. Quy trình:\n1. Brainstorming: Tìm 30 tiêu đề đánh vào 30 nỗi đau khác nhau của khách hàng.\n2. Phân loại định dạng: 10 bài chia sẻ kiến thức, 10 bài kể chuyện, 5 bài bán hàng, 5 bài tương tác.\n3. Sản xuất hàng loạt (Batching): Viết dàn ý cho 30 bài cùng lúc.\n4. Tối ưu hóa AI: Cách dùng Prompt để viết nội dung chi tiết cho từng bài mà không bị trùng lặp.\n5. Lên lịch tự động: Gợi ý các công cụ đăng bài tự động và khung giờ vàng.'
-  },
-  { 
-    id: 'customer-service-mega',
-    title: '[MEGA] Hệ thống CSKH tự động 5 sao', 
-    category: 'E-commerce', 
-    description: 'Tự động hóa 90% khâu tư vấn và chăm sóc sau bán.',
-    content: 'Bạn là chuyên gia tối ưu trải nghiệm khách hàng. Hãy thiết kế hệ thống CSKH cho shop [Tên shop]. Quy trình:\n1. Xây dựng bộ câu hỏi thường gặp (FAQ) thông minh.\n2. Kịch bản Chatbot tư vấn: Từ lúc khách chào đến lúc chốt đơn.\n3. Quy trình xử lý khiếu nại: 4 bước làm hài lòng khách hàng khó tính nhất.\n4. Hệ thống chăm sóc sau bán: Email/Tin nhắn cảm ơn và xin đánh giá 5 sao.\n5. Chiến lược quay vòng khách hàng: Cách tặng quà để khách mua lại lần 2, lần 3.'
-  },
-  { 
-    id: 'affiliate-empire-mega',
-    title: '[MEGA] Đế chế Affiliate Marketing tự động', 
-    category: 'Marketing', 
+    id: 'affiliate-empire-mega-pro',
+    title: '[MEGA] Đế chế Affiliate Marketing AI', 
+    category: 'Automation', 
     description: 'Quy trình từ A-Z để xây dựng nguồn thu nhập thụ động bền vững.',
     content: 'Bạn là triệu phú Affiliate Marketing. Hãy xây dựng lộ trình thành công cho tôi trong ngách [Ngách sản phẩm]. Quy trình 6 giai đoạn:\n1. Giai đoạn Nghiên cứu (Niche Research): Tìm 5 sản phẩm có hoa hồng cao (>30%) và tỷ lệ chuyển đổi tốt trên Shopee/Lazada/Amazon.\n2. Giai đoạn Xây dựng nền tảng (Platform Setup): Hướng dẫn lập kênh TikTok/Reels/Shorts tối ưu cho Affiliate.\n3. Giai đoạn Sản xuất nội dung hàng loạt (Content Machine): Quy trình dùng AI để tạo 3 video/ngày mà không cần lộ mặt.\n4. Giai đoạn Tối ưu hóa chuyển đổi (Conversion Hack): Cách viết Bio, gắn link và dùng "Call to action" để khách bấm mua ngay.\n5. Giai đoạn Thu hút traffic miễn phí (Traffic Secrets): Bí quyết dùng Hashtag và khung giờ đăng bài để video dễ lên xu hướng.\n6. Giai đoạn Tự động hóa & Mở rộng (Scaling): Cách thuê nhân sự hoặc dùng công cụ để vận hành 10 kênh cùng lúc.',
     isVip: true
   },
+  
+  // --- SALES CATEGORY ---
   { 
-    id: 'tiktok-growth-vip',
-    title: '[VIP] Quy trình xây dựng kênh TikTok 100k Follower', 
-    category: 'Video', 
-    description: 'Chiến lược nội dung để phủ sóng thương hiệu thần tốc.',
-    content: 'Bạn là chuyên gia tăng trưởng TikTok. Hãy lập kế hoạch 30 ngày để đạt 100k Follower cho kênh [Tên kênh]. Quy trình:\n- Tuần 1: Định vị thương hiệu và tạo 7 video "Hook" cực mạnh.\n- Tuần 2: Tương tác với cộng đồng và bắt trend thông minh.\n- Tuần 3: Chuỗi video Storytelling để gắn kết cảm xúc với người xem.\n- Tuần 4: Tối ưu hóa thuật toán và livestream bán hàng/tăng tương tác.\nYêu cầu: Mỗi tuần đề xuất 3 ý tưởng video cụ thể.',
-    isVip: true
-  },
-  { 
-    id: 'chatbot-sales-vip',
-    title: '[VIP] Hệ thống bán hàng tự động qua Chatbot AI', 
-    category: 'Sales', 
-    description: 'Tự động hóa khâu tư vấn và chốt đơn 24/7.',
-    content: 'Thiết kế kịch bản Chatbot AI cho Fanpage [Tên Fanpage]. Quy trình:\n1. Lời chào cá nhân hóa theo tên khách hàng.\n2. Bộ câu hỏi trắc nghiệm để phân loại nhu cầu khách hàng.\n3. Kịch bản tư vấn sản phẩm dựa trên câu trả lời của khách.\n4. Quy trình xử lý khiếu nại/thắc mắc thường gặp tự động.\n5. Kỹ thuật "Upsell" tự động ngay trong hội thoại.\n6. Chuyển đổi sang nhân viên tư vấn thực nếu khách có yêu cầu đặc biệt.',
-    isVip: true
-  },
-  { 
-    id: 'content-agency-mega',
-    title: '[MEGA] Xây dựng Agency Content AI chuyên nghiệp', 
-    category: 'Content', 
-    description: 'Quy trình vận hành Agency nội dung quy mô lớn with nhân sự tối thiểu.',
-    content: 'Bạn là chủ một Agency Content hàng đầu. Hãy thiết kế quy trình vận hành cho Agency của tôi. Quy trình 5 bước chuyên sâu:\n1. Giai đoạn Tìm kiếm khách hàng (Lead Gen): Cách dùng LinkedIn và Cold Email để tìm 10 khách hàng đầu tiên cần dịch vụ nội dung.\n2. Giai đoạn Thiết kế gói dịch vụ (Service Design): Xây dựng các gói bài viết SEO, kịch bản Video, nội dung Fanpage với mức giá cạnh tranh nhờ tối ưu AI.\n3. Giai đoạn Quy trình sản xuất (Production Workflow): Cách dùng ChatGPT, Midjourney và Canva để sản xuất 100 bài viết/tháng chỉ với 1 nhân sự quản lý.\n4. Giai đoạn Kiểm soát chất lượng (QC Process): Checklist 10 điểm để đảm bảo nội dung AI viết ra không bị phát hiện và đạt chất lượng cao nhất.\n5. Giai đoạn Báo cáo & Giữ chân khách hàng (Reporting & Retention): Mẫu báo cáo hiệu quả (KPIs) hàng tháng để khách hàng tiếp tục gia hạn hợp đồng.',
-    isVip: true
-  },
-  { 
-    id: 'youtube-automation-mega',
-    title: '[MEGA] Xây dựng kênh YouTube Automation', 
-    category: 'Video', 
-    description: 'Quy trình tạo kênh YouTube kiếm tiền thụ động mà không cần lộ mặt.',
-    content: 'Bạn là chuyên gia YouTube Automation. Hãy lập kế hoạch xây dựng kênh cho ngách [Ngách nội dung]. Quy trình:\n1. Nghiên cứu chủ đề: Tìm 10 chủ đề có CPM cao và lượng tìm kiếm lớn.\n2. Quy trình sản xuất: Cách dùng AI để viết kịch bản, tạo giọng đọc (Text-to-speech) và tìm stock video/hình ảnh.\n3. Tối ưu hóa SEO: Cách viết tiêu đề, mô tả và tag để video ăn đề xuất.\n4. Chiến lược tăng trưởng: Cách dùng Shorts để kéo sub cho kênh chính.\n5. Các phương thức kiếm tiền: Ngoài AdSense, hãy đề xuất 3 cách kiếm tiền khác từ kênh này.',
-    isVip: true
-  },
-  { 
-    id: 'messenger-sales-vip',
-    title: '[VIP] Kịch bản chốt đơn trên Messenger', 
-    category: 'Sales', 
-    description: 'Quy trình tư vấn khách hàng qua tin nhắn with tỷ lệ chốt đơn >30%.',
-    content: 'Bạn là sát thủ chốt đơn qua tin nhắn. Hãy viết kịch bản tư vấn cho sản phẩm [Sản phẩm]. Quy trình:\n1. Phá băng: Câu hỏi mở đầu để khách hàng tương tác ngay.\n2. Khám phá: 3 câu hỏi để xác định nhu cầu và khả năng chi trả.\n3. Trình bày: Cách giới thiệu sản phẩm tập trung vào giải quyết nỗi đau của khách.\n4. Xử lý từ chối: Kịch bản khi khách nói "Để chị suy nghĩ thêm" hoặc "Hỏi ý kiến chồng".\n5. Chốt hạ: Kỹ thuật tạo sự khan hiếm để khách chuyển khoản ngay.',
-    isVip: true
-  },
-  { 
-    id: 'pr-article-vip',
-    title: '[VIP] Viết bài PR báo chí chuyên nghiệp', 
-    category: 'Content', 
-    description: 'Tạo bài viết PR thu hút, khách quan và dễ được duyệt đăng báo.',
-    content: 'Bạn là chuyên gia PR & Branding. Hãy viết một bài PR cho sự kiện/sản phẩm [Tên]. Quy trình:\n1. Tiêu đề: Theo phong cách báo chí, khách quan nhưng vẫn gây tò mò.\n2. Sa-pô: Tóm tắt nội dung hấp dẫn nhất trong 2-3 câu.\n3. Thân bài: Cấu trúc hình tháp ngược, đưa thông tin quan trọng nhất lên đầu.\n4. Trích dẫn: Viết 2 đoạn trích dẫn từ chuyên gia hoặc khách hàng để tăng độ tin cậy.\n5. Boilerplate: Giới thiệu ngắn gọn về doanh nghiệp ở cuối bài.',
-    isVip: true
-  },
-  { 
-    id: 'upwork-fiverr-vip',
-    title: '[VIP] Tối ưu hóa hồ sơ Upwork/Fiverr', 
-    category: 'Sales', 
-    description: 'Cách viết Profile thu hút khách hàng quốc tế và nhận dự án đầu tiên.',
-    content: 'Bạn là Freelancer thành công trên sàn quốc tế. Hãy tối ưu hồ sơ cho tôi trong mảng [Kỹ năng]. Quy trình:\n1. Tiêu đề hồ sơ: Chứa từ khóa ngách và giá trị cốt lõi.\n2. Phần giới thiệu (Overview): Viết theo phong cách giải quyết vấn đề cho khách hàng, không phải kể lể về bản thân.\n3. Danh mục dịch vụ: Đề xuất 3 gói dịch vụ từ cơ bản đến cao cấp.\n4. Mẫu thư chào hàng (Cover Letter): Viết một mẫu thư ngắn gọn, tập trung vào kết quả cho dự án cụ thể.',
-    isVip: true
-  },
-  { 
-    id: 'pinterest-affiliate-mega',
-    title: '[MEGA] Affiliate Marketing trên Pinterest', 
-    category: 'Marketing', 
-    description: 'Quy trình kéo traffic miễn phí từ Pinterest về link Affiliate.',
-    content: 'Bạn là chuyên gia Pinterest Marketing. Hãy lập kế hoạch cho ngách [Ngách]. Quy trình:\n1. Thiết lập tài khoản Business: Cách tối ưu tên, bio và các bảng (Boards) chuẩn SEO.\n2. Chiến lược hình ảnh: Cách dùng Canva/AI để tạo 10 mẫu Pin thu hút click mỗi ngày.\n3. Tối ưu hóa từ khóa: Cách tìm từ khóa xu hướng trên Pinterest để gắn vào mô tả Pin.\n4. Quy trình đăng bài: Tần suất đăng và cách dùng công cụ tự động hóa.\n5. Chuyển đổi: Cách dẫn dắt khách hàng từ Pin về Landing Page hoặc link mua hàng trực tiếp.',
-    isVip: true
-  },
-  { 
-    id: 'content-ideas-vip',
-    title: '[VIP] Sáng tạo 100 ý tưởng nội dung trong 10 phút', 
-    category: 'Content', 
-    description: 'Kỹ thuật Brainstorming thần tốc để không bao giờ bí ý tưởng.',
-    content: 'Bạn là chuyên gia sáng tạo nội dung. Hãy tạo 100 ý tưởng nội dung cho [Chủ đề]. Quy trình:\n1. Phân loại theo 5 nhóm: Giáo dục, Giải trí, Truyền cảm hứng, Bán hàng, Tương tác.\n2. Sử dụng ma trận nội dung: Kết hợp [Chủ đề] với các góc nhìn khác nhau (Người mới, Chuyên gia, Sai lầm thường gặp, Xu hướng tương lai...).\n3. Đề xuất tiêu đề cho 20 ý tưởng tốt nhất.\n4. Gợi ý định dạng phù hợp cho từng nhóm (Video ngắn, Bài viết dài, Infographic).',
-    isVip: true
-  },
-  { 
-    id: 'livestream-script-vip',
-    title: '[VIP] Viết kịch bản Livestream bán hàng', 
+    id: 'livestream-script-vip-pro',
+    title: '[VIP] Kịch bản Livestream bán hàng bùng nổ', 
     category: 'Sales', 
     description: 'Cấu trúc kịch bản giữ chân người xem và chốt đơn liên tục trên Live.',
     content: 'Bạn là bậc thầy Livestream. Hãy viết kịch bản Live cho buổi bán [Sản phẩm]. Quy trình:\n1. Mở đầu (10 phút đầu): Cách kéo người xem vào và tạo không khí sôi động.\n2. Giới thiệu sản phẩm: Cách trình bày tính năng và lợi ích một cách trực quan.\n3. Tạo game/quà tặng: Cách lồng ghép mini-game để tăng tương tác và giữ chân người xem.\n4. Kịch bản chốt đơn: Cách hô hào và tạo sự khan hiếm (Flash sale) để khách comment mua ngay.\n5. Xử lý thắc mắc: Chuẩn bị câu trả lời cho 5 câu hỏi phổ biến nhất trên Live.',
     isVip: true
   },
   { 
-    id: 'email-newsletter-mega',
-    title: '[MEGA] Xây dựng hệ thống Email Newsletter', 
-    category: 'Marketing', 
-    description: 'Quy trình xây dựng danh sách email và kiếm tiền từ bản tin định kỳ.',
-    content: 'Bạn là chuyên gia Email Marketing. Hãy lập kế hoạch xây dựng Newsletter cho chủ đề [Chủ đề]. Quy trình:\n1. Chọn ngách & Định vị: Tại sao người ta nên đăng ký nhận email của bạn?\n2. Thu thập Lead: Thiết kế Landing Page và quà tặng (Lead Magnet) để thu hút sub.\n3. Cấu trúc nội dung: Dàn ý cho một bản tin hàng tuần (Tin tức, Kiến thức, Tài nguyên, Quảng cáo).\n4. Chiến lược kiếm tiền: Đề xuất 3 cách (Sponsorship, Affiliate, Bán sản phẩm riêng).\n5. Công cụ vận hành: Gợi ý các nền tảng gửi email hiệu quả và chi phí thấp.',
+    id: 'high-ticket-closing-vip',
+    title: '[VIP] Sát thủ chốt đơn Sale High-Ticket', 
+    category: 'Sales', 
+    description: 'Kỹ thuật chốt đơn hàng giá trị cao bằng tâm lý học hành vi.',
+    content: 'Bạn là bậc thầy bán hàng với tỷ lệ chốt 80% cho các gói dịch vụ trên 5,000$. Hãy xây dựng kịch bản tư vấn hoàn hảo cho [Dịch vụ của tôi].\n\n### PHẦN 1: THIẾT LẬP VỊ THẾ (0-5 PHÚT)\n- Kỹ thuật phá băng (Ice breaking) dựa trên nghiên cứu hồ sơ khách hàng trước đó.\n- Khẳng định vị thế chuyên gia thông qua việc tóm tắt vấn đề của khách hàng nhanh chóng.\n\n### PHẦN 2: CHẨN ĐOÁN NỖI ĐAU (THE DIAGNOSIS)\n- Đặt 5 câu hỏi "Sâu" (Deep questions) để khách hàng tự thừa nhận sự mất mát nếu không giải quyết vấn đề ngay.\n- Kỹ thuật "Spin Selling" để khách hàng thấy được tầm quan trọng của giải pháp.\n\n### PHẦN 3: TRÌNH BÀY GIÁ TRỊ (VALUE PROPOSITION)\n- Tập trung vào "Kết quả cuối cùng" thay vì "Tính năng kỹ thuật".\n- Sử dụng Case study tương tự để chứng minh hiệu quả.\n\n### PHẦN 4: XỬ LÝ TỪ CHỐI (OBJECTION HANDLING)\n- Chống lại câu hỏi về giá: "Giá cao so với cái gì?" và "Giá trị của việc KHÔNG làm gì là bao nhiêu?".\n- Chống lại việc "Để suy nghĩ thêm": Kỹ thuật đóng khung thời gian và sự khan hiếm thực sự.\n\n### PHẦN 5: CHỐT ĐƠN (THE CLOSE)\n- Kỹ thuật "Assumption Close": Coi như khách hàng đã đồng ý và bắt đầu bàn về bước triển khai.\n- Cam kết hỗ trợ đặc biệt để xóa bỏ nỗi sợ rủi ro.',
     isVip: true
   },
   { 
-    id: 'google-maps-seo-vip',
-    title: '[VIP] Tối ưu hóa Google Maps (GMB)', 
-    category: 'SEO', 
-    description: 'Cách đưa địa điểm kinh doanh của bạn lên top tìm kiếm địa phương.',
-    content: 'Bạn là chuyên gia Local SEO. Hãy tối ưu Google Business Profile cho [Tên doanh nghiệp]. Quy trình:\n1. Tối ưu thông tin cơ bản: Tên, Danh mục, Mô tả chứa từ khóa địa phương.\n2. Chiến lược hình ảnh: Các loại ảnh cần đăng để tăng uy tín và thu hút khách.\n3. Quản lý đánh giá: Cách xin review 5 sao và phản hồi để tăng thứ hạng.\n4. Đăng bài (Posts): Lịch trình đăng tin tức/ưu đãi trên Maps để giữ tương tác.\n5. Trích dẫn (Citations): Danh sách các trang vàng/thư mục cần đăng ký để đồng bộ thông tin.',
-    isVip: true
+    id: 'objection-handling-master',
+    title: 'Xử lý từ chối Sales chuyên sâu', 
+    category: 'Sales', 
+    description: 'NLP và ngôn ngữ tâm lý để vượt qua mọi lời từ chối.',
+    content: 'Hãy soạn thảo nội dung xử lý từ chối cho [Sản phẩm]. Quy trình:\n1. Đồng cảm: Xác nhận sự lo lắng của khách hàng.\n2. Cô lập vấn đề: Chắc chắn đây là rào cản duy nhất.\n3. Đặt câu hỏi: Để họ tự thấy giải pháp trong câu trả lời của họ.\n4. Giải quyết: Cung cấp bằng chứng/case study thành công.'
   },
+
+  // --- E-COMMERCE CATEGORY ---
   { 
-    id: 'podcast-script-vip',
-    title: '[VIP] Viết kịch bản Podcast chuyên sâu', 
-    category: 'Video', 
-    description: 'Cấu trúc nội dung Podcast thu hút và có chiều sâu.',
-    content: 'Bạn là nhà sản xuất Podcast chuyên nghiệp. Hãy viết kịch bản cho tập Podcast về [Chủ đề]. Quy trình:\n1. Giới thiệu: Cách mở đầu gây tò mò và giới thiệu khách mời (nếu có).\n2. Dẫn dắt câu chuyện: Chia nội dung thành 3-4 phần chính với các câu hỏi gợi mở.\n3. Điểm nhấn: Thêm các đoạn "Key takeaways" sau mỗi phần.\n4. Kết luận: Tóm tắt thông điệp chính và kêu gọi hành động (Subscribe/Review).\n5. Ghi chú (Show notes): Viết đoạn mô tả chuẩn SEO cho tập Podcast này.',
-    isVip: true
-  },
-  { 
-    id: 'etsy-digital-mega',
-    title: '[MEGA] Quy trình bán hàng trên Etsy với AI', 
+    id: 'etsy-digital-mega-pro',
+    title: '[MEGA] Kiếm tiền Etsy với sản phẩm số AI', 
     category: 'E-commerce', 
     description: 'Cách tạo và bán sản phẩm kỹ thuật số (Digital Products) trên Etsy.',
     content: 'Bạn là chuyên gia bán hàng trên Etsy. Hãy lập kế hoạch cho cửa hàng bán [Loại sản phẩm kỹ thuật số]. Quy trình:\n1. Nghiên cứu ngách: Tìm các sản phẩm đang bán chạy nhưng ít cạnh tranh.\n2. Sản xuất sản phẩm: Cách dùng AI (Midjourney, ChatGPT, Canva) để tạo file chất lượng cao.\n3. Tối ưu hóa SEO Etsy: Cách viết tiêu đề và 13 thẻ (Tags) để khách hàng dễ tìm thấy.\n4. Chiến lược hình ảnh: Cách tạo Mockup chuyên nghiệp cho sản phẩm kỹ thuật số.\n5. Chăm sóc khách hàng: Các mẫu tin nhắn tự động để tăng tỷ lệ đánh giá 5 sao.',
     isVip: true
   },
   { 
-    id: 'review-analysis-vip',
-    title: '[VIP] Phân tích tâm lý khách hàng qua đánh giá', 
+    id: 'product-description-shopee-vip',
+    title: '[VIP] Mô tả sản phẩm TMĐT "Thôi miên"', 
+    category: 'E-commerce', 
+    description: 'Viết mô tả sản phẩm Shopee/Lazada khiến khách hàng mua ngay.',
+    content: 'Viết mô tả sản phẩm cho [Tên sản phẩm]. Quy trình:\n1. Pain Point: Đề cập trực tiếp vấn đề khách hàng đang gặp.\n2. Solution: Cách sản phẩm giải quyết vấn đề đó hoàn hảo.\n3. Highlight: 5 lợi ích vượt trội nhất.\n4. Trust: Thông số, bảo hành, cam kết.\n5. Call to action: Ưu đãi chỉ dành cho hôm nay.'
+  },
+  { 
+    id: 'review-response-pro',
+    title: 'Phản hồi đánh giá 5 sao chuyên nghiệp', 
+    category: 'E-commerce', 
+    description: 'Chăm sóc khách hàng qua review để tăng tỷ lệ quay lại.',
+    content: 'Hãy viết 5 mẫu phản hồi cho khách hàng đánh giá 5 sao. Yêu cầu:\n- Chứa từ khóa sản phẩm để hỗ trợ SEO.\n- Thể hiện sự trân trọng và cá nhân hóa.\n- Kèm lời mời follow gian hàng để nhận voucher cho lần sau.'
+  },
+
+  { 
+    id: 'personal-brand-auto-vip',
+    title: '[VIP] Tự động hóa nhân hiệu 0đ', 
+    category: 'Automation', 
+    description: 'Quy trình phủ sóng đa kênh từ 1 nội dung gốc duy nhất.',
+    content: 'Bạn là chuyên gia về Omni-channel Marketing. Hãy xây dựng quy trình tự động hóa nhân hiệu cho tôi.\n\n### BƯỚC 1: NỘI DUNG GỐC (PILLAR CONTENT)\n- Cách quay 1 video dài 10 phút chia sẻ kiến thức chuyên sâu.\n- Sử dụng AI để bóc tách 10 ý chính từ video này.\n\n### BƯỚC 2: PHÂN TÁCH ĐA KÊNH\n- 1 Video dài -> 5 Video Shorts/Reels/TikTok (Dùng OpusClip hoặc Munch).\n- 1 Video dài -> 2 Bài blog chuẩn SEO (Dùng ChatGPT).\n- 1 Video dài -> 10 Quotes cho Threads/X.\n\n### BƯỚC 3: PHÂN PHỐI TỰ ĐỘNG\n- Thiết lập lịch đăng bài tự động bằng Metricool hoặc Buffer.\n- Sử dụng Bot để tự động trả lời comment của khách hàng trong 5 phút đầu.',
+    isVip: true
+  },
+  { 
+    id: 'fb-ads-scale-mega',
+    title: '[MEGA] Scale Facebook Ads x10 ngân sách', 
+    category: 'Ads', 
+    description: 'Chiến thuật giữ vững ROI khi tăng ngân sách quảng cáo lớn.',
+    content: 'Bạn là Media Buyer cấp cao. Hãy lập kế hoạch Scale ngân sách từ 1 triệu -> 10 triệu/ngày cho [Sản phẩm].\n\n### PHẦN 1: KIỂM TRA SẴN SÀNG (AUDIT)\n- Chỉ số CPM, CTR, CR bao nhiêu là an toàn để scale?\n- Kiểm tra tốc độ load Landing page và kịch bản CSKH.\n\n### PHẦN 2: CHIẾN THUẬT SCALE NGANG (HORIZONTAL SCALING)\n- Nhân bản nhóm quảng cáo sang các tệp đối tượng tương tự (Lookalike 1%, 2%, 5%).\n- Thử nghiệm trên các nền tảng khác: Reels, Audience Network.\n\n### PHẦN 3: CHIẾN THUẬT SCALE DỌC (VERTICAL SCALING)\n- Tăng ngân sách 20% sau mỗi 24h nếu ROAS ổn định.\n- Sử dụng quy tắc tự động (Automated Rules) để tắt camp/tăng tiền.\n\n### PHẦN 4: CHỐNG "BÃO" QUẢNG CÁO\n- Cách luân phiên nội dung (Creative Refresh) để tránh nhàm chán quảng cáo.\n- Dự phòng tài khoản quảng cáo và BM.',
+    isVip: true
+  },
+  { 
+    id: 'seo-backlink-vip',
+    title: '[VIP] Chiến lược xây dựng Backlink chất lượng', 
+    category: 'SEO', 
+    description: 'Cách sở hữu liên kết từ các website uy tín mà không mất phí.',
+    content: 'Bạn là chuyên gia Link Building. Hãy thiết kế chiến dịch Backlink cho website [URL].\n\n### KỸ THUẬT 1: GUEST POSTING THÔNG MINH\n- Cách tìm website cùng ngách và đề xuất nội dung giá trị để họ đăng tin.\n- Mẫu email xin Guest Post tỷ lệ phản hồi cao.\n\n### KỸ THUẬT 2: SKY SCRAPER TECHNIQUE\n- Tìm nội dung tốt nhất của đối thủ và tạo ra nội dung tốt gấp đôi.\n- Tiếp cận những người đang link đến đối thủ để họ trỏ link về bạn.\n\n### KỸ THUẬT 3: BROKEN LINK BUILDING\n- Tìm các link hỏng trên các trang uy tín và đề xuất link của bạn để thay thế.',
+    isVip: true
+  },
+  // --- MARKETING CATEGORY ---
+  { 
+    id: 'customer-avatar-pro',
+    title: 'Phác họa chân dung khách hàng mục tiêu', 
     category: 'Marketing', 
-    description: 'Dùng AI để đọc vị khách hàng và cải thiện sản phẩm/dịch vụ.',
-    content: 'Bạn là chuyên gia phân tích dữ liệu khách hàng. Hãy phân tích 50 đánh giá sau của đối thủ/sản phẩm [Tên]. Quy trình:\n1. Phân loại cảm xúc: Tỷ lệ hài lòng vs không hài lòng.\n2. Xác định nỗi đau: 3 vấn đề lớn nhất mà khách hàng phàn nàn.\n3. Xác định kỳ vọng: Những tính năng/dịch vụ mà khách hàng mong muốn thêm.\n4. Đề xuất cải tiến: Dựa trên phân tích, hãy đưa ra 5 hành động cụ thể để sản phẩm của tôi vượt trội hơn.',
+    description: 'Xác định chính xác đối tượng để tối ưu hóa ngân sách.',
+    content: 'Hãy phác họa chân dung khách hàng cho [Sản phẩm]. Quy trình:\n1. Nhân khẩu học: Độ tuổi, giới tính, thu nhập.\n2. Tâm lý học: Sở thích, thói quen, giá trị sống.\n3. Vấn đề: Họ đang lo lắng điều gì nhất?\n4. Kênh tiếp cận: Họ ở đâu trên môi trường online?'
+  },
+  { 
+    id: 'branding-positioning-vip',
+    title: '[VIP] Chiến lược định vị thương hiệu', 
+    category: 'Marketing', 
+    description: 'Làm thế nào để trở nên khác biệt trong mắt khách hàng.',
+    content: 'Hãy thiết kế định vị thương hiệu cho [Tên thương hiệu]. Quy trình:\n1. USP (Unique Selling Point): Điểm bán hàng độc nhất của bạn.\n2. Sứ mệnh & Tầm nhìn: Bạn mang lại giá trị gì cho xã hội?\n3. Giọng văn (Tone of voice): Bạn muốn khách hàng nhớ đến mình như thế nào?\n4. Đối thủ: Sự khác biệt lớn nhất giữa bạn và họ là gì?',
+    isVip: true
+  },
+  { 
+    id: 'launch-strategy-mega-pro',
+    title: '[MEGA] Chiến lược Launch sản phẩm Triệu Đô', 
+    category: 'Marketing', 
+    description: 'Quy trình Product Launch chuẩn quốc tế từ A-Z.',
+    content: 'Bạn là chuyên gia Marketing bậc thầy, nổi tiếng với các chiến dịch ra mắt sản phẩm triệu đô. Hãy lập kế hoạch Launch cho [Sản phẩm của tôi].\n\n### GIAI ĐOẠN 1: PRE-LAUNCH (TẠO SỰ TÒ MÒ - 14 NGÀY TRƯỚC)\n- Ngày 1-3: Content "Cảnh báo" về một xu hướng/vấn đề lớn mà sản phẩm sẽ giải quyết.\n- Ngày 4-7: Series Video "Đằng sau hậu trường" quá trình phát triển sản phẩm.\n- Ngày 8-14: Chiến dịch "Waitlist" - Tặng quà đặc biệt cho những người đăng ký sớm.\n\n### GIAI ĐOẠN 2: LAUNCH WEEK (TUẦN LỄ BÙNG NỔ)\n- Ngày 1: Webinar/Livestream ra mắt - Tặng ưu đãi "Early Bird" chỉ trong 2 giờ đầu.\n- Ngày 2-3: Series Video Feedback từ những người dùng thử (Beta Testers).\n- Ngày 4-5: Content "Giải đáp thắc mắc" và "So sánh sản phẩm" để xóa bỏ rào cản mua hàng.\n- Ngày 6-7: Tạo sự khan hiếm thực sự - "Chỉ còn 10 suất ưu đãi cuối cùng" hoặc "Giá sẽ tăng vào ngày mai".\n\n### GIAI ĐOẠN 3: POST-LAUNCH (DUY TRÌ VÀ REMARKETING)\n- Gửi email/tin nhắn cho những người đã mở link nhưng chưa thanh toán.\n- Content "Welcome" cho cộng đồng khách hàng mới để giảm tỷ lệ hoàn tiền.\n- Chiến lược xin Feedback và giới thiệu khách hàng mới (Referral).',
     isVip: true
   },
 ];
@@ -739,7 +682,7 @@ export default function App() {
   };
 
   const allPrompts = [...firestorePrompts, ...PROMPTS];
-  const categories = ['Tất cả', 'Yêu thích', 'Content', 'Social Media', 'Ads', 'Email', 'SEO', 'Automation'];
+  const categories = ['Tất cả', 'Yêu thích', 'Content', 'Social Media', 'Ads', 'Email', 'SEO', 'Automation', 'Sales', 'E-commerce', 'Marketing'];
   
   const filteredPrompts = allPrompts.filter(p => {
     if (activeCategory === 'Tất cả') return true;
