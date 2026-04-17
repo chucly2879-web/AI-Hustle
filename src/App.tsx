@@ -479,25 +479,33 @@ const VIDEOS: VideoTutorial[] = [
 
 const BLOG_POSTS = [
   { 
-    title: 'Con đường sự nghiệp và phát triển - Số Chủ Đạo 1', 
+    title: 'Tổng quan về Số Chủ Đạo 1 - Con đường phát triển', 
     date: '17/04/2024', 
-    tag: 'Video',
+    tag: 'Thần số học',
     content: `
-<div class="video-container">
-  <iframe src="https://www.youtube.com/embed/HWufRUXZW50?modestbranding=1" width="1280" height="720" frameborder="0" allow="autoplay">
-  </iframe>
+<h2>Tổng quan về Số Chủ Đạo 1</h2>
+<p>Số Chủ Đạo 1 trong thần số học đại diện cho sự khởi đầu, tính độc lập và khả năng lãnh đạo thiên bẩm. Những người mang Số Chủ Đạo 1 sinh ra đã có tố chất của một nhà lãnh đạo, luôn khao khát đứng đầu và tạo dấu ấn cá nhân trong mọi lĩnh vực.</p>
+<p>Con số 1 là con số của sự độc nhất, đại diện cho năng lượng khởi nguyên, sự sáng tạo và ý chí mạnh mẽ. Người Số 1 không ngại đương đầu với thử thách và luôn tìm kiếm con đường riêng để thể hiện bản thân.</p>
+
+<img src="https://picsum.photos/seed/numerology1/1200/600" alt="Số Chủ Đạo 1" style="width: 100%; border-radius: 1.5rem; margin: 2rem 0; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);">
+
+<p>Với tinh thần tiên phong, người Số 1 thường là người đi đầu trong các phong trào, sáng kiến và dự án mới. Họ mang trong mình ngọn lửa của sự đổi mới và không ngừng tìm kiếm những chân trời mới để chinh phục.</p>
+
+<h2>Đặc điểm nổi bật của người Số Chủ Đạo 1</h2>
+<ul>
+  <li><strong>Mục tiêu rõ ràng:</strong> Luôn biết mình muốn gì và quyết tâm đạt được.</li>
+  <li><strong>Sáng tạo và đổi mới:</strong> Luôn tìm kiếm giải pháp mới lạ, không đi theo lối mòn.</li>
+  <li><strong>Khả năng lãnh đạo:</strong> Thường được tin tưởng giao phó các vị trí quản lý.</li>
+  <li><strong>Tính độc lập cao:</strong> Thích tự chủ trong công việc và cuộc sống.</li>
+  <li><strong>Tư duy logic:</strong> Khả năng phân tích vấn đề nhạy bén và sắc sảo.</li>
+</ul>
+
+<div class="video-container" style="margin: 3rem 0; border: 4px solid #f97316; border-radius: 1.5rem;">
+  <iframe src="https://www.youtube.com/embed/HWufRUXZW50?modestbranding=1" width="1280" height="720" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
 </div>
 
-## Con đường sự nghiệp và phát triển
-
-Với tố chất lãnh đạo bẩm sinh, người **Số Chủ Đạo 1** phù hợp với các vị trí quản lý, điều hành hoặc những nghề nghiệp đòi hỏi sự sáng tạo và độc lập. Họ thường thành công trong các lĩnh vực:
-
-- **Lãnh đạo & Quản lý:** Giám đốc, trưởng phòng, quản lý dự án.
-- **Khởi nghiệp:** Chủ doanh nghiệp, người sáng lập.
-- **Sáng tạo:** Nhà thiết kế, nghệ sĩ, kiến trúc sư.
-- **Chuyên gia độc lập:** Tư vấn viên, Freelancer chuyên nghiệp.
-
-Họ là những người tiên phong, luôn đi đầu trong mọi hoạt động và có khả năng truyền cảm hứng mạnh mẽ cho cộng đồng.
+<h3>Định hướng sự nghiệp</h3>
+<p>Với những tố chất trên, người Số 1 thường thành công rực rỡ trong vai trò <strong>Chủ doanh nghiệp, Quản lý cấp cao, hoặc Chuyên gia tư vấn độc lập</strong>. Lời khuyên cho bạn là hãy luôn giữ vững sự tự tin nhưng cũng cần học cách lắng nghe để đi xa hơn cùng đội ngũ.</p>
     `
   },
   { 
